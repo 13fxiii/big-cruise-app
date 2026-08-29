@@ -1,0 +1,384 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-midnight: #0b0b0b;
+  --color-asphalt: #161616;
+  --color-curb: #222222;
+  --color-lane: #2c2c2c;
+  --color-concrete: #8a8a8a;
+  --color-bone: #f3efe4;
+  --color-danfo: #f5c400;
+  --color-danfo-deep: #c9a000;
+  --color-background: #0b0b0b;
+  --color-foreground: #f3efe4;
+  --color-card: #161616;
+  --color-border: #2c2c2c;
+  --color-muted: #8a8a8a;
+  --color-dom: #7a1f33;
+  --color-dom-warm: #c48a5a;
+  --color-lit: #ff2b6b;
+  --color-lit-yel: #fff200;
+  --color-divine: #c45a72;
+  --color-nude: #e6c8b4;
+  --color-echo: #c4a574;
+  --color-cream: #f2e6d0;
+  --color-play: #6a2c91;
+  --color-play-cyan: #3dfff2;
+  --color-line: #9b1228;
+  --color-dyel: #9a7b12;
+  --color-chaos: #c8f542;
+  --color-wild: #ff4d1a;
+
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --shadow-border: 0 0 0 1px rgb(243 239 228 / 0.1);
+  --shadow-border-hover: 0 0 0 1px rgb(245 196 0 / 0.45);
+
+  --ease-cruise: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-micro: 80ms;
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+  --motion-slow: 400ms;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-midnight);
+    color: var(--color-bone);
+  }
+
+  body {
+    background: var(--color-midnight);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-danfo);
+    color: var(--color-midnight);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.slash-rule {
+  height: 2px;
+  width: 48px;
+  background: var(--color-danfo);
+  transform: rotate(-8deg);
+  transform-origin: left center;
+}
+
+.live-ring {
+  animation: live-spin 18s linear infinite;
+  transform-origin: 32px 32px;
+}
+
+@keyframes live-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.stagger-in > * {
+  animation: rise-in 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.stagger-in > *:nth-child(1) {
+  animation-delay: 40ms;
+}
+.stagger-in > *:nth-child(2) {
+  animation-delay: 120ms;
+}
+.stagger-in > *:nth-child(3) {
+  animation-delay: 200ms;
+}
+.stagger-in > *:nth-child(4) {
+  animation-delay: 280ms;
+}
+.stagger-in > *:nth-child(5) {
+  animation-delay: 360ms;
+}
+.stagger-in > *:nth-child(6) {
+  animation-delay: 440ms;
+}
+.stagger-in > *:nth-child(7) {
+  animation-delay: 520ms;
+}
+
+/* Dual-carriageway: thin / thick / thin, −8° like a night road. */
+.lane-pattern {
+  background-image: repeating-linear-gradient(
+    -8deg,
+    transparent 0,
+    transparent 72px,
+    rgb(245 196 0 / 0.07) 72px,
+    rgb(245 196 0 / 0.07) 73px,
+    transparent 73px,
+    transparent 88px,
+    rgb(245 196 0 / 0.2) 88px,
+    rgb(245 196 0 / 0.2) 91px,
+    transparent 91px,
+    transparent 106px,
+    rgb(245 196 0 / 0.07) 106px,
+    rgb(245 196 0 / 0.07) 107px
+  );
+}
+
+.grain::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.crop-mark {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  color: var(--color-danfo);
+  opacity: 0.7;
+}
+.crop-mark::before,
+.crop-mark::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+}
+.crop-mark::before {
+  width: 18px;
+  height: 1.5px;
+}
+.crop-mark::after {
+  width: 1.5px;
+  height: 18px;
+}
+.crop-tl {
+  top: 10px;
+  left: 10px;
+}
+.crop-tl::before {
+  top: 0;
+  left: 0;
+}
+.crop-tl::after {
+  top: 0;
+  left: 0;
+}
+.crop-tr {
+  top: 10px;
+  right: 10px;
+}
+.crop-tr::before {
+  top: 0;
+  right: 0;
+}
+.crop-tr::after {
+  top: 0;
+  right: 0;
+}
+.crop-bl {
+  bottom: 10px;
+  left: 10px;
+}
+.crop-bl::before {
+  bottom: 0;
+  left: 0;
+}
+.crop-bl::after {
+  bottom: 0;
+  left: 0;
+}
+.crop-br {
+  bottom: 10px;
+  right: 10px;
+}
+.crop-br::before {
+  bottom: 0;
+  right: 0;
+}
+.crop-br::after {
+  bottom: 0;
+  right: 0;
+}
+
+@media (min-width: 768px) {
+  .cover-frame {
+    left: 16.5rem;
+  }
+  .cover-frame .crop-tl,
+  .cover-frame .crop-bl {
+    left: 10px;
+  }
+}
+
+@keyframes hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+@keyframes toss {
+  0% {
+    transform: rotateX(0) rotateY(0);
+  }
+  100% {
+    transform: rotateX(420deg) rotateY(280deg);
+  }
+}
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) rotate(-6deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgb(245 196 0 / 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 14px rgb(245 196 0 / 0);
+  }
+}
+.hop {
+  animation: hop 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.toss {
+  animation: toss 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card-in {
+  animation: card-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.pulse-ring {
+  animation: pulse-ring 1.2s ease-out infinite;
+}
+
+/* ── Cruise environment ─────────────────────────────────────── */
+
+@keyframes cruise-drift {
+  to {
+    stroke-dashoffset: -280;
+  }
+}
+
+.cruise-path {
+  animation: cruise-drift 56s linear infinite;
+}
+
+@keyframes mark-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.mark-draw {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: mark-draw 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes loader-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.cruise-loader-exit {
+  animation: loader-out 250ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.toast-in {
+  animation: toast-in 250ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes turn-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.turn-pulse {
+  animation: turn-pulse 1.4s ease-in-out infinite;
+}
+
+.safe-bottom {
+  padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+}
