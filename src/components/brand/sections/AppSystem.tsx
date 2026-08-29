@@ -110,11 +110,12 @@ export function AppSystem() {
         <Prose>
           <p>
             BIG CRUISE ID travels with the player: username, avatar initials, BCH-XXXXXX, level, points, badges, per-game
-            stats, join date, community status. Auth is off. The ID is local until accounts are a real requirement.
+            stats, join date, community status. Auth is off. The current record is a local prototype on this device.
           </p>
           <p>
-            A player does not become a new character when they leave Codenames for Karaoke. Sit-down writes to the same
-            record. Hosting, first win, four games, playlist, chaos — badges unlock on this device.
+            Games write through one identity document (ledger, badges, stats, matches). A later server adapter can load
+            the same shape without rebuilding Game Room or the ten worlds. Clearing the browser clears the prototype —
+            it is not an account, and the product does not pretend otherwise.
           </p>
         </Prose>
         <div className="mt-8 max-w-md rounded-[20px] bg-asphalt p-6">
@@ -132,9 +133,9 @@ export function AppSystem() {
       <Chapter id="points" n="41" title="Points without a fake shop.">
         <Prose>
           <p>
-            BCH points are an architecture, not a monetization stunt. Earning actions are modeled: play, win, daily,
-            host, community, event, challenge, achievement. Balances persist locally. There is no spend, no gold, no
-            loot box.
+            BCH points are a ledger, not a shop. Earning actions are modeled: play, win, daily, host, community, event,
+            challenge, achievement. Today they persist as prototype state on this device. There is no spend, no gold, no
+            loot box. A live ledger is a later chapter — same actions, different adapter.
           </p>
         </Prose>
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

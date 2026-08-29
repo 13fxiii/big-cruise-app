@@ -1,30 +1,51 @@
 "use client";
 
+import { Spark } from "@/components/brand/marks";
 import { CruisePage } from "@/components/cruise/CruiseShell";
 import {
   CruiseBadge,
   CruiseButton,
   CruiseCard,
-  CruiseNotification,
+  CruiseLocalStamp,
   CruisePlayerCard,
 } from "@/components/cruise/CruiseUI";
-import { FAM } from "@/lib/cruise/rooms";
+import { FAM, HOUSE_RECORDS } from "@/lib/cruise/rooms";
+import { days } from "@/lib/days";
 import { GAMES } from "@/lib/games/catalog";
-import { BADGE_CATALOG, POINT_TABLE, playerLevel, usePlayer } from "@/lib/games/player";
+import { BADGE_CATALOG, PERSISTENCE, POINT_TABLE, playerLevel, usePlayer } from "@/lib/games/player";
 import { Link } from "@tanstack/react-router";
 import { Volume2, VolumeX } from "lucide-react";
 
 export function CommunityPage() {
+  const name = usePlayer((s) => s.name);
+  const cruiseId = usePlayer((s) => s.cruiseId);
+
   return (
     <CruisePage
       kicker="Community"
       title="These are my people."
-      lede="The same identity across games, Spaces, merch, and the timeline. Roast with love. Stand for each other tomorrow."
+      lede="Same identity across games, Spaces, merch, and the timeline. Roast with love. Stand for each other tomorrow."
     >
+      <CruiseCard className="mb-6 flex items-center justify-between gap-4">
+        <div>
+          <CruiseLocalStamp />
+          <p className="mt-2 font-display text-3xl font-bold uppercase leading-none">{name}</p>
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-danfo">{cruiseId}</p>
+        </div>
+        <Link
+          to="/id"
+          className="shrink-0 font-display text-sm font-bold uppercase tracking-[0.16em] text-danfo"
+        >
+          Open ID
+        </Link>
+      </CruiseCard>
+
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         {FAM.map((p) => (
-          <CruiseCard key={p.name} interactive>
-            <CruiseBadge tone={p.status === "og" ? "danfo" : "bone"}>{p.status}</CruiseBadge>
+          <CruiseCard key={p.name}>
+            <CruiseBadge tone={p.real ? "danfo" : p.status === "og" ? "danfo" : "bone"}>
+              {p.real ? "founder" : "house voice"}
+            </CruiseBadge>
             <p className="mt-4 font-display text-3xl font-bold uppercase leading-none">{p.name}</p>
             <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">{p.handle}</p>
             <p className="mt-3 text-sm leading-relaxed text-bone/75">{p.line}</p>
@@ -32,8 +53,7 @@ export function CommunityPage() {
         ))}
       </div>
       <p className="mt-8 max-w-xl text-sm text-concrete">
-        Live member graph, vendor shoutouts, and birthday walls connect here later. The cards already use Cruise ID
-        language so that work does not need a new visual system.
+        FX is real. The rest are how the house sounds until a live member graph ships. No fake follower counts.
       </p>
     </CruisePage>
   );
@@ -42,22 +62,36 @@ export function CommunityPage() {
 export function SpacesPage() {
   return (
     <CruisePage
-      kicker="Spaces / events"
+      kicker="Spaces"
       title="Live from the cruise."
       lede="The room is the product. When a Space is on, this is where the house gathers — same night, same mark, same people."
     >
       <div className="relative min-h-[320px] overflow-hidden rounded-[24px]">
         <img src="/brand/space-room.jpg" alt="Night room ready for a Space" className="absolute inset-0 size-full object-cover opacity-50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-transparent" />
         <div className="relative flex min-h-[320px] flex-col justify-end p-6 md:p-8">
-          <CruiseBadge>Coming live</CruiseBadge>
+          <CruiseBadge tone="mute">Not live yet</CruiseBadge>
           <p className="mt-4 font-display text-4xl font-bold uppercase leading-none md:text-5xl">Sunday energy. Any night.</p>
           <p className="mt-3 max-w-md text-sm text-bone/80">
-            Tickets, countdowns, and the live ring already exist in the brand system. This page is the product seat for
-            them.
+            Tickets and the live ring already exist in the brand. This floor is the seat for them — nothing is faking a broadcast.
           </p>
         </div>
       </div>
+
+      <p className="mt-10 font-mono text-[10px] uppercase tracking-[0.22em] text-concrete">The week in the house</p>
+      <h2 className="mt-2 font-display text-3xl font-bold uppercase">Seven days. One gathering.</h2>
+      <ul className="mt-6 divide-y divide-lane border-y border-lane">
+        {days.map((d) => (
+          <li key={d.id} className="flex items-baseline justify-between gap-4 py-4">
+            <div className="min-w-0">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-concrete">{d.weekday}</p>
+              <p className="mt-1 font-display text-2xl font-bold uppercase leading-none">{d.subBrand}</p>
+              <p className="mt-2 max-w-lg text-sm text-bone/70">{d.line}</p>
+            </div>
+            <span className="hidden h-0.5 w-8 shrink-0 origin-left -rotate-[8deg] sm:block" style={{ background: d.accent }} />
+          </li>
+        ))}
+      </ul>
     </CruisePage>
   );
 }
@@ -67,23 +101,34 @@ export function MusicPage() {
     <CruisePage
       kicker="Music"
       title="Play your vibe."
-      lede="Afrobeats, the Space mix, Karaoke records. Friday energy without leaving the house palette."
+      lede="Afrobeats energy, the Space mix, Karaoke records. Friday without leaving the house palette."
     >
-      <CruiseCard className="flex flex-col gap-5 sm:flex-row sm:items-center">
-        <img src="/brand/headphones.jpg" alt="Headphones at night" className="h-36 w-full object-cover sm:h-40 sm:w-40" />
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-danfo">Now playing</p>
-          <p className="mt-2 font-display text-4xl font-bold uppercase">Cruise mix</p>
-          <p className="mt-2 text-sm text-concrete">Live from the Space · Playlist day accent stays inside the game, not the house.</p>
-          <Link
-            to="/play/$slug"
-            params={{ slug: "karaoke" }}
-            className="mt-5 inline-flex min-h-11 items-center font-display text-sm font-bold uppercase tracking-[0.16em] text-danfo"
-          >
-            Open Karaoke
-          </Link>
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,18rem)_1fr]">
+        <CruiseCard className="overflow-hidden p-0 md:p-0">
+          <img src="/brand/headphones.jpg" alt="Headphones at night" className="h-48 w-full object-cover lg:h-full" />
+        </CruiseCard>
+        <div className="grid gap-3">
+          {HOUSE_RECORDS.map((track) => (
+            <CruiseCard key={track.title} className="flex items-center justify-between gap-4">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">{track.bpm} BPM</p>
+                <p className="mt-1 font-display text-2xl font-bold uppercase leading-none">{track.title}</p>
+                <p className="mt-2 text-sm text-bone/70">{track.line}</p>
+              </div>
+              <Link
+                to="/play/$slug"
+                params={{ slug: "karaoke" }}
+                className="shrink-0 font-display text-sm font-bold uppercase tracking-[0.16em] text-danfo"
+              >
+                Karaoke
+              </Link>
+            </CruiseCard>
+          ))}
         </div>
-      </CruiseCard>
+      </div>
+      <p className="mt-6 max-w-xl text-sm text-concrete">
+        These are house records inside Karaoke — not a streaming app. Sit down and ride the line.
+      </p>
     </CruisePage>
   );
 }
@@ -93,6 +138,8 @@ export function IdPage() {
   const badges = usePlayer((s) => s.badges);
   const points = usePlayer((s) => s.points);
   const cruiseId = usePlayer((s) => s.cruiseId);
+  const ledger = usePlayer((s) => s.ledger);
+  const matches = usePlayer((s) => s.matches);
 
   return (
     <CruisePage
@@ -101,15 +148,18 @@ export function IdPage() {
       lede="Username, avatar, Cruise ID, level, BCH points, badges, game stats. You do not become someone else when you open Ludo."
     >
       <div className="grid gap-6 lg:grid-cols-[minmax(0,22rem)_1fr]">
-        <CruisePlayerCard />
         <div className="grid gap-4">
+          <CruisePlayerCard />
           <CruiseCard>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">This device</p>
+            <CruiseLocalStamp />
             <p className="mt-2 font-mono text-lg tracking-[0.18em] text-danfo">{cruiseId}</p>
-            <p className="mt-1 text-sm text-concrete">
-              Level {playerLevel(points)} · {points} BCH. Auth is off. The ID lives locally until accounts ship.
+            <p className="mt-2 text-sm leading-relaxed text-concrete">{PERSISTENCE.note}</p>
+            <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">
+              Level {playerLevel(points)} · {points} BCH
             </p>
           </CruiseCard>
+        </div>
+        <div className="grid gap-4">
           <CruiseCard>
             <p className="font-display text-xl font-bold uppercase">Game stats</p>
             <ul className="mt-4 grid gap-2 sm:grid-cols-2">
@@ -140,6 +190,28 @@ export function IdPage() {
               })}
             </ul>
           </CruiseCard>
+          <CruiseCard>
+            <p className="font-display text-xl font-bold uppercase">Motion on this device</p>
+            {matches.length === 0 && ledger.length === 0 ? (
+              <p className="mt-3 text-sm text-concrete">No motion yet. Sit down in Game Room and it writes here.</p>
+            ) : (
+              <ul className="mt-4 space-y-2">
+                {matches.slice(0, 6).map((m) => {
+                  const game = GAMES.find((g) => g.slug === m.game);
+                  return (
+                    <li key={m.id} className="flex items-center justify-between border-b border-lane py-2 text-sm">
+                      <span className="font-display uppercase tracking-[0.08em]">
+                        {game?.name} · {m.result === "win" ? "Win" : "Sat down"}
+                      </span>
+                      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">
+                        {new Date(m.at).toLocaleDateString("en-GB", { day: "2-digit", month: "short" })}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </CruiseCard>
         </div>
       </div>
     </CruisePage>
@@ -148,17 +220,32 @@ export function IdPage() {
 
 export function RewardsPage() {
   const points = usePlayer((s) => s.points);
+  const ledger = usePlayer((s) => s.ledger);
   return (
     <CruisePage
       kicker="BCH points"
-      title="The ledger is ready. The shop is not."
-      lede="Playing, winning, hosting, showing up — those actions already mint points on this device. No fake store. No spend. Architecture only."
+      title="Points you earn. Nothing you buy."
+      lede="Playing, winning, hosting, showing up mint points. No shop. No spend. The numbers below are a local prototype until a live ledger ships."
     >
       <CruiseCard className="mb-6">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Balance</p>
+        <CruiseLocalStamp />
+        <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Balance on this device</p>
         <p className="font-display text-6xl font-bold text-danfo">{points}</p>
-        <p className="mt-2 text-sm text-concrete">BCH · local until a live ledger ships</p>
+        <p className="mt-2 max-w-lg text-sm text-concrete">{PERSISTENCE.note}</p>
       </CruiseCard>
+      {ledger.length ? (
+        <CruiseCard className="mb-6">
+          <p className="font-display text-xl font-bold uppercase">Recent ledger</p>
+          <ul className="mt-4 space-y-2">
+            {ledger.slice(0, 8).map((e) => (
+              <li key={e.id} className="flex items-center justify-between border-b border-lane py-2 text-sm">
+                <span>{e.note}</span>
+                <span className="font-mono text-danfo">+{e.amount}</span>
+              </li>
+            ))}
+          </ul>
+        </CruiseCard>
+      ) : null}
       <div className="grid gap-3 md:grid-cols-2">
         {Object.entries(POINT_TABLE).map(([k, v]) => (
           <CruiseCard key={k}>
@@ -178,20 +265,12 @@ export function NotificationsPage() {
       title="When the room moves, it lands here."
       lede="Spaces, jobs, birthdays, invites. Copy stays human. The mark is the unread pip — never a gold bell."
     >
-      <CruiseCard className="p-0 md:p-0">
-        <div className="px-5">
-          <CruiseNotification
-            title="Your people are in the Space."
-            body="Architecture preview. Live pushes connect later. Same voice as the timeline."
-            time="Sample"
-          />
-          <CruiseNotification
-            title="Tunde opened UNO."
-            body="Active rooms in Game Room already deep-link here."
-            time="Sample"
-          />
-        </div>
-        <p className="px-5 py-5 text-sm text-concrete">Empty state when quiet: The room is quiet. That is allowed.</p>
+      <CruiseCard className="flex flex-col items-start gap-4 py-10">
+        <Spark className="size-8 text-danfo/70" />
+        <p className="font-display text-4xl font-bold uppercase leading-none">The room is quiet.</p>
+        <p className="max-w-md text-sm leading-relaxed text-bone/75">
+          That is allowed. Invites, Space calls, and table pings will sit here. Nothing on this floor is pretending to be a live alert.
+        </p>
       </CruiseCard>
     </CruisePage>
   );
@@ -202,18 +281,21 @@ export function MerchPage() {
     <CruisePage
       kicker="Merch"
       title="The mark should carry a blank tee."
-      lede="Black heavyweight. Danfo yellow 〽️. No gold foil. No yacht. Capsules live in the brand book."
+      lede="Black heavyweight. Danfo yellow 〽️. No gold foil. No yacht. Capsules live in the brand book. This is not a shop."
     >
       <div className="grid gap-4 md:grid-cols-2">
         {[
-          ["/brand/tee-walk.jpg", "Oversized tee"],
-          ["/brand/hoodie.jpg", "Hoodie"],
-          ["/brand/cap.jpg", "Cap"],
-          ["/brand/tote.jpg", "Tote"],
-        ].map(([src, label]) => (
+          ["/brand/tee-walk.jpg", "Oversized tee", "Chest mark. Nothing else."],
+          ["/brand/hoodie.jpg", "Hoodie", "Heavyweight. Midnight only."],
+          ["/brand/cap.jpg", "Cap", "Low profile. One 〽️."],
+          ["/brand/tote.jpg", "Tote", "Bone canvas. Black stroke."],
+        ].map(([src, label, line]) => (
           <div key={label} className="relative min-h-[280px] overflow-hidden rounded-[20px]">
             <img src={src} alt={label} className="absolute inset-0 size-full object-cover" />
-            <p className="absolute bottom-4 left-4 font-display text-sm uppercase tracking-[0.16em]">{label}</p>
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-midnight via-midnight/70 to-transparent p-5">
+              <p className="font-display text-xl font-bold uppercase tracking-[0.08em]">{label}</p>
+              <p className="mt-1 text-sm text-bone/75">{line}</p>
+            </div>
           </div>
         ))}
       </div>
@@ -251,16 +333,14 @@ export function SettingsPage() {
           />
         </label>
         <CruiseCard>
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-concrete">Cruise ID</p>
+          <CruiseLocalStamp />
           <p className="mt-2 font-mono text-xl tracking-[0.2em] text-danfo">{cruiseId}</p>
+          <p className="mt-3 text-sm leading-relaxed text-concrete">{PERSISTENCE.note}</p>
         </CruiseCard>
         <CruiseButton variant="line" onClick={toggleMute} className="justify-start">
           {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
           {muted ? "Sound off" : "Sound on"}
         </CruiseButton>
-        <p className="text-sm text-concrete">
-          Clearing this browser clears the local ID. A signed-in Cruise ID is a later chapter, not a fake login.
-        </p>
       </div>
     </CruisePage>
   );

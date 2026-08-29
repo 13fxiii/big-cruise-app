@@ -1,7 +1,7 @@
 "use client";
 
 import { Spark } from "@/components/brand/marks";
-import { initials, playerLevel, usePlayer } from "@/lib/games/player";
+import { PERSISTENCE, initials, playerLevel, usePlayer } from "@/lib/games/player";
 import { cn } from "@/lib/utils";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { useEffect } from "react";
@@ -72,6 +72,14 @@ export function CruiseBadge({
     >
       {children}
     </span>
+  );
+}
+
+export function CruiseLocalStamp({ className }: { className?: string }) {
+  return (
+    <p className={cn("font-mono text-[10px] uppercase tracking-[0.2em] text-concrete", className)}>
+      {PERSISTENCE.label}
+    </p>
   );
 }
 
@@ -205,7 +213,7 @@ export function CruisePlayerCard({ compact = false }: { compact?: boolean }) {
         <div className="min-w-0">
           <p className="truncate font-display text-sm font-bold uppercase tracking-[0.1em]">{name}</p>
           <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">
-            Lv {level} · {points} BCH
+            {cruiseId} · Lv {level} · {points} BCH
           </p>
         </div>
       </div>
@@ -244,6 +252,7 @@ export function CruisePlayerCard({ compact = false }: { compact?: boolean }) {
           </CruiseBadge>
         ))}
       </div>
+      <CruiseLocalStamp className="mt-5" />
     </CruiseCard>
   );
 }

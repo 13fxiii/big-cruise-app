@@ -32,6 +32,7 @@ export function SitDown({
   const setName = usePlayer((s) => s.setName);
   const muted = usePlayer((s) => s.muted);
   const recordPlay = usePlayer((s) => s.recordPlay);
+  const cruiseId = usePlayer((s) => s.cruiseId);
   const [mode, setMode] = useState<GameMode>(game.modes[0]);
   const [seats, setSeats] = useState(defaultSeats);
   const [join, setJoin] = useState("");
@@ -59,6 +60,7 @@ export function SitDown({
           className="mt-2 h-12 w-full border border-lane bg-asphalt px-4 font-display text-2xl font-bold uppercase tracking-[0.08em] text-bone outline-none focus:border-danfo"
           maxLength={18}
         />
+        <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.18em] text-concrete">{cruiseId}</span>
       </label>
 
       <div>
@@ -130,7 +132,7 @@ export function SitDown({
           });
         }}
       >
-        Enter the cruise
+        Sit down
       </CruiseButton>
     </div>
   );

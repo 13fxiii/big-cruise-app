@@ -1,6 +1,5 @@
 "use client";
 
-import { Spark } from "@/components/brand/marks";
 import { CruiseShell } from "@/components/cruise/CruiseShell";
 import { CruiseBadge, CruiseCard, CruisePlayerCard } from "@/components/cruise/CruiseUI";
 import { SAMPLE_ROOMS, roomMeta } from "@/lib/cruise/rooms";
@@ -45,18 +44,18 @@ export function Arcade() {
 
   return (
     <CruiseShell>
-      <section className="relative overflow-hidden px-5 pb-8 pt-6 md:px-10 md:pt-10">
+      <section className="relative overflow-hidden px-5 pb-6 pt-5 md:px-10 md:pt-8">
         <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-danfo">Game Room</p>
-        <h1 className="mt-3 max-w-4xl font-display text-6xl font-bold uppercase leading-[0.86] tracking-tight md:text-8xl">
+        <h1 className="mt-2 max-w-4xl font-display text-5xl font-bold uppercase leading-[0.86] tracking-tight md:text-7xl">
           One community.
           <br />
           Many rooms.
         </h1>
-        <p className="mt-6 max-w-xl text-base leading-relaxed text-bone/80 md:text-lg">
+        <p className="mt-4 max-w-xl text-base leading-relaxed text-bone/80">
           Ten worlds under the same night. Bots, pass-the-phone, or a live cruise room. The identity you sit down with
           is the identity you keep.
         </p>
-        <div className="mt-8 max-w-md">
+        <div className="mt-5 max-w-md">
           <CruisePlayerCard compact />
         </div>
       </section>
@@ -64,11 +63,14 @@ export function Arcade() {
       <section className="px-5 pb-8 md:px-10">
         <div className="mb-4 flex items-end justify-between gap-3">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-concrete">Active rooms</p>
-            <h2 className="font-display text-3xl font-bold uppercase tracking-tight">Who is already playing</h2>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-concrete">House tables</p>
+            <h2 className="font-display text-3xl font-bold uppercase tracking-tight">How the floor will look</h2>
           </div>
-          <CruiseBadge tone="mute">Sample tables</CruiseBadge>
+          <CruiseBadge tone="mute">Sample occupancy</CruiseBadge>
         </div>
+        <p className="mb-4 max-w-xl text-sm text-concrete">
+          Sitting down opens that world. These seats are how a live floor will look — not people online right now.
+        </p>
         <div className="-mx-5 flex gap-3 overflow-x-auto px-5 pb-2 md:mx-0 md:px-0">
           {SAMPLE_ROOMS.map((room) => {
             const meta = roomMeta(room.game);
@@ -181,7 +183,7 @@ export function Arcade() {
       <section className="grid gap-4 px-5 py-10 md:grid-cols-2 md:px-10">
         <CruiseCard>
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-danfo">Challenges</p>
-          <h2 className="mt-2 font-display text-3xl font-bold uppercase">This week in the room</h2>
+          <h2 className="mt-2 font-display text-3xl font-bold uppercase">This week in the house</h2>
           <ul className="mt-5 space-y-3 text-sm leading-relaxed text-bone/80">
             <li>Sit down in four different games — Week rider.</li>
             <li>Host a cruise room — the Host badge.</li>
@@ -192,32 +194,21 @@ export function Arcade() {
           </p>
         </CruiseCard>
         <CruiseCard>
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-danfo">Coming without a redesign</p>
-          <h2 className="mt-2 font-display text-3xl font-bold uppercase">The lobby is built to grow</h2>
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-danfo">Coming to the house</p>
+          <h2 className="mt-2 font-display text-3xl font-bold uppercase">Same floor. More rooms.</h2>
           <ul className="mt-5 space-y-3 text-sm leading-relaxed text-bone/80">
             <li>Private rooms and invites.</li>
             <li>Community tournaments.</li>
-            <li>Spectating and match history.</li>
+            <li>Spectating and match history across devices.</li>
           </ul>
           <Link
             to="/rewards"
             className="mt-6 inline-flex min-h-11 items-center font-display text-sm font-bold uppercase tracking-[0.16em] text-danfo hover:text-bone"
           >
-            BCH points architecture
+            How BCH points work
           </Link>
         </CruiseCard>
       </section>
-
-      <footer className="flex flex-wrap items-center justify-between gap-4 px-5 py-8 md:px-10">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Where the cruise lives · 2026</p>
-        <Spark className="size-6 text-danfo" />
-        <Link
-          to="/brand"
-          className="font-display text-sm font-bold uppercase tracking-[0.16em] text-danfo hover:text-bone"
-        >
-          Official brand identity
-        </Link>
-      </footer>
     </CruiseShell>
   );
 }

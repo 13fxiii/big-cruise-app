@@ -10,4 +10,5 @@ export {
   CruiseToastRack,
   CruiseNotification,
   CruisePlayerCard,
+  CruiseLocalStamp,
 } from "./CruiseUI";

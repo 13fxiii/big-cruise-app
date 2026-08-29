@@ -21,7 +21,6 @@ export function GameShell({
 }) {
   const name = usePlayer((s) => s.name);
   const muted = usePlayer((s) => s.muted);
-  const setName = usePlayer((s) => s.setName);
   const toggleMute = usePlayer((s) => s.toggleMute);
   const hydrate = usePlayer((s) => s.hydrate);
 
@@ -49,17 +48,12 @@ export function GameShell({
           </p>
         </div>
         {status ? <div className="hidden sm:block">{status}</div> : null}
-        <label className="sr-only" htmlFor="player-name">
-          Your name
-        </label>
-        <input
-          id="player-name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="hidden h-11 w-28 border border-lane bg-asphalt px-3 font-mono text-xs uppercase tracking-widest text-bone outline-none focus:border-danfo sm:block"
-          maxLength={18}
-        />
-        <CruiseAvatar name={name} size="sm" className="hidden sm:inline-flex" />
+        <div className="hidden items-center gap-2 sm:flex">
+          <CruiseAvatar name={name} size="sm" />
+          <span className="max-w-[8rem] truncate font-mono text-[10px] uppercase tracking-widest text-concrete">
+            {name}
+          </span>
+        </div>
         <button
           type="button"
           onClick={toggleMute}

@@ -1,6 +1,6 @@
 "use client";
 
-import { LiveMark, Wordmark } from "@/components/brand/marks";
+import { LiveMark, Spark, Wordmark } from "@/components/brand/marks";
 import { CruiseBackground, type CruiseDensity } from "@/components/cruise/CruiseBackground";
 import { CruiseLoader } from "@/components/cruise/CruiseLoader";
 import { CruiseAvatar, CruiseModal, CruiseToastRack } from "@/components/cruise/CruiseUI";
@@ -107,7 +107,7 @@ export function CruiseHeader() {
         </button>
       </nav>
 
-      <CruiseModal open={more} onClose={() => setMore(false)} title="More of the room">
+      <CruiseModal open={more} onClose={() => setMore(false)} title="More of the house">
         <div className="grid gap-1">
           {MORE.map((item) => (
             <Link
@@ -122,6 +122,21 @@ export function CruiseHeader() {
         </div>
       </CruiseModal>
     </>
+  );
+}
+
+function HouseFloor() {
+  return (
+    <footer className="mt-auto flex flex-wrap items-center justify-between gap-4 px-5 py-8 md:px-10">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Where the cruise lives · 2026</p>
+      <Spark className="size-6 text-danfo" />
+      <Link
+        to="/brand"
+        className="font-display text-sm font-bold uppercase tracking-[0.16em] text-danfo hover:text-bone"
+      >
+        Official brand identity
+      </Link>
+    </footer>
   );
 }
 
@@ -144,6 +159,7 @@ export function CruiseShell({
       <div className="relative z-10 flex min-h-dvh flex-col pb-16 md:pb-0">
         <CruiseHeader />
         <div className="flex-1">{children}</div>
+        <HouseFloor />
       </div>
       <CruiseToastRack />
     </div>
@@ -165,7 +181,7 @@ export function CruisePage({
     <CruiseShell>
       <div className="px-5 py-8 md:px-10 md:py-12">
         <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-danfo">{kicker}</p>
-        <h1 className="mt-3 max-w-3xl font-display text-5xl font-bold uppercase leading-[0.88] tracking-tight md:text-7xl">
+        <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold uppercase leading-[0.88] tracking-tight md:text-6xl">
           {title}
         </h1>
         {lede ? <p className="mt-5 max-w-xl text-base leading-relaxed text-bone/80 md:text-lg">{lede}</p> : null}
