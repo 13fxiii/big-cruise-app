@@ -3,6 +3,7 @@ import type { GameSlug } from "@/lib/games/catalog";
 import {
   applyAward,
   applyName,
+  applyProfile,
   applySitDown,
   applyWin,
   emptyDocument,
@@ -42,6 +43,9 @@ export type Toast = {
 
 type PlayerState = {
   name: string;
+  handle?: string;
+  line?: string;
+  photo?: string;
   muted: boolean;
   cruiseId: string;
   joinedAt: string;
@@ -57,6 +61,7 @@ type PlayerState = {
   toasts: Toast[];
   hydrate: () => void;
   setName: (name: string) => void;
+  setProfile: (patch: { name?: string; handle?: string; line?: string; photo?: string | null }) => void;
   toggleMute: () => void;
   recordPlay: (slug: GameSlug, hosted?: boolean) => void;
   recordWin: (slug: GameSlug) => void;
@@ -77,6 +82,9 @@ function eventsToToasts(events: IdentityEvent[]): Toast[] {
 function fromDoc(doc: IdentityDocument): Pick<
   PlayerState,
   | "name"
+  | "handle"
+  | "line"
+  | "photo"
   | "cruiseId"
   | "joinedAt"
   | "points"
@@ -90,6 +98,9 @@ function fromDoc(doc: IdentityDocument): Pick<
 > {
   return {
     name: doc.identity.name,
+    handle: doc.identity.handle,
+    line: doc.identity.line,
+    photo: doc.identity.photo,
     cruiseId: doc.identity.cruiseId,
     joinedAt: doc.identity.joinedAt,
     points: doc.points,
@@ -116,6 +127,9 @@ function toDoc(s: PlayerState): IdentityDocument {
       name: s.name,
       joinedAt: s.joinedAt || new Date().toISOString(),
       status: s.badges.includes("host") ? "host" : "member",
+      handle: s.handle,
+      line: s.line,
+      photo: s.photo,
     },
     points: s.points,
     ledger: s.ledger,
@@ -141,6 +155,12 @@ export const usePlayer = create<PlayerState>((set, get) => ({
   setName: (name) => {
     const s = get();
     const doc = applyName(currentDoc(s), name);
+    saveDocument(doc);
+    set({ ...fromDoc(doc), ready: true });
+  },
+  setProfile: (patch) => {
+    const s = get();
+    const doc = applyProfile(currentDoc(s), patch);
     saveDocument(doc);
     set({ ...fromDoc(doc), ready: true });
   },

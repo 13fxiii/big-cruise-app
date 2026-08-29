@@ -96,6 +96,9 @@ export type IdentityCore = {
   name: string;
   joinedAt: string;
   status: CommunityStatus;
+  handle?: string;
+  line?: string;
+  photo?: string;
 };
 
 export type IdentityDocument = {
@@ -243,6 +246,20 @@ export function applyName(doc: IdentityDocument, name: string): IdentityDocument
   return { ...doc, identity: { ...doc.identity, name: next } };
 }
 
+export function applyProfile(
+  doc: IdentityDocument,
+  patch: { name?: string; handle?: string; line?: string; photo?: string | null },
+): IdentityDocument {
+  const name = patch.name !== undefined ? patch.name.trim().slice(0, 18) || "Cruise" : doc.identity.name;
+  const handle =
+    patch.handle !== undefined
+      ? patch.handle.replace(/^@/, "").trim().slice(0, 24) || undefined
+      : doc.identity.handle;
+  const line = patch.line !== undefined ? patch.line.trim().slice(0, 72) || undefined : doc.identity.line;
+  const photo = patch.photo === null ? undefined : patch.photo !== undefined ? patch.photo : doc.identity.photo;
+  return { ...doc, identity: { ...doc.identity, name, handle, line, photo } };
+}
+
 export function applyAward(
   doc: IdentityDocument,
   action: PointAction,
@@ -363,6 +380,9 @@ export function normalizeDocument(raw: unknown, now = new Date()): IdentityDocum
       name,
       joinedAt,
       status: communityStatus(ids),
+      handle: identityIn.handle,
+      line: identityIn.line,
+      photo: identityIn.photo,
     },
     points: typeof parsed.points === "number" ? parsed.points : 0,
     ledger: Array.isArray(parsed.ledger) ? parsed.ledger.slice(0, 100) : [],

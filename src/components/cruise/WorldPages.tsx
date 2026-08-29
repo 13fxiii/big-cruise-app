@@ -1,13 +1,13 @@
 "use client";
 
 import { Spark } from "@/components/brand/marks";
+import { CruiseIdCard } from "@/components/cruise/CruiseIdCard";
 import { CruisePage } from "@/components/cruise/CruiseShell";
 import {
   CruiseBadge,
   CruiseButton,
   CruiseCard,
   CruiseLocalStamp,
-  CruisePlayerCard,
 } from "@/components/cruise/CruiseUI";
 import { FAM, HOUSE_RECORDS } from "@/lib/cruise/rooms";
 import { days } from "@/lib/days";
@@ -137,82 +137,76 @@ export function IdPage() {
   const stats = usePlayer((s) => s.stats);
   const badges = usePlayer((s) => s.badges);
   const points = usePlayer((s) => s.points);
-  const cruiseId = usePlayer((s) => s.cruiseId);
   const ledger = usePlayer((s) => s.ledger);
   const matches = usePlayer((s) => s.matches);
 
   return (
     <CruisePage
       kicker="BIG CRUISE ID"
-      title="One person. Every room."
-      lede="Username, avatar, Cruise ID, level, BCH points, badges, game stats. You do not become someone else when you open Ludo."
+      title="Your card."
+      lede="One person. Every room. Front is you. Back is the house. You do not become someone else when you open Ludo."
     >
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,22rem)_1fr]">
-        <div className="grid gap-4">
-          <CruisePlayerCard />
-          <CruiseCard>
-            <CruiseLocalStamp />
-            <p className="mt-2 font-mono text-lg tracking-[0.18em] text-danfo">{cruiseId}</p>
-            <p className="mt-2 text-sm leading-relaxed text-concrete">{PERSISTENCE.note}</p>
-            <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">
-              Level {playerLevel(points)} · {points} BCH
-            </p>
-          </CruiseCard>
-        </div>
-        <div className="grid gap-4">
-          <CruiseCard>
-            <p className="font-display text-xl font-bold uppercase">Game stats</p>
-            <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-              {GAMES.map((g) => {
-                const s = stats[g.slug];
+      <CruiseIdCard />
+      <div className="mt-10 grid gap-4 lg:grid-cols-2">
+        <CruiseCard>
+          <CruiseLocalStamp />
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">
+            Level {playerLevel(points)} · {points} BCH
+          </p>
+          <p className="mt-2 text-sm leading-relaxed text-concrete">{PERSISTENCE.note}</p>
+        </CruiseCard>
+        <CruiseCard>
+          <p className="font-display text-xl font-bold uppercase">Game stats</p>
+          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+            {GAMES.map((g) => {
+              const s = stats[g.slug];
+              return (
+                <li key={g.slug} className="flex items-center justify-between border-b border-lane py-2 text-sm">
+                  <span className="font-display uppercase tracking-[0.08em]">{g.name}</span>
+                  <span className="font-mono text-xs text-concrete">
+                    {s?.played ?? 0} sits · {s?.won ?? 0} wins
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </CruiseCard>
+        <CruiseCard>
+          <p className="font-display text-xl font-bold uppercase">Badges</p>
+          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+            {BADGE_CATALOG.map((b) => {
+              const on = badges.includes(b.id);
+              return (
+                <li key={b.id} className={on ? "text-bone" : "text-concrete"}>
+                  <span className="font-display uppercase tracking-[0.1em]">{b.name}</span>
+                  <span className="mt-0.5 block text-xs">{on ? "Unlocked" : b.hint}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </CruiseCard>
+        <CruiseCard>
+          <p className="font-display text-xl font-bold uppercase">Motion on this device</p>
+          {matches.length === 0 && ledger.length === 0 ? (
+            <p className="mt-3 text-sm text-concrete">No motion yet. Sit down in Game Room and it writes here.</p>
+          ) : (
+            <ul className="mt-4 space-y-2">
+              {matches.slice(0, 6).map((m) => {
+                const game = GAMES.find((g) => g.slug === m.game);
                 return (
-                  <li key={g.slug} className="flex items-center justify-between border-b border-lane py-2 text-sm">
-                    <span className="font-display uppercase tracking-[0.08em]">{g.name}</span>
-                    <span className="font-mono text-xs text-concrete">
-                      {s?.played ?? 0} sits · {s?.won ?? 0} wins
+                  <li key={m.id} className="flex items-center justify-between border-b border-lane py-2 text-sm">
+                    <span className="font-display uppercase tracking-[0.08em]">
+                      {game?.name} · {m.result === "win" ? "Win" : "Sat down"}
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">
+                      {new Date(m.at).toLocaleDateString("en-GB", { day: "2-digit", month: "short" })}
                     </span>
                   </li>
                 );
               })}
             </ul>
-          </CruiseCard>
-          <CruiseCard>
-            <p className="font-display text-xl font-bold uppercase">Badges</p>
-            <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-              {BADGE_CATALOG.map((b) => {
-                const on = badges.includes(b.id);
-                return (
-                  <li key={b.id} className={on ? "text-bone" : "text-concrete"}>
-                    <span className="font-display uppercase tracking-[0.1em]">{b.name}</span>
-                    <span className="mt-0.5 block text-xs">{on ? "Unlocked" : b.hint}</span>
-                  </li>
-                );
-              })}
-            </ul>
-          </CruiseCard>
-          <CruiseCard>
-            <p className="font-display text-xl font-bold uppercase">Motion on this device</p>
-            {matches.length === 0 && ledger.length === 0 ? (
-              <p className="mt-3 text-sm text-concrete">No motion yet. Sit down in Game Room and it writes here.</p>
-            ) : (
-              <ul className="mt-4 space-y-2">
-                {matches.slice(0, 6).map((m) => {
-                  const game = GAMES.find((g) => g.slug === m.game);
-                  return (
-                    <li key={m.id} className="flex items-center justify-between border-b border-lane py-2 text-sm">
-                      <span className="font-display uppercase tracking-[0.08em]">
-                        {game?.name} · {m.result === "win" ? "Win" : "Sat down"}
-                      </span>
-                      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">
-                        {new Date(m.at).toLocaleDateString("en-GB", { day: "2-digit", month: "short" })}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </CruiseCard>
-        </div>
+          )}
+        </CruiseCard>
       </div>
     </CruisePage>
   );
@@ -311,7 +305,10 @@ export function MerchPage() {
 
 export function SettingsPage() {
   const name = usePlayer((s) => s.name);
-  const setName = usePlayer((s) => s.setName);
+  const handle = usePlayer((s) => s.handle);
+  const line = usePlayer((s) => s.line);
+  const photo = usePlayer((s) => s.photo);
+  const setProfile = usePlayer((s) => s.setProfile);
   const muted = usePlayer((s) => s.muted);
   const toggleMute = usePlayer((s) => s.toggleMute);
   const cruiseId = usePlayer((s) => s.cruiseId);
@@ -320,17 +317,60 @@ export function SettingsPage() {
     <CruisePage
       kicker="Settings"
       title="The room, on your terms."
-      lede="Name, sound, identity. No account wall. Auth stays off until the product actually needs it."
+      lede="Name, handle, portrait, one line. No account wall. Auth stays off until the product actually needs it."
     >
       <div className="grid max-w-xl gap-6">
         <label className="block">
           <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Display name</span>
           <input
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setProfile({ name: e.target.value })}
             className="mt-2 h-12 w-full border border-lane bg-asphalt px-4 font-display text-2xl font-bold uppercase tracking-[0.08em] text-bone outline-none focus:border-danfo"
             maxLength={18}
           />
+          <span className="mt-2 block text-xs text-concrete">FX unlocks the OG card.</span>
+        </label>
+        <label className="block">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Handle</span>
+          <input
+            value={handle || ""}
+            onChange={(e) => setProfile({ handle: e.target.value })}
+            placeholder="13fxiii"
+            className="mt-2 h-12 w-full border border-lane bg-asphalt px-4 font-mono text-sm tracking-[0.12em] text-bone outline-none placeholder:text-concrete/50 focus:border-danfo"
+            maxLength={24}
+          />
+        </label>
+        <label className="block">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">One line</span>
+          <input
+            value={line || ""}
+            onChange={(e) => setProfile({ line: e.target.value })}
+            placeholder="Just here for the vibes."
+            className="mt-2 h-12 w-full border border-lane bg-asphalt px-4 text-sm text-bone outline-none placeholder:text-concrete/50 focus:border-danfo"
+            maxLength={72}
+          />
+        </label>
+        <label className="block">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Portrait</span>
+          <input
+            type="file"
+            accept="image/*"
+            className="mt-2 block w-full text-sm text-concrete file:mr-3 file:border-0 file:bg-danfo file:px-4 file:py-2 file:font-display file:text-sm file:font-bold file:uppercase file:tracking-[0.14em] file:text-midnight"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              void cropPhoto(file).then((data) => setProfile({ photo: data }));
+            }}
+          />
+          {photo ? (
+            <button
+              type="button"
+              className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-concrete hover:text-danfo"
+              onClick={() => setProfile({ photo: null })}
+            >
+              Remove portrait
+            </button>
+          ) : null}
         </label>
         <CruiseCard>
           <CruiseLocalStamp />
@@ -344,4 +384,34 @@ export function SettingsPage() {
       </div>
     </CruisePage>
   );
+}
+
+function cropPhoto(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const size = 320;
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        URL.revokeObjectURL(url);
+        reject(new Error("canvas"));
+        return;
+      }
+      const s = Math.min(img.width, img.height);
+      const sx = (img.width - s) / 2;
+      const sy = (img.height - s) / 2;
+      ctx.drawImage(img, sx, sy, s, s, 0, 0, size, size);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL("image/jpeg", 0.72));
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("image"));
+    };
+    img.src = url;
+  });
 }

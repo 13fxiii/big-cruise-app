@@ -92,10 +92,11 @@ export function CruiseAvatar({
   size?: "sm" | "md" | "lg";
   className?: string;
 }) {
+  const photo = usePlayer((s) => s.photo);
   return (
     <span
       className={cn(
-        "inline-flex items-center justify-center rounded-full bg-curb font-display font-bold uppercase text-danfo ring-1 ring-danfo/40",
+        "inline-flex items-center justify-center overflow-hidden rounded-full bg-curb font-display font-bold uppercase text-danfo ring-1 ring-danfo/40",
         size === "sm" && "size-8 text-xs",
         size === "md" && "size-11 text-sm",
         size === "lg" && "size-16 text-xl",
@@ -103,7 +104,7 @@ export function CruiseAvatar({
       )}
       aria-hidden
     >
-      {initials(name)}
+      {photo ? <img src={photo} alt="" className="size-full object-cover" /> : initials(name)}
     </span>
   );
 }

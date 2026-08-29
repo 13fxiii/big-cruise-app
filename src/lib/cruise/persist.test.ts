@@ -87,6 +87,22 @@ describe("identity persist adapter", () => {
     assert.ok(doc.matches.some((m) => m.result === "win"));
   });
 
+  it("keeps handle, line, and photo through normalize", () => {
+    const doc = normalizeDocument({
+      identity: {
+        name: "FX",
+        cruiseId: "BCH-TEST02",
+        joinedAt: "2024-01-01T00:00:00.000Z",
+        handle: "13fxiii",
+        line: "Just here for the vibes.",
+        photo: "data:image/jpeg;base64,xx",
+      },
+    });
+    assert.equal(doc.identity.handle, "13fxiii");
+    assert.equal(doc.identity.line, "Just here for the vibes.");
+    assert.equal(doc.identity.photo, "data:image/jpeg;base64,xx");
+  });
+
   it("mints and round-trips through a storage adapter", () => {
     const store = memory();
     const a = loadDocument(store, new Date("2026-08-29T00:00:00.000Z"));

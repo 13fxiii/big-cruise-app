@@ -382,3 +382,23 @@
 .safe-bottom {
   padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
 }
+
+.id-flip {
+  perspective: 1400px;
+}
+.id-flip-inner {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.id-flip-inner.is-back {
+  transform: rotateY(180deg);
+}
+.id-face {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.id-face-back {
+  transform: rotateY(180deg);
+}
