@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: Gate to run
+        type: choice
+        options: [lint, test, typecheck, build, all]
+        default: all
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Run
+        env:
+          TASK: ${{ github.event.inputs.task || 'all' }}
+        run: |
+          case "$TASK" in
+            lint) npm run lint ;;
+            test) npm run test ;;
+            typecheck) npm run typecheck ;;
+            build) npm run build ;;
+            *) npm run lint && npm run test && npm run typecheck && npm run build ;;
+          esac
