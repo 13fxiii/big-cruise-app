@@ -1,7 +1,8 @@
-# BIG CRUISE — Brand Lock-in + 7 Days of Cruise — V1.0
+# BIG CRUISE — Brand Lock-in V1.1
 
-Public page: https://big-cruise-brand.vercel.app  
-Repo: https://github.com/13fxiii/big-cruise-brand  
+Public page: https://big-cruise-app.vercel.app/brand  
+Product: https://big-cruise-app.vercel.app  
+Repo: https://github.com/13fxiii/big-cruise-app  
 Tagline: Where the cruise lives.
 
 ## What it is
@@ -17,17 +18,22 @@ Not: a yacht club, a bus company, a tourism board, a fintech, a children's brand
 Philosophy: Cruise. Connect. Create. Support. Grow.  
 Feeling: These are my people.
 
-## Logo
+## Logo — V1.1 Cruise Stroke
 
-The logo is the 〽️ the room already types. Unicode U+303D Part Alternation Mark.
+The idea is 〽️. The production file is a custom vector signature inspired by it, not Unicode U+303D.
 
 SVG viewBox `0 0 64 64`  
-Path: `M6 36 C9 22 12 8 21 8 C27.5 8 30 20 32 28 C34 20 36.5 8 43 8 C52 8 56 24 60 54`  
+Path: `M4.8 36.5 C7.4 21.5 11.6 12.8 18.6 12.8 C25.4 12.8 28.4 22.8 31.4 31.8 C34.6 20.6 38.4 6.6 45.6 6.6 C54.6 6.6 57.4 23.5 59.8 55.4`  
 Stroke width 9, round caps and joins, upright, `currentColor`.
 
-Primary: Live mark — open ring r=29, dasharray 155 27, mark scaled 0.58.  
-Avatar / app: Midnight mark — filled circle, mark scaled 0.7.  
-Wordmark: Barlow Condensed ExtraBold “BIG CRUISE” + vector 〽️.  
+Construction: Peak 1 (Cruise, lower) → Valley (Connect, wide room) → Peak 2 (Create, taller) → Drop (Grow, committed, no bounce).
+
+### Three brand levels
+
+- **A Master** — BIG CRUISE + signature. Website, app, merch, campaigns, events, partnerships.
+- **B Community** — Midnight mark (filled circle + signature). X avatar, app icon, favicon, cap, stickers, badges, game UI.
+- **C Founder** — FX + compact signature. Related, never the community avatar.
+
 Never ship the colour emoji as the official file.
 
 ## Master colours
@@ -49,13 +55,17 @@ Do not rename yellow as gold, neon, or chrome. Danfo is the Lagos bus colour, no
 - Stamps: IBM Plex Mono (SIL OFL)
 - Rejected: Google Font “Danfo” as a display face
 
+## Tokens
+
+See `src/lib/cruise/tokens.ts` and `@theme` in `src/styles.css`. Spacing 4-based. Tap 44px. Motion 80/150/250/400ms with cubic-bezier(0.22,1,0.36,1). Slash −8°. Focus ring: 2px midnight + 2px danfo.
+
 ## Rejected
 
-Yachts, boats, anchors, literal danfo bus as logo, stacked-chevron “spark”, gold, neon, chrome, glow, generic African tourism (masks, safari, Adinkra dumps, Ankara clichés, palm-tree luxury), children’s palettes, smileys/chat bubbles as the system, former names on current branding.
+Yachts, boats, anchors, literal danfo bus as logo, stacked-chevron “spark”, gold, neon, chrome, glow, generic African tourism (masks, safari, Adinkra dumps, Ankara clichés, palm-tree luxury), children’s palettes, smileys/chat bubbles as the system, former names on current branding, Unicode emoji as the master file.
 
 ## 7 Days of Cruise
 
-One house, seven rooms. Master lockups stay Midnight + Danfo Yellow. Day palettes never replace the house. Weekday programming titles are not merch artwork.
+One house, seven rooms. **Content programming, not the master palette.** Master lockups stay Midnight + Danfo Yellow. Day palettes never replace the house. Weekday programming titles are not merch artwork.
 
 ### Monday — Dominion State
 Power is quiet. Power is earned. Spice 7/12.  
@@ -101,7 +111,7 @@ Sub-themes: Chaos Culture; No Rules; Roast Protocol; Meme Battalion; Dark Hour; 
 
 ## Merch
 
-Streetwear capsule, not promo. Black heavyweight blanks. House merch = 〽️ in Danfo Yellow. Day merch = day accent + motif + sub-brand name.
+Streetwear capsule, not promo. Black heavyweight blanks. House merch = signature in Danfo Yellow. Day merch = day accent + motif + sub-brand name.
 
 Do not print as decorative artwork: CRUISE CONNECT HUB, MEN CRUSH MONDAY, TITTY TUESDAY, WOMEN CRUSH WEDNESDAY, THROWBACK THURSDAY, NEW MUSIC FRIDAY, SECRET MESSAGES SATURDAY, WILD 'N' OUT SUNDAY.
 
@@ -119,7 +129,7 @@ Chat lines: Tonight's Cruise; Pull Up; We Outside; Space Starting Soon; Game Nig
 
 ## Motion
 
-The live ring turns. The 〽️ arrives last. Day transitions wipe on the −8° lane. Music uses seven bars. Games use the stamp. Countdowns are huge Barlow numerals.
+The live ring turns. The signature draws last. Day transitions wipe on the −8° lane. Music uses seven bars. Games use the stamp. Countdowns are huge Barlow numerals.
 
 ## Voice
 
@@ -127,25 +137,22 @@ Nigerian, internet-native, funny, warm, slightly chaotic. Pidgin when it lands. 
 
 Monday: short, earned. Tuesday: loud, flirty. Wednesday: warm, precise. Thursday: slower, remember when. Friday: pull up, track titles. Saturday: lower volume, between the lines. Sunday: roast, still fam.
 
-## App design system (V1.x)
+## App design system (V1.1)
 
 The product lives inside the brand. CruiseBackground is the global environment for home, Game Room, community, music, Spaces, ID, notifications, rewards, merch, settings, lobbies, and game rooms.
 
-- Field: Lagos Danfo Midnight Black #0B0B0B at 85–90%
-- Accent: Lagos Danfo Yellow #F5C400 at 10–15%
-- Pattern: official 〽️ stroke tiled at low opacity, rotated −8°, plus connection nodes. Never the colour emoji as wallpaper.
-- Also: dual-carriageway lanes, grain, slow dashed motion paths, one ghost mark, soft Danfo light — not noisy.
+- Field: Lagos Danfo Midnight Black #0B0B0B at 75–85%
+- Accent: Lagos Danfo Yellow #F5C400 at 15–25%
+- Pattern: official Cruise Stroke tiled at very low opacity, rotated −8°. Never the colour emoji as wallpaper.
+- Restraint: grain, one quiet ghost mark on cover/default, a single Danfo orb. No dual orbs, no motion paths on product screens, no yellow wash at the foot.
 - Densities: cover, default, quiet, game (optional 7 Days accent wash)
 
 Components: CruiseBackground, CruisePattern, CruiseButton, CruiseCard, CruiseModal, CruiseBadge, CruiseAvatar, CruiseHeader, CruiseGameRoom, CruisePlayerCard, CruiseNotification, CruiseLoader, CruiseToast.
 
-Loader: 〽️ draws → BIG CRUISE → Where the cruise lives. ~1.2 seconds, skippable, once per session.
+Loader: signature draws → BIG CRUISE → Where the cruise lives. ~1.2 seconds, skippable, once per session.
 
 Game Room: one community, many worlds. Games inherit house chrome; each may use a secondary day accent. Lobby is architected for public/private rooms, invites, tournaments, spectating, match history.
 
-BIG CRUISE ID (local, auth off): username, avatar, BCH-XXXXXX, level, BCH points, badges, game stats, join date.
-
-BCH points: play +5, win +25, daily +10, host +15, community +8, event +20, challenge +30, achievement +50. No shop. No fake monetization.
+BIG CRUISE ID (local prototype, auth off): username, avatar, BCH-XXXXXX, level, BCH points, badges, game stats, join date. Device persistence until a server exists.
 
 Do not over-brand. The name appears once in the header. The night, type, mark language, and components do the rest.
-

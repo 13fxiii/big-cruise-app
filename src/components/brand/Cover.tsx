@@ -15,9 +15,9 @@ export function Cover() {
 
       <header className="relative z-10 flex items-center justify-between gap-4">
         <p className="font-display text-sm font-semibold uppercase tracking-[0.28em] text-concrete">
-          Official Brand Lock-in + 7 Days of Cruise
+          Official Brand Lock-in V1.1
         </p>
-        <p className="font-mono text-sm font-medium tracking-[0.22em] text-danfo">V1.0 / 2026</p>
+        <p className="font-mono text-sm font-medium tracking-[0.22em] text-danfo">V1.1 / 2026</p>
       </header>
 
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center py-12 text-center stagger-in">
@@ -43,21 +43,6 @@ export function Cover() {
         <span>@BCHub_</span>
         <span>#FXIII</span>
       </footer>
-      <div className="relative z-10 mt-4 grid grid-cols-7 gap-1">
-        {[
-          ["#7A1F33", "Mon"],
-          ["#FF2B6B", "Tue"],
-          ["#C45A72", "Wed"],
-          ["#C4A574", "Thu"],
-          ["#6A2C91", "Fri"],
-          ["#9B1228", "Sat"],
-          ["#C8F542", "Sun"],
-        ].map(([c, l]) => (
-          <a key={l} href={`#day-${l.toLowerCase()}`} className="flex min-h-10 items-center justify-center font-display text-[10px] font-bold uppercase tracking-[0.12em]" style={{ background: c, color: l === "Thu" || l === "Sun" ? "#0B0B0B" : "#F3EFE4" }}>
-            {l}
-          </a>
-        ))}
-      </div>
     </section>
   );
 }

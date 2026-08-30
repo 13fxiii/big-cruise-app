@@ -8,7 +8,7 @@ export function Review() {
       <Chapter id="review" n="35" kicker="Review" title="EXTERNAL AI REVIEW — BRAND DESIGN DESCRIPTION">
         <Prose>
           <p>
-            This page is the source of truth for BIG CRUISE Brand Lock-in + 7 Days of Cruise, Version 1.0. Decisions are
+            This page is the source of truth for BIG CRUISE Brand Lock-in V1.1. Decisions are
             written here, not hidden in JavaScript. Public no-login copy:{" "}
             <a className="text-danfo underline" href="https://big-cruise-brand.vercel.app" target="_blank" rel="noreferrer">
               big-cruise-brand.vercel.app
@@ -30,11 +30,12 @@ export function Review() {
             Connect Hub is retired and must never appear on a lockup, merch print, or filename as current identity.
           </p>
           <p>
-            Logo geometry: Unicode U+303D Part Alternation Mark. One open stroke, lopsided M / rollercoaster. SVG
-            viewBox 0 0 64 64. Path d="M6 36 C9 22 12 8 21 8 C27.5 8 30 20 32 28 C34 20 36.5 8 43 8 C52 8 56 24 60 54".
+            Logo geometry: custom BIG CRUISE signature inspired by 〽️ (U+303D), not the emoji. One open stroke. Peak 1
+            lower (Cruise), wide valley (Connect), Peak 2 taller (Create), committed drop (Grow). SVG viewBox 0 0 64 64.
+            Path d="M4.8 36.5 C7.4 21.5 11.6 12.8 18.6 12.8 C25.4 12.8 28.4 22.8 31.4 31.8 C34.6 20.6 38.4 6.6 45.6 6.6 C54.6 6.6 57.4 23.5 59.8 55.4".
             Stroke width 9, round caps and joins, upright, currentColor. Typically Danfo Yellow #F5C400 on Midnight
-            #0B0B0B. Primary lockup: Live mark (open ring r=29, dasharray 155 27). Avatar: Midnight mark. Wordmark:
-            Barlow Condensed ExtraBold BIG CRUISE + the vector 〽️. Never ship the colour emoji as the official file.
+            #0B0B0B. Master lockup: wordmark + signature. Community: Midnight mark. Founder: FX + compact signature.
+            Never ship the colour emoji as the official file.
           </p>
           <p>
             Master colours: Lagos Danfo Midnight Black #0B0B0B (75–85%), Lagos Danfo Yellow #F5C400 (15–25%), Bone

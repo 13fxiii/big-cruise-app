@@ -9,7 +9,7 @@ Open `index.html` or https://big-cruise-brand.vercel.app
 Master mark path (viewBox 0 0 64 64, stroke 9, round caps):
 
 ```
-M6 36 C9 22 12 8 21 8 C27.5 8 30 20 32 28 C34 20 36.5 8 43 8 C52 8 56 24 60 54
+M4.8 36.5 C7.4 21.5 11.6 12.8 18.6 12.8 C25.4 12.8 28.4 22.8 31.4 31.8 C34.6 20.6 38.4 6.6 45.6 6.6 C54.6 6.6 57.4 23.5 59.8 55.4
 ```
 
 House colours: Midnight `#0B0B0B` · Danfo Yellow `#F5C400` · Bone `#F3EFE4`

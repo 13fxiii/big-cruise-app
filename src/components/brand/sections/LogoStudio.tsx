@@ -135,26 +135,28 @@ export function LogoStudio() {
           </Panel>
           <Panel className="bg-danfo">
             <p className="font-mono text-sm font-medium tracking-wider text-midnight">Top 01 — Master</p>
-            <h3 className="mt-1 font-display text-2xl font-extrabold uppercase text-midnight">The 〽️</h3>
+            <h3 className="mt-1 font-display text-2xl font-extrabold uppercase text-midnight">The Signature</h3>
             <p className="mt-2 text-sm text-midnight/75">
-              Members already write 〽️. The logo is that mark — the lopsided M they type every day — drawn as a one-color
-              vector so it can live on a tee, an avatar, and a 16px favicon.
+              Members already write 〽️. V1.1 is that mark drawn as a custom one-color stroke — lopsided peaks, a room in
+              the valley, a committed drop — so it can live on a tee, an avatar, and a 16px favicon without shipping the
+              emoji.
             </p>
           </Panel>
         </div>
       </Chapter>
 
-      <Chapter id="logo" n="09" title="The 〽️. The Midnight. The Live.">
+      <Chapter id="logo" n="09" title="The signature. The midnight. The live.">
         <Prose>
           <p>
-            One master direction, three expressions. The 〽️ is the DNA. The Midnight Mark is the avatar and the app
-            icon. The Live Mark is merch, headers, and anything that needs to feel like a Space that is on.
+            V1.0 locked the idea: 〽️ is the DNA. V1.1 draws it as a custom stroke. Three expressions follow. The
+            signature is the period after BIG CRUISE. The Midnight Mark is the community avatar. The Live Mark is a Space
+            that is on. Full lockup family lives in V1.1.
           </p>
         </Prose>
 
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           {[
-            { t: "〽️", d: "Symbol-only. Chest embroidery. The period at the end of BIG CRUISE.", El: Spark },
+            { t: "Signature", d: "Symbol-only. Chest embroidery. The period at the end of BIG CRUISE.", El: Spark },
             { t: "Midnight", d: "Filled circle. X avatar. App icon. Favicon. Stickers.", El: MidnightMark },
             { t: "Live", d: "Open ring. The Space is on. Headers, hoodies, motion.", El: LiveMark },
           ].map((item) => (

@@ -1,0 +1,93 @@
+/**
+ * Production design tokens for BIG CRUISE V1.1.
+ * CSS @theme in src/styles.css is the runtime source.
+ * This file is the typed contract — import instead of hardcoding hex.
+ */
+
+export const tokens = {
+  version: "1.1",
+  color: {
+    midnight: "#0B0B0B",
+    asphalt: "#161616",
+    curb: "#222222",
+    lane: "#2C2C2C",
+    concrete: "#8A8A8A",
+    bone: "#F3EFE4",
+    danfo: "#F5C400",
+    danfoDeep: "#C9A000",
+  },
+  ratio: {
+    midnight: "75–85%",
+    danfo: "15–25%",
+  },
+  type: {
+    display: '"Barlow Condensed", "Arial Narrow", sans-serif',
+    sans: '"IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+    mono: '"IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace',
+    displayWeight: 800,
+    bodyWeight: 400,
+    uiWeight: 500,
+    trackingDisplay: "0.04em",
+    trackingStamp: "0.18em",
+    leadingBody: 1.55,
+    leadingDisplay: 0.9,
+  },
+  space: {
+    1: 4,
+    2: 8,
+    3: 12,
+    4: 16,
+    5: 20,
+    6: 24,
+    8: 32,
+    10: 40,
+    12: 48,
+    16: 64,
+  },
+  radius: {
+    xs: 4,
+    sm: 8,
+    md: 12,
+    lg: 16,
+    xl: 20,
+    "2xl": 24,
+  },
+  icon: {
+    xs: 16,
+    sm: 20,
+    md: 24,
+    lg: 32,
+    xl: 40,
+    "2xl": 48,
+    mark: 40,
+  },
+  tap: 44,
+  shadow: {
+    border: "0 0 0 1px rgb(243 239 228 / 0.1)",
+    hover: "0 0 0 1px rgb(245 196 0 / 0.45)",
+    focus: "0 0 0 2px #0B0B0B, 0 0 0 4px #F5C400",
+  },
+  motion: {
+    micro: "80ms",
+    quick: "150ms",
+    fast: "250ms",
+    slow: "400ms",
+    ease: "cubic-bezier(0.22, 1, 0.36, 1)",
+  },
+  slash: -8,
+  contrast: {
+    boneOnMidnight: "AAA",
+    danfoOnMidnight: "AA large / display",
+    midnightOnDanfo: "AAA",
+    concreteOnMidnight: "Meta only — never body",
+  },
+  states: {
+    hover: "danfo at 100% on midnight, or midnight on danfo",
+    focus: "2px midnight + 2px danfo ring",
+    disabled: "concrete at 55% opacity, no pointer",
+    active: "danfo",
+    pressed: "translateY(1px)",
+  },
+} as const;
+
+export type BrandColor = keyof typeof tokens.color;

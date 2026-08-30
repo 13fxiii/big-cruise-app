@@ -12,13 +12,12 @@ export function AppSystem() {
         <Prose>
           <p>
             BIG CRUISE is not a logo stamped on generic screens. The product is a room: midnight field, restrained Danfo
-            yellow, tiled vector 〽️, lane geometry, grain, slow motion paths. Users should feel the house without reading
-            the name on every surface.
+            yellow, a quiet tiled signature, grain. Users should feel the house without reading the name on every surface.
           </p>
           <p>
-            Foundation: Lagos Danfo Midnight Black 85–90%. Lagos Danfo Yellow 10–15%. Bone for type. No neon. No gold.
-            No emoji-sticker wallpaper. The 〽️ in the environment is the official stroke, tiled at very low opacity and
-            rotated −8°, never U+303D as decoration.
+            Foundation: Lagos Danfo Midnight Black 75–85%. Lagos Danfo Yellow 15–25%. Bone for type. No neon. No gold.
+            No emoji-sticker wallpaper. The signature in the environment is the official stroke, tiled at very low opacity
+            and rotated −8°, never U+303D as decoration.
           </p>
           <p>
             CruiseBackground is the single environment. Densities: cover (brand photography), default (product), quiet
@@ -45,7 +44,7 @@ export function AppSystem() {
         <div className="relative mt-4 h-36 overflow-hidden rounded-[20px] bg-midnight text-danfo">
           <CruisePattern className="opacity-40" />
           <p className="relative z-10 p-5 font-mono text-[10px] uppercase tracking-[0.2em] text-bone">
-            Pattern language — vector 〽️ + connection nodes. Not stickers.
+            Pattern language — one signature per tile. Not stickers.
           </p>
         </div>
       </Chapter>

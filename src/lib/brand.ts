@@ -1,6 +1,6 @@
 export const brand = {
   name: "BIG CRUISE",
-  version: "1.0",
+  version: "1.1",
   year: "2026",
   tagline: "Where the cruise lives.",
   founder: "FX",
@@ -99,6 +99,16 @@ export const nav = [
       { id: "points", n: "41", label: "BCH points" },
     ],
   },
+  {
+    label: "V1.1",
+    items: [
+      { id: "signature", n: "42", label: "Signature" },
+      { id: "levels", n: "43", label: "Three marks" },
+      { id: "lockups", n: "44", label: "Lockups" },
+      { id: "tokens", n: "45", label: "Tokens" },
+      { id: "audit", n: "46", label: "Audit" },
+    ],
+  },
 ] as const;
 
 export const colors = [
@@ -172,7 +182,7 @@ export const scores = [
   { id: "05", name: "Seal", mem: 7, orig: 5, ng: 6, pers: 7, scale: 8, street: 9, digital: 6, emb: 9, avatar: 8, long: 7 },
   { id: "06", name: "Negative Cut", mem: 8, orig: 9, ng: 6, pers: 7, scale: 8, street: 8, digital: 8, emb: 8, avatar: 8, long: 8 },
   { id: "07", name: "Digital Street", mem: 7, orig: 8, ng: 9, pers: 8, scale: 8, street: 7, digital: 10, emb: 6, avatar: 9, long: 8 },
-  { id: "08", name: "The 〽️", mem: 9, orig: 8, ng: 8, pers: 9, scale: 10, street: 9, digital: 9, emb: 10, avatar: 10, long: 9 },
+  { id: "08", name: "Signature", mem: 9, orig: 9, ng: 8, pers: 9, scale: 10, street: 9, digital: 9, emb: 10, avatar: 10, long: 9 },
 ] as const;
 
 export const axes = [

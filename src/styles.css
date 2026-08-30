@@ -38,16 +38,30 @@
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
 
   --shadow-border: 0 0 0 1px rgb(243 239 228 / 0.1);
   --shadow-border-hover: 0 0 0 1px rgb(245 196 0 / 0.45);
+  --shadow-focus: 0 0 0 2px #0b0b0b, 0 0 0 4px #f5c400;
 
   --ease-cruise: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-micro: 80ms;
   --motion-quick: 150ms;
   --motion-fast: 250ms;
   --motion-slow: 400ms;
+
+  --spacing-tap: 2.75rem;
+  --icon-xs: 1rem;
+  --icon-sm: 1.25rem;
+  --icon-md: 1.5rem;
+  --icon-lg: 2rem;
+  --icon-xl: 2.5rem;
+  --icon-2xl: 3rem;
+
+  --slash-angle: -8deg;
+  --pattern-opacity: 0.038;
+  --pattern-opacity-game: 0.022;
 }
 
 @layer base {
