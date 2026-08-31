@@ -97,7 +97,8 @@ export function Applications() {
           <p>
             Do not over-design the clothes. Black heavyweight blanks. Yellow 〽️ at the chest or on the back, large.
             One-color screen print, DTF, embroidery, woven labels — the geometry holds. If the merch needs a yacht, a
-            gold foil, or a laughing face, the identity has already failed.
+            gold foil, or a laughing face, the identity has already failed. Full production system: chapters 56–71 and
+            the live lookbook at /merch.
           </p>
         </Prose>
 

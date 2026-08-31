@@ -205,8 +205,8 @@ export function LogoStudio() {
           <Panel>
             <p className="font-display text-sm font-semibold uppercase tracking-[0.16em] text-danfo">Minimum size</p>
             <p className="mt-2 text-sm leading-relaxed text-concrete">
-              〽️: 16px digital / 8mm print. Midnight Mark: 24px digital. Below that, use the 〽️ alone. One-color
-              always works — the geometry was built for screen print and embroidery.
+              Signature: 16px digital / 8mm print. Midnight Mark: 24px digital. Below that, use the signature alone.
+              One-color always works — the geometry was built for screen print and embroidery.
             </p>
           </Panel>
         </div>

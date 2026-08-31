@@ -7,8 +7,8 @@ import { useId } from "react";
 export type CruiseDensity = "cover" | "default" | "quiet" | "game";
 
 /**
- * House night. V1.1 restraint: one tiled signature, grain, a single orb.
- * The mark is felt, not announced. No emoji, no wordmark wallpaper.
+ * House night. V1.1 restraint: grain, a quiet tiled signature,
+ * one ghost mark on cover only. Felt, not announced.
  */
 export function CruisePattern({ className }: { className?: string }) {
   const id = useId().replace(/:/g, "");
@@ -17,8 +17,7 @@ export function CruisePattern({ className }: { className?: string }) {
     <svg className={cn("absolute inset-0 size-full text-danfo", className)} aria-hidden>
       <defs>
         <pattern id={pid} width="280" height="240" patternUnits="userSpaceOnUse" patternTransform="rotate(-8)">
-          <path d="M0 118 H280" fill="none" stroke="currentColor" strokeWidth="0.55" opacity="0.22" />
-          <g transform="translate(108 78) scale(0.58)" opacity="0.42">
+          <g transform="translate(108 78) scale(0.58)" opacity="0.4">
             <path
               d={MARK_D}
               fill="none"
@@ -31,24 +30,6 @@ export function CruisePattern({ className }: { className?: string }) {
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill={`url(#${pid})`} />
-    </svg>
-  );
-}
-
-export function CruiseMotionPaths({ className }: { className?: string }) {
-  return (
-    <svg className={cn("absolute inset-0 size-full text-danfo", className)} aria-hidden preserveAspectRatio="none">
-      <path
-        className="cruise-path"
-        d="M-40 28 C 18 8, 42 48, 70 32 S 110 8, 140 36 S 190 60, 240 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="0.35"
-        strokeDasharray="5 16"
-        vectorEffect="non-scaling-stroke"
-        opacity="0.4"
-        transform="scale(8.4 12)"
-      />
     </svg>
   );
 }
@@ -68,17 +49,12 @@ export function CruiseBackground({
 }) {
   const patternOp =
     density === "cover"
-      ? "opacity-[0.05]"
+      ? "opacity-[0.04]"
       : density === "game"
-        ? "opacity-[0.022]"
+        ? "opacity-[0.016]"
         : density === "quiet"
-          ? "opacity-[0.028]"
-          : "opacity-[0.038]";
-  const laneOp =
-    density === "cover" ? "opacity-40" : density === "game" ? "opacity-[0.12]" : density === "quiet" ? "opacity-[0.16]" : "opacity-[0.22]";
-  const sparkOp = density === "game" || density === "quiet" ? "text-danfo/[0.018]" : "text-danfo/[0.04]";
-  const showMotion = density === "cover";
-  const showSpark = density === "cover" || density === "default";
+          ? "opacity-[0.018]"
+          : "opacity-[0.026]";
 
   return (
     <div
@@ -100,22 +76,14 @@ export function CruiseBackground({
           <div className="absolute inset-0 bg-gradient-to-r from-midnight/55 via-transparent to-midnight/40" />
         </>
       ) : null}
-      <CruisePattern className={patternOp} />
-      <div className={cn("absolute inset-0 lane-pattern", laneOp)} />
+      {density !== "quiet" ? <CruisePattern className={patternOp} /> : null}
       <div className="absolute inset-0 grain" />
-      {showMotion ? <CruiseMotionPaths className="opacity-30" /> : null}
-      {showSpark ? (
-        <Spark className={cn("absolute -right-[8%] top-[10%] size-[min(42vw,420px)]", sparkOp)} />
+      {density === "cover" ? (
+        <Spark className="absolute -right-[10%] top-[8%] size-[min(36vw,360px)] text-danfo/[0.035]" />
       ) : null}
-      <div
-        className={cn(
-          "absolute left-[18%] top-[-22%] rounded-full blur-[140px]",
-          density === "game" ? "size-[28vw] bg-danfo/4" : "size-[36vw] bg-danfo/7",
-        )}
-      />
       {accent ? (
         <div
-          className="absolute -left-[8%] bottom-[-12%] size-[28vw] rounded-full blur-[130px] opacity-35"
+          className="absolute -left-[10%] bottom-[-18%] size-[24vw] rounded-full blur-[140px] opacity-25"
           style={{ background: accent }}
         />
       ) : null}

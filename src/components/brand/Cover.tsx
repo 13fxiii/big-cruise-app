@@ -2,6 +2,7 @@
 
 import { CoverFrame, NightField } from "@/components/brand/NightField";
 import { LiveMark, Wordmark } from "@/components/brand/marks";
+import { brand } from "@/lib/brand";
 import { Button } from "@/components/ui/button";
 
 export function Cover() {
@@ -22,7 +23,7 @@ export function Cover() {
 
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center py-12 text-center stagger-in">
         <LiveMark className="mb-8 size-28 text-danfo sm:size-36 md:size-44" />
-        <Wordmark className="text-5xl text-bone sm:text-7xl md:text-8xl" />
+        <Wordmark className="text-5xl text-bone sm:text-7xl md:text-8xl" spark={false} />
         <p className="mt-6 max-w-md font-display text-xl font-semibold uppercase tracking-[0.18em] text-danfo sm:text-2xl">
           Where the cruise lives.
         </p>
@@ -30,6 +31,14 @@ export function Cover() {
           A Nigerian internet family, designed like a brand. One house. Seven rooms. Built for the timeline, the Space,
           the tee, and the people who keep showing up.
         </p>
+        <a
+          href={brand.urls.public}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-danfo hover:text-bone"
+        >
+          {brand.urls.public.replace("https://", "")}
+        </a>
         <Button
           className="mt-10"
           onClick={() => document.getElementById("essence")?.scrollIntoView({ behavior: "smooth" })}
@@ -40,6 +49,9 @@ export function Cover() {
 
       <footer className="relative z-10 flex flex-wrap items-end justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.18em] text-concrete">
         <span>FX — @13fxiii</span>
+        <a href={brand.urls.product} target="_blank" rel="noreferrer" className="text-danfo hover:text-bone">
+          {brand.urls.product.replace("https://", "")}
+        </a>
         <span>@BCHub_</span>
         <span>#FXIII</span>
       </footer>

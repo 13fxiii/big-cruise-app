@@ -43,7 +43,7 @@ export function CruiseHeader() {
       <header className="relative z-20 flex items-center gap-4 border-b border-lane/80 bg-midnight/70 px-4 py-3 backdrop-blur-md md:px-8">
         <Link to="/" className="flex min-h-11 items-center gap-3" aria-label="Game Room">
           <LiveMark className="size-10 text-danfo" />
-          <Wordmark className="hidden text-xl text-bone sm:inline" compact />
+          <Wordmark className="hidden text-xl text-bone sm:inline" compact spark={false} />
         </Link>
         <nav className="ml-auto hidden items-center gap-1 md:flex">
           {PRIMARY.map((item) => {

@@ -2,6 +2,7 @@
 
 import { Chapter, Panel, Prose } from "@/components/brand/Chapter";
 import {
+  AppIconMark,
   EmbroideryMark,
   FounderLockup,
   HorizontalLockup,
@@ -57,7 +58,7 @@ export function SignatureSystem() {
               ))}
               <path d={MARK_D} fill="none" stroke="currentColor" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" />
               {Object.values(MARK_CONSTRUCTION).map((pt) => (
-                <circle key={pt.label} cx={pt.x} cy={pt.y} r="1.6" fill="#F3EFE4" />
+                <circle key={pt.label} cx={pt.x} cy={pt.y} r="1.6" className="fill-bone" />
               ))}
             </svg>
             <ol className="mt-6 grid grid-cols-5 gap-2 text-center">
@@ -104,6 +105,9 @@ export function SignatureSystem() {
             tiny-size optical cuts. If it does not look like the same house at 16px and on a hoodie, it is not in the
             system.
           </p>
+          <p>
+            The circle carries the signature. The wordmark carries the signature. Do not put both in the same lockup.
+          </p>
         </Prose>
 
         <div className="mt-10 grid gap-4">
@@ -122,8 +126,8 @@ export function SignatureSystem() {
             {[
               { label: "Dark", bg: "bg-midnight", fg: "text-danfo", El: Spark },
               { label: "Light", bg: "bg-bone", fg: "text-midnight", El: Spark },
-              { label: "Yellow", bg: "bg-danfo", fg: "text-midnight", El: Spark },
-              { label: "One-color black", bg: "bg-bone", fg: "text-midnight", El: Spark },
+              { label: "On yellow", bg: "bg-danfo", fg: "text-midnight", El: Spark },
+              { label: "One-color yellow", bg: "bg-midnight", fg: "text-danfo", El: Spark },
             ].map((item) => (
               <Panel key={item.label} className={cn("flex min-h-36 flex-col items-center justify-center", item.bg)}>
                 <item.El className={cn("size-16", item.fg)} />
@@ -131,7 +135,7 @@ export function SignatureSystem() {
               </Panel>
             ))}
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Panel className="flex min-h-32 flex-col items-center justify-center">
               <TinyMark className="size-6 text-danfo" />
               <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">Tiny 16px</p>
@@ -141,10 +145,45 @@ export function SignatureSystem() {
               <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">Embroidery</p>
             </Panel>
             <Panel className="flex min-h-32 flex-col items-center justify-center">
+              <AppIconMark className="size-16 text-danfo" />
+              <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">App icon</p>
+            </Panel>
+            <Panel className="flex min-h-32 flex-col items-center justify-center">
+              <MidnightMark className="size-16 text-danfo" />
+              <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">X avatar</p>
+            </Panel>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Panel className="flex min-h-32 flex-col items-center justify-center bg-bone">
+              <Spark className="size-16 text-midnight" />
+              <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-midnight">One-color black</p>
+            </Panel>
+            <Panel className="flex min-h-32 flex-col items-center justify-center">
               <LiveMark className="size-16 text-danfo" />
               <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-concrete">Live ring</p>
             </Panel>
           </div>
+        </div>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <Panel>
+            <p className="font-display text-sm font-semibold uppercase tracking-[0.16em] text-danfo">Do</p>
+            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-bone/80">
+              <li>Use the custom stroke. Recolor with currentColor.</li>
+              <li>Give it Peak-1 of quiet space.</li>
+              <li>Let the midnight mark live alone at avatar size.</li>
+              <li>Keep FX compact, never as the community face.</li>
+            </ul>
+          </Panel>
+          <Panel>
+            <p className="font-display text-sm font-semibold uppercase tracking-[0.16em] text-danfo">Don't</p>
+            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-bone/80">
+              <li>Ship the colour emoji as the official file.</li>
+              <li>Stack circle-mark + wordmark-mark in one lockup.</li>
+              <li>Italicize, glow, outline, or bounce it.</li>
+              <li>Add a yacht, bus, anchor, or chat bubble.</li>
+            </ul>
+          </Panel>
         </div>
       </Chapter>
 
@@ -194,10 +233,20 @@ export function SignatureSystem() {
                 <td className="px-4 py-2.5">{tokens.tap}px</td>
                 <td className="px-4 py-2.5 font-sans text-concrete">Minimum target</td>
               </tr>
-              <tr>
+              <tr className="border-b border-lane/70">
                 <td className="px-4 py-2.5 text-danfo">slash</td>
                 <td className="px-4 py-2.5">{tokens.slash}°</td>
                 <td className="px-4 py-2.5 font-sans text-concrete">Lane geometry</td>
+              </tr>
+              <tr className="border-b border-lane/70">
+                <td className="px-4 py-2.5 text-danfo">opacity.patternDefault</td>
+                <td className="px-4 py-2.5">{tokens.opacity.patternDefault}</td>
+                <td className="px-4 py-2.5 font-sans text-concrete">Environment, felt not announced</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2.5 text-danfo">contrast.boneOnMidnight</td>
+                <td className="px-4 py-2.5">{tokens.contrast.boneOnMidnight}</td>
+                <td className="px-4 py-2.5 font-sans text-concrete">Body copy</td>
               </tr>
             </tbody>
           </table>
@@ -221,8 +270,8 @@ export function SignatureSystem() {
             <ul className="mt-3 space-y-2 text-sm leading-relaxed text-bone/80">
               <li>Unicode U+303D as the production master file.</li>
               <li>Rainbow 7-day bar on the brand cover.</li>
-              <li>Giant ghost marks, dual orbs, motion paths on every screen.</li>
-              <li>Gold, neon, chrome, glow. Emoji-sticker wallpaper.</li>
+              <li>Giant ghost marks, dual orbs, motion paths, lane wallpaper on product screens.</li>
+              <li>Gold, neon, chrome, glow. Emoji-sticker wallpaper. Double lockups.</li>
               <li>Pretending founder FX is the community avatar.</li>
             </ul>
           </Panel>
@@ -232,14 +281,14 @@ export function SignatureSystem() {
               <li>Signature proportions: lopsided peaks, wider valley, committed drop.</li>
               <li>Environment opacity. Night should breathe.</li>
               <li>Yellow at 15–25% — signals, not wallpaper.</li>
-              <li>AppSystem ratio language aligned with the master (was 10–15%).</li>
+              <li>Header lockups: one mark. The icon or the period, not both.</li>
             </ul>
           </Panel>
           <Panel>
             <p className="font-display text-sm font-bold uppercase tracking-[0.16em] text-danfo">Add</p>
             <ul className="mt-3 space-y-2 text-sm leading-relaxed text-bone/80">
               <li>Three brand levels: master / community / founder.</li>
-              <li>Optical tiny + embroidery cuts.</li>
+              <li>Optical tiny + embroidery cuts. App icon + X avatar.</li>
               <li>Typed design tokens. Contrast pairs. Component states.</li>
               <li>Light, one-color, and founder lockup files.</li>
             </ul>

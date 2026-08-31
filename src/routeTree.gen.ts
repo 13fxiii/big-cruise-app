@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BrandRouteImport } from './routes/brand'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as IdRouteImport } from './routes/id'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as MerchRouteImport } from './routes/merch'
 import { Route as MusicRouteImport } from './routes/music'
 import { Route as NotificationsRouteImport } from './routes/notifications'
@@ -40,6 +41,11 @@ const CommunityRoute = CommunityRouteImport.update({
 const IdRoute = IdRouteImport.update({
   id: '/id',
   path: '/id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MerchRoute = MerchRouteImport.update({
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/brand': typeof BrandRoute
   '/community': typeof CommunityRoute
   '/id': typeof IdRoute
+  '/login': typeof LoginRoute
   '/merch': typeof MerchRoute
   '/music': typeof MusicRoute
   '/notifications': typeof NotificationsRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/brand': typeof BrandRoute
   '/community': typeof CommunityRoute
   '/id': typeof IdRoute
+  '/login': typeof LoginRoute
   '/merch': typeof MerchRoute
   '/music': typeof MusicRoute
   '/notifications': typeof NotificationsRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/brand': typeof BrandRoute
   '/community': typeof CommunityRoute
   '/id': typeof IdRoute
+  '/login': typeof LoginRoute
   '/merch': typeof MerchRoute
   '/music': typeof MusicRoute
   '/notifications': typeof NotificationsRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/brand'
     | '/community'
     | '/id'
+    | '/login'
     | '/merch'
     | '/music'
     | '/notifications'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/brand'
     | '/community'
     | '/id'
+    | '/login'
     | '/merch'
     | '/music'
     | '/notifications'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/brand'
     | '/community'
     | '/id'
+    | '/login'
     | '/merch'
     | '/music'
     | '/notifications'
@@ -176,6 +188,7 @@ export interface RootRouteChildren {
   BrandRoute: typeof BrandRoute
   CommunityRoute: typeof CommunityRoute
   IdRoute: typeof IdRoute
+  LoginRoute: typeof LoginRoute
   MerchRoute: typeof MerchRoute
   MusicRoute: typeof MusicRoute
   NotificationsRoute: typeof NotificationsRoute
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/id'
       fullPath: '/id'
       preLoaderRoute: typeof IdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/merch': {
@@ -280,6 +300,7 @@ const rootRouteChildren: RootRouteChildren = {
   BrandRoute: BrandRoute,
   CommunityRoute: CommunityRoute,
   IdRoute: IdRoute,
+  LoginRoute: LoginRoute,
   MerchRoute: MerchRoute,
   MusicRoute: MusicRoute,
   NotificationsRoute: NotificationsRoute,

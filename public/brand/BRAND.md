@@ -23,7 +23,7 @@ Feeling: These are my people.
 The idea is 〽️. The production file is a custom vector signature inspired by it, not Unicode U+303D.
 
 SVG viewBox `0 0 64 64`  
-Path: `M4.8 36.5 C7.4 21.5 11.6 12.8 18.6 12.8 C25.4 12.8 28.4 22.8 31.4 31.8 C34.6 20.6 38.4 6.6 45.6 6.6 C54.6 6.6 57.4 23.5 59.8 55.4`  
+Path: `M5.4 40 C8.4 24.8 13.4 16.8 20.4 16.8 C27.2 16.8 29.4 28.2 32.4 36.2 C35.6 25.4 39.4 6.6 46.8 6.6 C55.4 6.6 57.4 28.8 58.8 57.4`  
 Stroke width 9, round caps and joins, upright, `currentColor`.
 
 Construction: Peak 1 (Cruise, lower) → Valley (Connect, wide room) → Peak 2 (Create, taller) → Drop (Grow, committed, no bounce).
@@ -111,11 +111,17 @@ Sub-themes: Chaos Culture; No Rules; Roast Protocol; Meme Battalion; Dark Hour; 
 
 ## Merch
 
-Streetwear capsule, not promo. Black heavyweight blanks. House merch = signature in Danfo Yellow. Day merch = day accent + motif + sub-brand name.
+Streetwear, not promo. Full system: Merch V1.0 in the brand book (chapters 56–71) and the lookbook at https://big-cruise-app.vercel.app/merch
+
+Flagship: 240 GSM ring-spun combed cotton, unisex oversized, drop shoulder, Midnight. Alternate 220 GSM if 240 is too dense for Lagos. Never 180–200 GSM event blanks.
+
+Drop 00: Minimal Cruise tee (left-chest spark) ₦24,500 · Back Statement tee ₦26,500 · Dad cap embroidered spark ₦18,500. Pre-order, then produce. Sample wash-test is the gate.
+
+Print: DTF for first small run. Screen from restock 30+. Cap embroidery. Heat-transfer vinyl banned.
+
+House merch = signature in Danfo Yellow. Day merch = day accent on B — never a new stroke. Dominion State is a collection under BIG CRUISE, not a second brand.
 
 Do not print as decorative artwork: CRUISE CONNECT HUB, MEN CRUSH MONDAY, TITTY TUESDAY, WOMEN CRUSH WEDNESDAY, THROWBACK THURSDAY, NEW MUSIC FRIDAY, SECRET MESSAGES SATURDAY, WILD 'N' OUT SUNDAY.
-
-SKUs: heavyweight tee, oversized tee, hoodie, long sleeve, cap, shorts, joggers, tote, backpack, sticker pack, woven label, mailer.
 
 Print: 300 DPI, CMYK, SVG master, true transparent PNG (no baked checkerboard), 5mm safe.
 
@@ -144,7 +150,7 @@ The product lives inside the brand. CruiseBackground is the global environment f
 - Field: Lagos Danfo Midnight Black #0B0B0B at 75–85%
 - Accent: Lagos Danfo Yellow #F5C400 at 15–25%
 - Pattern: official Cruise Stroke tiled at very low opacity, rotated −8°. Never the colour emoji as wallpaper.
-- Restraint: grain, one quiet ghost mark on cover/default, a single Danfo orb. No dual orbs, no motion paths on product screens, no yellow wash at the foot.
+- Restraint: grain, one quiet ghost mark on cover only. No dual orbs, no motion paths, no lane wallpaper, no yellow wash at the foot.
 - Densities: cover, default, quiet, game (optional 7 Days accent wash)
 
 Components: CruiseBackground, CruisePattern, CruiseButton, CruiseCard, CruiseModal, CruiseBadge, CruiseAvatar, CruiseHeader, CruiseGameRoom, CruisePlayerCard, CruiseNotification, CruiseLoader, CruiseToast.
@@ -156,3 +162,56 @@ Game Room: one community, many worlds. Games inherit house chrome; each may use 
 BIG CRUISE ID (local prototype, auth off): username, avatar, BCH-XXXXXX, level, BCH points, badges, game stats, join date. Device persistence until a server exists.
 
 Do not over-brand. The name appears once in the header. The night, type, mark language, and components do the rest.
+
+## Brand protection & production specs
+
+Public no-login: https://big-cruise-brand.vercel.app  
+Brand book: https://big-cruise-app.vercel.app/brand
+
+V1.1 is the approved drawing. Do not trace Unicode U+303D. `src/lib/cruise/mark.ts` is the vector master.
+
+### Cruise Stroke master
+
+- ViewBox `0 0 64 64`. Aspect 1:1. Upright only.
+- Path: `M5.4 40 C8.4 24.8 13.4 16.8 20.4 16.8 C27.2 16.8 29.4 28.2 32.4 36.2 C35.6 25.4 39.4 6.6 46.8 6.6 C55.4 6.6 57.4 28.8 58.8 57.4`
+- Stroke 9, fill none, round caps and joins, `currentColor`.
+- Peak 1 rise 19.4 units. Peak 2 rise 29.6 units. Ratio 1.53×. Valley width 26.4 units.
+- Tiny optical: stroke 11, `MARK_TINY`. Embroidery: same master path, stroke 11.5.
+
+### Three marks
+
+- **A Master** — BIG CRUISE + signature. `wordmark.svg`, lockups. Website, app name, merch with type, campaigns.
+- **B Community** — standalone Cruise Stroke in midnight. `midnight-mark.svg` = `x-avatar.svg`. App icon, favicon, cap, sticker, game UI.
+- **C Founder** — FX + compact drop. `founder-fx.svg`. Never the community avatar.
+
+### Clear space
+
+X = height of Peak 1 (apex y=16.8 to valley y=36.2) = 19.4 units. Production X = 20/64 of the mark box, on every side.
+
+### Minimum size
+
+| Surface | Minimum | File |
+|---|---|---|
+| Favicon / signature UI | 16px | `favicon.svg` / `mark-tiny.svg` |
+| Midnight / mobile | 24px | `midnight-mark.svg` |
+| Website header | 40px | live or midnight |
+| App icon / X avatar | 48px | `app-icon.svg` / `x-avatar.svg` |
+| Print signature | 8mm | `mark.svg` |
+| Screen / DTF | 10mm | one-color |
+| Embroidery / chest / heat / PVC | 12mm | `mark-embroidery.svg` |
+| Cap / signage | 40mm | B or A |
+
+### Color
+
+Lagos Danfo Midnight Black `#0B0B0B` RGB 11,11,11 CMYK 0,0,0,96 Pantone Black 6 C · 75–85%.  
+Lagos Danfo Yellow `#F5C400` RGB 245,196,0 CMYK 0,20,100,4 Pantone 7408 C · 15–25%.  
+One-color: 100% black, 100% yellow, bone reverse. No gold, neon, chrome, glow.
+
+### Never
+
+Stretch, squash, rotate, recolor off-palette, gradient, glow, shadow on the mark, extra containers, emoji as the file, A+B with two sparks, founder as community, giant repeating marks.
+
+### Canonical files
+
+`/brand/logos/` — one SVG per role. PNG is a snapshot of that SVG. Tokens: `src/lib/cruise/tokens.ts` + `@theme` in `src/styles.css`.
+

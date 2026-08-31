@@ -270,38 +270,7 @@ export function NotificationsPage() {
   );
 }
 
-export function MerchPage() {
-  return (
-    <CruisePage
-      kicker="Merch"
-      title="The mark should carry a blank tee."
-      lede="Black heavyweight. Danfo yellow 〽️. No gold foil. No yacht. Capsules live in the brand book. This is not a shop."
-    >
-      <div className="grid gap-4 md:grid-cols-2">
-        {[
-          ["/brand/tee-walk.jpg", "Oversized tee", "Chest mark. Nothing else."],
-          ["/brand/hoodie.jpg", "Hoodie", "Heavyweight. Midnight only."],
-          ["/brand/cap.jpg", "Cap", "Low profile. One 〽️."],
-          ["/brand/tote.jpg", "Tote", "Bone canvas. Black stroke."],
-        ].map(([src, label, line]) => (
-          <div key={label} className="relative min-h-[280px] overflow-hidden rounded-[20px]">
-            <img src={src} alt={label} className="absolute inset-0 size-full object-cover" />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-midnight via-midnight/70 to-transparent p-5">
-              <p className="font-display text-xl font-bold uppercase tracking-[0.08em]">{label}</p>
-              <p className="mt-1 text-sm text-bone/75">{line}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-      <Link
-        to="/brand"
-        className="mt-8 inline-flex min-h-11 items-center font-display text-sm font-bold uppercase tracking-[0.16em] text-danfo"
-      >
-        Open the merch system
-      </Link>
-    </CruisePage>
-  );
-}
+export { MerchLookbook as MerchPage } from "@/components/cruise/MerchLookbook";
 
 export function SettingsPage() {
   const name = usePlayer((s) => s.name);

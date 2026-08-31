@@ -67,7 +67,7 @@ export function CruiseLoader({
           strokeLinejoin="round"
         />
       </svg>
-      <Wordmark className="text-3xl text-bone md:text-4xl" />
+      <Wordmark className="text-3xl text-bone md:text-4xl" spark={false} />
       <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-concrete">Where the cruise lives.</p>
     </button>
   );

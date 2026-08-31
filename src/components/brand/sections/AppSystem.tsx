@@ -2,6 +2,7 @@ import { Chapter, Panel, Prose } from "@/components/brand/Chapter";
 import { Spark, Wordmark } from "@/components/brand/marks";
 import { CruiseBackground, CruisePattern } from "@/components/cruise/CruiseBackground";
 import { CruiseAvatar, CruiseBadge, CruiseButton, CruiseCard } from "@/components/cruise/CruiseUI";
+import { days } from "@/lib/days";
 import { POINT_TABLE } from "@/lib/games/player";
 import { Link } from "@tanstack/react-router";
 
@@ -34,7 +35,7 @@ export function AppSystem() {
             </div>
           </div>
           <div className="relative min-h-[280px] overflow-hidden rounded-[20px] bg-midnight">
-            <CruiseBackground density="game" accent="#FF2B6B" position="absolute" />
+            <CruiseBackground density="game" accent={days.find((d) => d.id === "tue")?.accent} position="absolute" />
             <div className="relative z-10 flex h-full min-h-[280px] flex-col justify-end p-6">
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-danfo">Density · game</p>
               <p className="mt-2 font-display text-3xl font-bold uppercase">UNO wash</p>
@@ -149,7 +150,7 @@ export function AppSystem() {
           <Spark className="size-12 text-danfo" />
           <p className="font-display text-3xl font-extrabold uppercase text-bone md:text-5xl">You entered the cruise.</p>
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-concrete">
-            App design system · V1.x · same house as the brand book
+            App design system · V1.1 · same house as the brand book
           </p>
         </div>
       </Chapter>

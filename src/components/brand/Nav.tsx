@@ -73,7 +73,7 @@ export function Nav() {
       <div className="fixed inset-x-0 top-0 z-40 flex items-center justify-between border-b border-lane bg-midnight/92 px-4 py-3 backdrop-blur-md md:hidden">
         <button type="button" onClick={() => go("cover")} className="flex items-center gap-2">
           <MidnightMark className="size-8 text-danfo" />
-          <Wordmark className="text-xl text-bone" compact />
+          <Wordmark className="text-xl text-bone" compact spark={false} />
         </button>
         <button
           type="button"
@@ -92,7 +92,7 @@ export function Nav() {
       <aside className="fixed bottom-0 left-0 top-0 z-20 hidden w-64 overflow-y-auto border-r border-lane bg-midnight px-5 py-8 md:block">
         <button type="button" onClick={() => go("cover")} className="mb-8 flex items-center gap-2">
           <MidnightMark className="size-9 text-danfo" />
-          <Wordmark className="text-xl text-bone" compact />
+          <Wordmark className="text-xl text-bone" compact spark={false} />
         </button>
         {list}
       </aside>

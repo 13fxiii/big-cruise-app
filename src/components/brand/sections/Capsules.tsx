@@ -1,6 +1,8 @@
 import { Chapter, Panel, Prose } from "@/components/brand/Chapter";
-import { BrandMarkMini, Cap, Hoodie, Motif, Tee } from "@/components/brand/day-marks";
-import { MARK_D } from "@/components/brand/marks";
+import { BrandMarkMini, Cap, Motif } from "@/components/brand/day-marks";
+import { DayTee } from "@/components/brand/garments";
+import { Spark } from "@/components/brand/marks";
+import { dayMerch } from "@/lib/cruise/merch";
 import { days, merchBanned, merchSkus, production } from "@/lib/days";
 
 export function Capsules() {
@@ -9,9 +11,9 @@ export function Capsules() {
       <Chapter id="capsules" n="31" kicker="7 Days of Cruise" title="A streetwear capsule. Not promo shirts.">
         <Prose>
           <p>
-            Master merch stays Midnight + Danfo 〽️. Day capsules borrow the house blank and dress it in the day's
-            accent. Sub-brand names and motifs may print. Weekday programming titles may not. The former community name
-            may not.
+            Master merch stays Midnight + Danfo 〽️. Day capsules borrow the house blank. The back is the day's
+            illustration plus Barlow Condensed — sub-brand name, not a weekday slogan. Chest is a day-accent spark.
+            Neck label is always BIG CRUISE.
           </p>
           <p>{days[0] && "If a design needs a yacht, gold foil, or the words MEN CRUSH MONDAY, it is not this brand."}</p>
         </Prose>
@@ -37,44 +39,50 @@ export function Capsules() {
         </div>
 
         <div className="mt-10 grid gap-8">
-          {days.map((d) => (
-            <div key={d.id} className="rounded-[20px] bg-asphalt p-5 md:p-6">
-              <div className="mb-4 flex items-end justify-between gap-3">
-                <div>
-                  <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-concrete">{d.weekday}</p>
-                  <h3 className="font-display text-3xl font-extrabold uppercase" style={{ color: d.accent }}>
-                    {d.subBrand}
-                  </h3>
-                  <p className="text-sm text-bone/75">{d.merchHero}</p>
+          {days.map((d) => {
+            const piece = dayMerch.find((m) => m.id === d.id);
+            return (
+              <div key={d.id} className="rounded-[20px] bg-asphalt p-5 md:p-6">
+                <div className="mb-4 flex items-end justify-between gap-3">
+                  <div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-concrete">
+                      {d.n} · {d.weekday}
+                    </p>
+                    <h3 className="font-display text-3xl font-extrabold uppercase" style={{ color: d.accent }}>
+                      {d.subBrand}
+                    </h3>
+                    <p className="text-sm text-bone/75">{d.line}</p>
+                    <p className="mt-2 text-sm text-concrete">{d.merchHero}</p>
+                  </div>
+                  <div className="size-10" style={{ color: d.accent }}>
+                    <Motif id={d.id} className="size-10" />
+                  </div>
                 </div>
-                <div className="size-10" style={{ color: d.accent }}>
-                  <Motif id={d.id} className="size-10" />
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <div className="overflow-hidden rounded-[16px] bg-midnight">
+                    <img
+                      src={piece?.print ?? d.photo}
+                      alt={`${d.subBrand} merch back`}
+                      className="aspect-[4/5] w-full object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-col items-center rounded-[16px] bg-midnight p-4">
+                    <DayTee src={piece?.print ?? d.photo} className="w-40" />
+                    <p className="mt-2 font-display text-xs uppercase tracking-[0.14em] text-concrete">Back print</p>
+                  </div>
+                  <div className="flex flex-col items-center rounded-[16px] p-4" style={{ background: d.accent }}>
+                    <div className="relative">
+                      <Cap className="h-24 w-auto" body="#0B0B0B" mark={d.accent2} />
+                    </div>
+                    <div className="mt-3 flex items-center gap-2 text-midnight">
+                      <Spark className="size-6" />
+                      <p className="font-display text-xs uppercase tracking-[0.14em]">Chest spark · cap</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="grid gap-4 sm:grid-cols-3">
-                <div className="flex flex-col items-center rounded-[16px] bg-midnight p-4">
-                  <Tee className="h-44 w-auto">
-                    <g transform="translate(-32 -32) scale(0.85)" style={{ color: d.accent }}>
-                      <path d={MARK_D} fill="none" stroke={d.accent} strokeWidth="9" strokeLinecap="round" />
-                    </g>
-                  </Tee>
-                  <p className="mt-2 font-display text-xs uppercase tracking-[0.14em] text-concrete">Chest 〽️</p>
-                </div>
-                <div className="flex flex-col items-center rounded-[16px] bg-midnight p-4">
-                  <Hoodie className="h-44 w-auto">
-                    <g transform="translate(-20 -20)">
-                      <Motif id={d.id} className="size-10" />
-                    </g>
-                  </Hoodie>
-                  <p className="mt-2 font-display text-xs uppercase tracking-[0.14em] text-concrete">Hood motif</p>
-                </div>
-                <div className="flex flex-col items-center rounded-[16px] p-4" style={{ background: d.accent }}>
-                  <Cap className="h-24 w-auto" body="#0B0B0B" mark={d.accent2} />
-                  <p className="mt-2 font-display text-xs uppercase tracking-[0.14em] text-midnight">Cap</p>
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-3">

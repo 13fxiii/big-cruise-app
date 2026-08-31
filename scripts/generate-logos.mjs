@@ -7,11 +7,11 @@ import { mkdir, writeFile, copyFile } from "node:fs/promises";
 import path from "node:path";
 
 const MARK =
-  "M4.8 36.5 C7.4 21.5 11.6 12.8 18.6 12.8 C25.4 12.8 28.4 22.8 31.4 31.8 C34.6 20.6 38.4 6.6 45.6 6.6 C54.6 6.6 57.4 23.5 59.8 55.4";
+  "M5.4 40 C8.4 24.8 13.4 16.8 20.4 16.8 C27.2 16.8 29.4 28.2 32.4 36.2 C35.6 25.4 39.4 6.6 46.8 6.6 C55.4 6.6 57.4 28.8 58.8 57.4";
 const FOUNDER =
-  "M6.5 34.5 C9.2 21.5 13 14 19.8 14 C26 14 28.6 22.2 31.5 30.2 C34.6 20.8 38.2 9.2 44.8 9.2 C52.6 9.2 55.4 22 57.4 47.5";
+  "M7.2 33.8 C10.2 22 14.4 15.4 20.8 15.4 C26.8 15.4 29 23.6 31.8 31 C34.8 21.6 38.6 10.2 45.2 10.2 C52.8 10.2 55 24.4 56.8 47";
 const TINY =
-  "M6.2 34 C9.4 22 13.4 15.2 20.2 15.2 C26.2 15.2 28.8 22.4 31.6 29.2 C34.6 21.8 38.6 13.2 44.8 13.2 C52.4 13.2 55.2 24 57.6 49";
+  "M7 33 C10.4 22.4 14.6 16.8 21 16.8 C26.8 16.8 29 24.4 31.8 30.6 C34.8 23 38.8 14.4 45.2 14.4 C52.6 14.4 55 26.4 57.2 48.2";
 
 const Y = "#F5C400";
 const M = "#0B0B0B";
@@ -74,19 +74,19 @@ const files = {
     `<rect width="32" height="32" rx="16" fill="${M}"/><g fill="none" stroke="${Y}" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(16 16.45) scale(0.34) translate(-32 -32)">${stroke(TINY, Y, 11)}</g>`,
   ),
   "lockup-horizontal.svg": svg(
-    "0 0 1080 160",
+    "0 0 820 160",
     "BIG CRUISE horizontal lockup",
-    `<circle cx="80" cy="80" r="72" fill="${M}"/><g transform="translate(80 82) scale(1.55) translate(-32 -32)">${stroke(MARK, Y)}</g><text x="180" y="100" font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="5" fill="${B}">BIG CRUISE</text><g transform="translate(820 28) scale(1.55)">${stroke(MARK, Y)}</g>`,
+    `<circle cx="80" cy="80" r="72" fill="${M}"/><g transform="translate(80 82) scale(1.55) translate(-32 -32)">${stroke(MARK, Y)}</g><text x="180" y="100" font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="5" fill="${B}">BIG CRUISE</text>`,
   ),
   "lockup-horizontal-light.svg": svg(
-    "0 0 1080 160",
+    "0 0 820 160",
     "BIG CRUISE horizontal lockup light",
-    `<rect width="1080" height="160" fill="${B}"/><circle cx="80" cy="80" r="72" fill="${M}"/><g transform="translate(80 82) scale(1.55) translate(-32 -32)">${stroke(MARK, Y)}</g><text x="180" y="100" font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="5" fill="${M}">BIG CRUISE</text><g transform="translate(820 28) scale(1.55)">${stroke(MARK, M)}</g>`,
+    `<rect width="820" height="160" fill="${B}"/><circle cx="80" cy="80" r="72" fill="${M}"/><g transform="translate(80 82) scale(1.55) translate(-32 -32)">${stroke(MARK, Y)}</g><text x="180" y="100" font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="5" fill="${M}">BIG CRUISE</text>`,
   ),
   "lockup-stacked.svg": svg(
-    "0 0 640 420",
+    "0 0 640 400",
     "BIG CRUISE stacked lockup",
-    `<circle cx="320" cy="140" r="110" fill="${M}"/><g transform="translate(320 144) scale(2.4) translate(-32 -32)">${stroke(MARK, Y)}</g><text x="320" y="340" text-anchor="middle" font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-size="64" font-weight="800" letter-spacing="5" fill="${B}">BIG CRUISE</text><g transform="translate(520 292) scale(1.15)">${stroke(MARK, Y)}</g>`,
+    `<circle cx="320" cy="140" r="110" fill="${M}"/><g transform="translate(320 144) scale(2.4) translate(-32 -32)">${stroke(MARK, Y)}</g><text x="320" y="340" text-anchor="middle" font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-size="64" font-weight="800" letter-spacing="5" fill="${B}">BIG CRUISE</text>`,
   ),
   "wordmark.svg": svg(
     "0 0 920 120",
@@ -124,12 +124,12 @@ for (const [name, content] of Object.entries(files)) {
 
 await writeFile("/workspace/public/favicon.svg", files["favicon.svg"]);
 
-await writeFile(
-  path.join(dir, "README.txt"),
-  `BIG CRUISE Brand Identity V1.1 — Logo assets
-Master: custom Cruise Stroke inspired by 〽️. Not the Unicode emoji.
+const readme = `BIG CRUISE Brand Identity V1.1 — Logo assets
+Canonical folder. Do not keep a second drawing of the same mark.
 
-SVG path (viewBox 0 0 64 64, stroke-width 9, round caps/joins):
+Master: custom Cruise Stroke. NOT Unicode U+303D.
+
+SVG path (viewBox 0 0 64 64, stroke 9, round caps/joins, fill none, upright, 1:1):
 ${MARK}
 
 Founder (compact drop):
@@ -138,17 +138,27 @@ ${FOUNDER}
 Tiny optical (stroke 11):
 ${TINY}
 
+Embroidery uses master path at stroke 11.5.
+Clear space X = 20/64 of the mark box (Peak 1 height, apex to valley).
+
+A Master  — wordmark.svg / lockup-horizontal.svg / lockup-stacked.svg
+B Community — midnight-mark.svg = x-avatar.svg / app-icon.svg / favicon.svg
+C Founder — founder-fx.svg  (never the community avatar)
+
+One-color: mark-one-color-black.svg, mark-one-color-yellow.svg
+Grounds: mark-on-black.svg, mark-on-yellow.svg, mark-on-bone.svg
+PNG is a raster snapshot of the matching SVG.
+
 Colors:
-Midnight Black #0B0B0B  RGB 11,11,11  CMYK 0,0,0,96  Pantone Black 6 C
-Danfo Yellow   #F5C400  RGB 245,196,0  CMYK 0,20,100,4  Pantone 7408 C
+Midnight Black #0B0B0B  RGB 11,11,11  CMYK 0,0,0,96  Pantone Black 6 C  · 75–85%
+Danfo Yellow   #F5C400  RGB 245,196,0  CMYK 0,20,100,4  Pantone 7408 C   · 15–25%
 Bone           #F3EFE4
 
-A Master  — BIG CRUISE + signature (wordmark / lockups)
-B Community — midnight mark / app icon / X avatar
-C Founder — FX + compact signature
+Minimum: signature 16px / 8mm · midnight 24px / 12mm · embroidery 12mm · app icon 48px
 
 Typography: Barlow Condensed ExtraBold (display), IBM Plex Sans (body), IBM Plex Mono (stamps).
-`,
-);
+`;
+
+await writeFile(path.join(dir, "README.txt"), readme);
 await copyFile(path.join(dir, "README.txt"), path.join(share, "README.txt"));
 console.log("done", Object.keys(files).length, "files");

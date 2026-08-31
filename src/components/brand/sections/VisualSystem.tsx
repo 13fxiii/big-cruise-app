@@ -123,7 +123,7 @@ export function VisualSystem() {
             <p className="font-display text-sm font-semibold uppercase tracking-[0.16em] text-danfo">
               Stamp — IBM Plex Mono
             </p>
-            <p className="mt-4 font-mono text-3xl font-medium tracking-[0.08em] text-danfo md:text-5xl">V1.0 / 2026</p>
+            <p className="mt-4 font-mono text-3xl font-medium tracking-[0.08em] text-danfo md:text-5xl">V1.1 / 2026</p>
             <p className="mt-4 text-sm text-concrete">
               Chapter numbers, version stamps, ticket codes, live labels. Same IBM family as the body — so the system stays
               one voice. Never the wordmark.

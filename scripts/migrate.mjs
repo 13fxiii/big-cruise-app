@@ -18,6 +18,16 @@ import { dirname, join } from "node:path";
 import pg from "pg";
 import { pendingMigrations } from "./migration-plan.mjs";
 
+function pgPoolSsl(connectionString) {
+  if (/localhost|127\.0\.0\.1/i.test(connectionString)) return false;
+  return { rejectUnauthorized: true };
+}
+
+function withSslMode(connectionString) {
+  if (/[?&]sslmode=/i.test(connectionString)) return connectionString;
+  return `${connectionString}${connectionString.includes("?") ? "&" : "?"}sslmode=require`;
+}
+
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) {
   console.log(
@@ -42,7 +52,12 @@ async function main() {
     return;
   }
 
-  const pool = new pg.Pool({ connectionString: databaseUrl, max: 1 });
+  const connectionString = withSslMode(databaseUrl);
+  const pool = new pg.Pool({
+    connectionString,
+    ssl: pgPoolSsl(connectionString),
+    max: 1,
+  });
   const client = await pool.connect();
   try {
     await client.query(

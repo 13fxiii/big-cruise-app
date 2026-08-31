@@ -64,7 +64,7 @@ export const days: Day[] = [
       { name: "Bone", hex: "#F3EFE4", role: "Type" },
     ],
     voice: "Short. Earned. No hype. A man who already did the work.",
-    merchHero: "Tonal black hoodie, burgundy 〽️ at the chest, 'STATE' at the hem. Nothing else.",
+    merchHero: "Back print: the lion and the king. Chest spark burgundy. DOMINION STATE in Barlow.",
     subthemes: [
       {
         n: "1.1",
@@ -171,7 +171,7 @@ export const days: Day[] = [
       { name: "Bone", hex: "#F3EFE4", role: "Type" },
     ],
     voice: "Loud. Flirty. Adult. If it would get you muted in church, it belongs here.",
-    merchHero: "Oversized black tee, pink double-slash, electric yellow 〽️. No day-of-week type.",
+    merchHero: "Back print: the knot. TOO LIT stacked in Barlow. Chest spark hot pink.",
     subthemes: [
       {
         n: "2.1",
@@ -278,7 +278,7 @@ export const days: Day[] = [
       { name: "Danfo Yellow", hex: "#F5C400", role: "5% house accent only" },
     ],
     voice: "Warm, precise, unhurried. She does not need to shout to own the room.",
-    merchHero: "Nude-on-black long sleeve. Rose arc. Small 〽️. No glitter.",
+    merchHero: "Back print: she moves different. DIVINE ENERGY in Barlow. Chest spark rose.",
     subthemes: [
       {
         n: "3.1",
@@ -385,7 +385,7 @@ export const days: Day[] = [
       { name: "Midnight", hex: "#0B0B0B", role: "House anchor" },
     ],
     voice: "Slower. Remember when. Names, songs, the version of you before the algorithm.",
-    merchHero: "Cream ink on brown-black. Date stamp. Halftone 〽️. Feels found, not printed yesterday.",
+    merchHero: "Back print: the cassette. BACK WHEN IT WAS REAL in Barlow. Chest spark sepia.",
     subthemes: [
       {
         n: "4.1",
@@ -492,7 +492,7 @@ export const days: Day[] = [
       { name: "Bone", hex: "#F3EFE4", role: "Type" },
     ],
     voice: "Energy. Track titles. Pull up. The caption should sound like a DJ talking to the floor.",
-    merchHero: "Purple-black hoodie, cyan bars on the back, 〽️ as the now-playing pip.",
+    merchHero: "Back print: the session. PLAY YOUR VIBE in Barlow. Chest spark cyan.",
     subthemes: [
       {
         n: "5.1",
@@ -599,7 +599,7 @@ export const days: Day[] = [
       { name: "Bone", hex: "#F3EFE4", role: "Type that survives redaction" },
     ],
     voice: "Lower volume. Intimate. Between the lines. Adult without being a porn caption.",
-    merchHero: "Black tee, deep red bars over a sentence you can only half-read. 〽️ at the end.",
+    merchHero: "Back print: the unsent. READ BETWEEN THE LINES in Barlow. Chest spark deep red.",
     subthemes: [
       {
         n: "6.1",
@@ -706,7 +706,7 @@ export const days: Day[] = [
       { name: "Midnight", hex: "#0B0B0B", role: "House anchor" },
     ],
     voice: "Chaotic, roast-first, still fam. All-caps sparingly. If it isn't funny, it isn't Sunday.",
-    merchHero: "Misregistered print: acid 〽️ and orange 〽️, 4mm offset. Looks like an accident. It is not.",
+    merchHero: "Back print: the blast. CHAOS CULTURE in Barlow. Chest spark acid.",
     subthemes: [
       {
         n: "7.1",
@@ -820,8 +820,8 @@ export const chatCards = [
 ];
 
 export const merchSkus = [
-  { sku: "Heavyweight tee", spec: "240–280gsm, boxy, black blank, one-colour print" },
-  { sku: "Oversized tee", spec: "Dropped shoulder, back print hero, chest 〽️ optional" },
+  { sku: "Heavyweight tee", spec: "240gsm ring-spun combed cotton, oversized drop shoulder, midnight, one-colour" },
+  { sku: "Oversized tee", spec: "Dropped shoulder, back print hero or left-chest spark — never both large" },
   { sku: "Hoodie", spec: "Heavyweight, tonal, embroidery or DTF, print inside hood on night capsules" },
   { sku: "Long sleeve", spec: "Cuff hits, no chest pile-up" },
   { sku: "Cap", spec: "Dad cap or 5-panel, 〽️ side or front, no 3D puff gold" },

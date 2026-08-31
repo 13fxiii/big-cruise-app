@@ -50,6 +50,7 @@
   --motion-quick: 150ms;
   --motion-fast: 250ms;
   --motion-slow: 400ms;
+  --motion-emphasis: 500ms;
 
   --spacing-tap: 2.75rem;
   --icon-xs: 1rem;
@@ -58,10 +59,17 @@
   --icon-lg: 2rem;
   --icon-xl: 2.5rem;
   --icon-2xl: 3rem;
+  --logo-favicon: 1rem;
+  --logo-signature-min: 1rem;
+  --logo-midnight-min: 1.5rem;
+  --logo-header: 2.5rem;
+  --logo-app: 3rem;
 
   --slash-angle: -8deg;
-  --pattern-opacity: 0.038;
-  --pattern-opacity-game: 0.022;
+  --pattern-opacity: 0.026;
+  --pattern-opacity-game: 0.016;
+  --pattern-opacity-quiet: 0.018;
+  --grain-opacity: 0.14;
 }
 
 @layer base {
@@ -195,7 +203,7 @@
   pointer-events: none;
   position: absolute;
   inset: 0;
-  opacity: 0.16;
+  opacity: var(--grain-opacity);
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
 }

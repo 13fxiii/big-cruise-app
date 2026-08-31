@@ -10,6 +10,13 @@ export const brand = {
   formerName: "CRUISE CONNECT HUB",
   philosophy: ["Cruise", "Connect", "Create", "Support", "Grow"],
   motion: ["No shortcuts", "Faith", "Ideas", "Lessons", "Consistency", "Motion"],
+  urls: {
+    public: "https://big-cruise-brand.vercel.app",
+    product: "https://big-cruise-app.vercel.app",
+    brandBook: "https://big-cruise-app.vercel.app/brand",
+    repo: "https://github.com/13fxiii/big-cruise-app",
+    brandRepo: "https://github.com/13fxiii/big-cruise-brand",
+  },
 };
 
 export const nav = [
@@ -107,6 +114,41 @@ export const nav = [
       { id: "lockups", n: "44", label: "Lockups" },
       { id: "tokens", n: "45", label: "Tokens" },
       { id: "audit", n: "46", label: "Audit" },
+    ],
+  },
+  {
+    label: "Protect",
+    items: [
+      { id: "spec", n: "47", label: "Stroke spec" },
+      { id: "when", n: "48", label: "When to use" },
+      { id: "clear", n: "49", label: "Clear space" },
+      { id: "minsize", n: "50", label: "Minimum size" },
+      { id: "onecolor", n: "51", label: "One-color" },
+      { id: "make", n: "52", label: "Merch make" },
+      { id: "misuse", n: "53", label: "Never" },
+      { id: "source", n: "54", label: "Source of truth" },
+      { id: "qa", n: "55", label: "Size QA" },
+    ],
+  },
+  {
+    label: "Merch V1",
+    items: [
+      { id: "merch-philosophy", n: "56", label: "Philosophy" },
+      { id: "fabric", n: "57", label: "Fabric & GSM" },
+      { id: "print-methods", n: "58", label: "Print" },
+      { id: "placement", n: "59", label: "Placement" },
+      { id: "concepts", n: "60", label: "Tee concepts" },
+      { id: "collection", n: "61", label: "Collection" },
+      { id: "dominion-drop", n: "62", label: "Dominion State" },
+      { id: "sizing", n: "63", label: "Sizing" },
+      { id: "labels-pack", n: "64", label: "Labels & pack" },
+      { id: "merch-photo", n: "65", label: "Photography" },
+      { id: "pricing", n: "66", label: "Pricing" },
+      { id: "first-drop", n: "67", label: "First drop" },
+      { id: "suppliers", n: "68", label: "Production" },
+      { id: "qc", n: "69", label: "Sample QC" },
+      { id: "merch-rules", n: "70", label: "Do / Don't" },
+      { id: "launch", n: "71", label: "Launch" },
     ],
   },
 ] as const;

@@ -87,6 +87,18 @@ export function MidnightMark({ className, title = "BIG CRUISE community signatur
   );
 }
 
+export function AppIconMark({ className, title = "BIG CRUISE app icon" }: MarkProps) {
+  return (
+    <svg viewBox="0 0 64 64" className={className} role="img" aria-label={title}>
+      <title>{title}</title>
+      <rect width="64" height="64" rx="14" className="fill-midnight" />
+      <g transform="translate(32 33) scale(0.62) translate(-32 -32)">
+        <MarkStroke />
+      </g>
+    </svg>
+  );
+}
+
 export function LiveMark({ className, title = "BIG CRUISE live mark" }: MarkProps) {
   return (
     <svg viewBox="0 0 64 64" className={className} role="img" aria-label={title}>
@@ -329,17 +341,21 @@ export function Wordmark({
   className,
   sparkClassName,
   compact = false,
+  spark = true,
 }: {
   className?: string;
   sparkClassName?: string;
   compact?: boolean;
+  spark?: boolean;
 }) {
   return (
     <span className={cn("inline-flex items-center gap-[0.08em] font-display font-extrabold uppercase leading-none tracking-[0.06em]", className)}>
       <span>Big Cruise</span>
-      <Spark
-        className={cn(compact ? "h-[0.78em] w-[0.92em]" : "h-[0.88em] w-[1.05em] text-danfo", sparkClassName)}
-      />
+      {spark ? (
+        <Spark
+          className={cn(compact ? "h-[0.78em] w-[0.92em]" : "h-[0.88em] w-[1.05em] text-danfo", sparkClassName)}
+        />
+      ) : null}
     </span>
   );
 }
@@ -368,11 +384,12 @@ export function FounderLockup({
   );
 }
 
+/** Master horizontal: community mark + name. The circle carries the signature — do not double it. */
 export function HorizontalLockup({ className }: { className?: string }) {
   return (
     <div className={cn("flex items-center gap-4", className)}>
       <MidnightMark className="size-14 text-danfo" />
-      <Wordmark className="text-4xl text-bone sm:text-5xl" />
+      <Wordmark className="text-4xl text-bone sm:text-5xl" spark={false} />
     </div>
   );
 }
@@ -381,7 +398,7 @@ export function StackedLockup({ className }: { className?: string }) {
   return (
     <div className={cn("flex flex-col items-center gap-4", className)}>
       <MidnightMark className="size-20 text-danfo" />
-      <Wordmark className="text-4xl text-bone" />
+      <Wordmark className="text-4xl text-bone" spark={false} />
     </div>
   );
 }
