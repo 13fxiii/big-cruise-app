@@ -7,14 +7,12 @@
  * server-only Better Auth instance (and `pg`) into the browser bundle.
  *
  * Each app federates to the shared **auth broker** (`GROK_AUTH_ISSUER`), which
- * holds the real Google/X secrets. The app never sees them — it only knows its
+ * holds the real Google secrets. The app never sees them — it only knows its
  * own per-app client id/secret and which upstream to ask the broker for (`idp`).
  *
- * To add an upstream (e.g. GitHub) once the broker supports it: add one entry
- * here (`{ providerId: "grok-github", idp: "github", label: "GitHub" }`). The
- * `providerId` is this app's local id and the OAuth callback path segment
- * (`/api/auth/oauth2/callback/<providerId>`); `idp` is the hint the broker reads
- * to pick the upstream (Better Auth's id for X is still `twitter`).
+ * X / Twitter was removed. Official X OAuth is pay-per-use and not the login
+ * door. Email/password is primary (`./email-password`). Google stays free via
+ * the broker. The `providerId` is the local callback path segment.
  */
 export type GrokProvider = {
   /** This app's local provider id; also the callback path segment. */
@@ -27,5 +25,4 @@ export type GrokProvider = {
 
 export const GROK_PROVIDERS: readonly GrokProvider[] = [
   { providerId: "grok-google", idp: "google", label: "Google" },
-  { providerId: "grok-x", idp: "twitter", label: "X" },
 ];
