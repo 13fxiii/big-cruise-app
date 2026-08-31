@@ -69,13 +69,18 @@ function userFacing(err: unknown): Error {
 }
 
 export const listMerchHolds = createServerFn({ method: "GET" }).handler(async () => {
-  const sql = await getSql();
-  return sql<HoldCount>`
-    select sku, size, count(*)::int as count
-    from merch_holds
-    group by sku, size
-    order by sku, size
-  `;
+  try {
+    const sql = await getSql();
+    return sql<HoldCount>`
+      select sku, size, count(*)::int as count
+      from merch_holds
+      group by sku, size
+      order by sku, size
+    `;
+  } catch (err) {
+    console.error("[holds] list failed", err);
+    return [] as HoldCount[];
+  }
 });
 
 export const placeMerchHold = createServerFn({ method: "POST" })
