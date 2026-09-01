@@ -1,5 +1,6 @@
 "use client";
 
+import { ping } from "@/lib/pwa/notify";
 import { useEffect, useRef } from "react";
 import { isRoomPacket, type GameSlugWire, type RoomPacket } from "./protocol";
 import { useP2PRoom, type P2PRoomHandle } from "./use-p2p-room";
@@ -30,6 +31,16 @@ export function useGameRoom(opts: {
   const onAct = useRef(opts.onAct);
   onSnap.current = opts.onSnap;
   onAct.current = opts.onAct;
+
+  const peerCount = useRef(0);
+  useEffect(() => {
+    if (!enabled) return;
+    if (handle.peers.length > peerCount.current) {
+      const last = handle.peers[handle.peers.length - 1];
+      ping("Seat taken", last?.name ?? "Someone sat down", "/play");
+    }
+    peerCount.current = handle.peers.length;
+  }, [enabled, handle.peers.length]);
 
   useEffect(() => {
     if (!enabled) return;
