@@ -18,16 +18,16 @@ function Home() {
   return (
     <CruiseShell compact>
       <InstallBar />
-      <div className="grid min-h-[calc(100dvh-7rem)] grid-cols-2 gap-px bg-lane">
+      <div className="stagger-in grid min-h-[calc(100dvh-7rem)] grid-cols-2 gap-px bg-lane">
         {TILES.map((t) => {
           const Icon = t.icon;
           return (
             <Link
               key={t.to}
               to={t.to}
-              className="flex min-h-[40dvh] flex-col items-center justify-center gap-4 bg-midnight active:bg-asphalt"
+              className="pressable flex min-h-[40dvh] flex-col items-center justify-center gap-4 bg-midnight active:bg-asphalt"
             >
-              <Icon className="size-10 text-danfo" strokeWidth={1.4} />
+              <Icon className="week-ink size-10" strokeWidth={1.4} />
               <span className="font-display text-2xl font-bold uppercase tracking-[0.12em]">{t.label}</span>
             </Link>
           );

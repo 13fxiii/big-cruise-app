@@ -1,9 +1,11 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
+import { WeekTheme } from "@/components/cruise/WeekTheme";
 import { PwaBoot } from "@/components/pwa/PwaBoot";
 import appCss from "../styles.css?url";
 import resetCss from "../cruise-reset.css?url";
+import motionCss from "../cruise-motion.css?url";
 
 const APP_NAME = "BIG CRUISE";
 
@@ -28,6 +30,7 @@ export const Route = createRootRoute({
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "stylesheet", href: appCss },
       { rel: "stylesheet", href: resetCss },
+      { rel: "stylesheet", href: motionCss },
       { rel: "manifest", href: "/__grok/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/__grok/icon-180.png" },
     ],
@@ -40,6 +43,7 @@ export const Route = createRootRoute({
       <body className="bg-midnight text-bone">
         <PreviewHostBridge />
         <PwaBoot />
+        <WeekTheme />
         <AuthProvider>
           <Outlet />
         </AuthProvider>
