@@ -1,4 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { CommunityPage } from "@/components/cruise/WorldPages";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/community")({ component: CommunityPage });
+export const Route = createFileRoute("/community")({
+  beforeLoad: () => {
+    throw redirect({ to: "/" });
+  },
+  component: () => null,
+});

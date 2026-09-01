@@ -15,6 +15,12 @@ export type SitDownStart = {
   joining: boolean;
 };
 
+function seatRange(label: string, fallbackMin: number, fallbackMax: number) {
+  const match = label.match(/(\d+)\s*[–-]\s*(\d+)/);
+  if (!match) return { min: fallbackMin, max: fallbackMax };
+  return { min: Number(match[1]), max: Number(match[2]) };
+}
+
 export function SitDown({
   game,
   defaultSeats,
@@ -28,13 +34,14 @@ export function SitDown({
   maxSeats?: number;
   onStart: (opts: SitDownStart) => void;
 }) {
+  const { min, max } = seatRange(game.players, minSeats, maxSeats);
   const name = usePlayer((s) => s.name);
   const setName = usePlayer((s) => s.setName);
   const muted = usePlayer((s) => s.muted);
   const recordPlay = usePlayer((s) => s.recordPlay);
   const cruiseId = usePlayer((s) => s.cruiseId);
   const [mode, setMode] = useState<GameMode>(game.modes[0]);
-  const [seats, setSeats] = useState(defaultSeats);
+  const [seats, setSeats] = useState(() => Math.min(max, Math.max(min, defaultSeats)));
   const [join, setJoin] = useState("");
   const [hostCode] = useState(() => roomCode());
 
@@ -84,16 +91,29 @@ export function SitDown({
         </div>
       </div>
 
-      {mode !== "online" && maxSeats > minSeats ? (
+      {mode !== "online" && max > min ? (
         <div>
-          <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Seats</p>
-          <div className="flex flex-wrap gap-2">
-            {Array.from({ length: maxSeats - minSeats + 1 }, (_, i) => minSeats + i).map((n) => (
-              <ModeChip key={n} active={seats === n} onClick={() => setSeats(n)}>
-                {n}
-              </ModeChip>
-            ))}
-          </div>
+          <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">
+            Seats · {seats}
+          </p>
+          {max - min > 8 ? (
+            <input
+              type="range"
+              min={min}
+              max={max}
+              value={seats}
+              onChange={(e) => setSeats(Number(e.target.value))}
+              className="w-full accent-danfo"
+            />
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {Array.from({ length: max - min + 1 }, (_, i) => min + i).map((n) => (
+                <ModeChip key={n} active={seats === n} onClick={() => setSeats(n)}>
+                  {n}
+                </ModeChip>
+              ))}
+            </div>
+          )}
         </div>
       ) : null}
 

@@ -8,6 +8,8 @@ import { P2PRoom, type PeerInfo } from "./p2p";
 export interface UseP2PRoomOptions {
   room?: string;
   name?: string;
+  /** When false the mesh never joins. Used by offline / bot tables. */
+  enabled?: boolean;
 }
 
 export interface P2PRoomHandle {
@@ -28,6 +30,7 @@ function defaultRoom(): string {
 }
 
 export function useP2PRoom(options: UseP2PRoomOptions = {}): P2PRoomHandle {
+  const enabled = options.enabled !== false;
   const [selfId] = useState(() => `p-${Math.random().toString(36).slice(2, 10)}`);
   const [room] = useState(() => options.room ?? defaultRoom());
   const [name] = useState(() => options.name ?? selfId);
@@ -39,6 +42,7 @@ export function useP2PRoom(options: UseP2PRoomOptions = {}): P2PRoomHandle {
   );
 
   useEffect(() => {
+    if (!enabled) return;
     const p2p = new P2PRoom({
       room,
       selfId,
@@ -55,7 +59,7 @@ export function useP2PRoom(options: UseP2PRoomOptions = {}): P2PRoomHandle {
       roomRef.current = null;
       p2p.close();
     };
-  }, [room, selfId, name]);
+  }, [room, selfId, name, enabled]);
 
   const broadcast = useCallback((data: unknown) => roomRef.current?.broadcast(data), []);
   const send = useCallback(

@@ -2,31 +2,19 @@
 
 import { GameShell } from "@/components/games/Shell";
 import { SitDown, type SitDownStart } from "@/components/games/SitDown";
+import { TableStage } from "@/components/games/TableStage";
+import { ChessPiece } from "@/components/games/kit/ChessPiece";
 import { Button } from "@/components/ui/button";
 import { getGame } from "@/lib/games/catalog";
 import { sfx } from "@/lib/games/audio";
 import { playIf, usePlayer } from "@/lib/games/player";
+import { useGameRoom } from "@/lib/multiplayer";
 import { cn } from "@/lib/utils";
 import { Chess, type Square } from "chess.js";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const game = getGame("chess")!;
 const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"] as const;
-
-const GLYPH: Record<string, string> = {
-  wp: "♙",
-  wn: "♘",
-  wb: "♗",
-  wr: "♖",
-  wq: "♕",
-  wk: "♔",
-  bp: "♟",
-  bn: "♞",
-  bb: "♝",
-  br: "♜",
-  bq: "♛",
-  bk: "♚",
-};
 
 function material(fen: string) {
   const board = fen.split(" ")[0];
@@ -78,9 +66,30 @@ export function ChessGame() {
   const chess = useMemo(() => new Chess(fen), [fen]);
   const thinking = useRef(false);
 
+  const online = sit?.mode === "online";
+  const joining = Boolean(sit?.joining);
+  const net = useGameRoom({
+    game: "chess",
+    room: sit?.room,
+    name: human,
+    joining,
+    enabled: online,
+    onSnap: (payload) => {
+      const p = payload as { fen?: string; last?: string | null };
+      if (typeof p.fen !== "string") return;
+      setFen(p.fen);
+      setLast(p.last ?? null);
+      setSel(null);
+    },
+  });
+
   const vsBot = sit?.mode === "bots";
-  const humanWhite = true;
-  const myTurn = vsBot ? chess.turn() === "w" : true;
+  const humanWhite = online ? !joining : true;
+  const myTurn = vsBot
+    ? chess.turn() === "w"
+    : online
+      ? (humanWhite && chess.turn() === "w") || (!humanWhite && chess.turn() === "b")
+      : true;
 
   const legal = useMemo(() => {
     if (!sel) return new Set<string>();
@@ -111,6 +120,7 @@ export function ChessGame() {
           playIf(muted, sfx.tap);
           setLast(mv.to);
           setFen(c.fen());
+          net.pushSnap({ fen: c.fen(), last: mv.to });
         }
       }
       thinking.current = false;
@@ -122,6 +132,11 @@ export function ChessGame() {
     if (chess.isCheckmate()) playIf(muted, chess.turn() === "b" ? sfx.win : sfx.lose);
   }, [chess, muted]);
 
+  useEffect(() => {
+    if (!online || joining) return;
+    net.pushSnap({ fen, last });
+  }, [online, joining, net.peers.length]);
+
   if (!sit) {
     return (
       <GameShell game={game}>
@@ -131,68 +146,94 @@ export function ChessGame() {
   }
 
   const board = chess.board();
+  const view = humanWhite ? board : [...board].reverse().map((row) => [...row].reverse());
 
   return (
-    <GameShell game={game} status={<p className="font-mono text-[10px] uppercase tracking-[0.18em] text-concrete">{status}</p>}>
-      <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center gap-6 px-4 py-6">
-        <p className="font-display text-xl uppercase tracking-[0.12em] text-concrete">
-          {vsBot ? "Bot · black" : "Black"}
-        </p>
-        <div className="grid w-full max-w-[min(100%,560px)] grid-cols-8 overflow-hidden border border-lane shadow-[0_20px_60px_rgb(0_0_0/0.5)]">
-          {board.map((row, r) =>
-            row.map((piece, f) => {
-              const square = `${FILES[f]}${8 - r}` as Square;
-              const dark = (r + f) % 2 === 1;
-              const selected = sel === square;
-              const target = legal.has(square);
-              const was = last === square;
-              return (
-                <button
-                  key={square}
-                  type="button"
-                  onClick={() => {
-                    if (!myTurn || chess.isGameOver()) return;
-                    if (sel && legal.has(square)) {
-                      const c = new Chess(fen);
-                      const mv = c.move({ from: sel, to: square, promotion: "q" });
-                      if (mv) {
-                        playIf(muted, mv.captured ? sfx.capture : sfx.tap);
-                        setFen(c.fen());
-                        setLast(square);
-                        setSel(null);
+    <GameShell
+      game={game}
+      status={<p className="font-mono text-[10px] uppercase tracking-[0.18em] text-concrete">{status}</p>}
+    >
+      <TableStage felt="#1a1210">
+        <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center gap-6 px-4 py-6">
+          <p className="font-display text-xl uppercase tracking-[0.12em] text-concrete">
+            {vsBot ? "Bot · black" : online ? (humanWhite ? net.peers[0]?.name ?? "Black" : "You · black") : "Black"}
+          </p>
+          <div className="board-3d grid w-full max-w-[min(100%,560px)] grid-cols-8 overflow-hidden border border-lane">
+            {view.map((row, r) =>
+              row.map((piece, f) => {
+                const square = `${FILES[humanWhite ? f : 7 - f]}${humanWhite ? 8 - r : r + 1}` as Square;
+                const dark = (r + f) % 2 === 1;
+                const selected = sel === square;
+                const target = legal.has(square);
+                const was = last === square;
+                return (
+                  <button
+                    key={square}
+                    type="button"
+                    onClick={() => {
+                      if (!myTurn || chess.isGameOver()) return;
+                      if (sel && legal.has(square)) {
+                        const c = new Chess(fen);
+                        const mv = c.move({ from: sel, to: square, promotion: "q" });
+                        if (mv) {
+                          playIf(muted, mv.captured ? sfx.capture : sfx.tap);
+                          setFen(c.fen());
+                          setLast(square);
+                          setSel(null);
+                          net.pushSnap({ fen: c.fen(), last: square });
+                        }
+                        return;
                       }
-                      return;
-                    }
-                    const p = chess.get(square);
-                    if (p && ((humanWhite && p.color === "w") || (!vsBot && p.color === chess.turn()))) {
-                      setSel(square);
-                    } else setSel(null);
-                  }}
-                  className={cn(
-                    "relative aspect-square text-[clamp(1.4rem,6vw,2.4rem)] leading-none",
-                    dark ? "bg-dom" : "bg-bone",
-                    selected && "ring-2 ring-inset ring-danfo",
-                    was && "bg-danfo/40",
-                  )}
-                >
-                  {piece ? (
-                    <span className={piece.color === "w" ? "text-midnight" : "text-[#1a0a0c]"}>
-                      {GLYPH[`${piece.color}${piece.type}`]}
-                    </span>
-                  ) : null}
-                  {target ? (
-                    <span className="absolute inset-0 m-auto size-3 rounded-full bg-danfo/80" />
-                  ) : null}
-                </button>
-              );
-            }),
-          )}
+                      const p = chess.get(square);
+                      if (
+                        p &&
+                        (online
+                          ? p.color === (humanWhite ? "w" : "b")
+                          : vsBot
+                            ? p.color === "w"
+                            : p.color === chess.turn())
+                      ) {
+                        setSel(square);
+                      } else setSel(null);
+                    }}
+                    className={cn(
+                      "relative aspect-square text-[clamp(1.4rem,6vw,2.4rem)] leading-none",
+                      dark ? "bg-dom" : "bg-bone",
+                      selected && "ring-2 ring-inset ring-danfo",
+                      was && "bg-danfo/40",
+                    )}
+                  >
+                    {piece ? (
+                      <span className="flex h-full w-full items-center justify-center">
+                        <ChessPiece color={piece.color} type={piece.type} />
+                      </span>
+                    ) : null}
+                    {target ? (
+                      <span className="absolute inset-0 m-auto size-3 rounded-full bg-danfo/80" />
+                    ) : null}
+                  </button>
+                );
+              }),
+            )}
+          </div>
+          <p className="font-display text-xl uppercase tracking-[0.12em] text-danfo">
+            {human} · {humanWhite ? "white" : "black"}
+          </p>
+          {chess.isGameOver() ? (
+            <Button
+              onClick={() => {
+                const next = new Chess().fen();
+                setFen(next);
+                setSel(null);
+                setLast(null);
+                net.pushSnap({ fen: next, last: null });
+              }}
+            >
+              New game
+            </Button>
+          ) : null}
         </div>
-        <p className="font-display text-xl uppercase tracking-[0.12em] text-danfo">{human} · white</p>
-        {chess.isGameOver() ? (
-          <Button onClick={() => { setFen(new Chess().fen()); setSel(null); setLast(null); }}>New game</Button>
-        ) : null}
-      </div>
+      </TableStage>
     </GameShell>
   );
 }

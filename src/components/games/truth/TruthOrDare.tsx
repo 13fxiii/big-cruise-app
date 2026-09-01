@@ -2,11 +2,11 @@
 
 import { GameShell } from "@/components/games/Shell";
 import { SitDown, type SitDownStart } from "@/components/games/SitDown";
+import { TableStage } from "@/components/games/TableStage";
 import { Button } from "@/components/ui/button";
 import { fisherYates, getGame } from "@/lib/games/catalog";
 import { sfx } from "@/lib/games/audio";
 import { playIf, usePlayer } from "@/lib/games/player";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 const game = getGame("truth")!;
@@ -92,41 +92,43 @@ export function TruthOrDare() {
 
   return (
     <GameShell game={game}>
-      <div className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center gap-8 px-5 py-10">
-        <div
-          className="relative size-48 rounded-full border-4 border-danfo"
-          style={{
-            background:
-              "conic-gradient(#FF2B6B 0 120deg, #F5C400 120deg 240deg, #6A2C91 240deg 360deg)",
-            transform: `rotate(${angle}deg)`,
-            transition: spinning ? "transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)" : "none",
-          }}
-        >
-          <span className="absolute left-1/2 top-3 -translate-x-1/2 font-display text-sm font-bold uppercase text-midnight">
-            Truth
-          </span>
-          <span className="absolute bottom-8 left-6 font-display text-sm font-bold uppercase text-midnight">
-            Dare
-          </span>
-          <span className="absolute bottom-8 right-4 font-display text-sm font-bold uppercase text-bone">
-            Cruise
-          </span>
-        </div>
-        <div className="h-0 w-0 border-l-8 border-r-8 border-t-[16px] border-l-transparent border-r-transparent border-t-danfo" />
+      <TableStage felt="#14080c">
+        <div className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center gap-8 px-5 py-10">
+          <div
+            className="relative size-48 rounded-full border-4 border-danfo"
+            style={{
+              background:
+                "conic-gradient(#FF2B6B 0 120deg, #F5C400 120deg 240deg, #6A2C91 240deg 360deg)",
+              transform: `rotate(${angle}deg)`,
+              transition: spinning ? "transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)" : "none",
+            }}
+          >
+            <span className="absolute left-1/2 top-3 -translate-x-1/2 font-display text-sm font-bold uppercase text-midnight">
+              Truth
+            </span>
+            <span className="absolute bottom-8 left-6 font-display text-sm font-bold uppercase text-midnight">
+              Dare
+            </span>
+            <span className="absolute bottom-8 right-4 font-display text-sm font-bold uppercase text-bone">
+              Cruise
+            </span>
+          </div>
+          <div className="h-0 w-0 border-l-8 border-r-8 border-t-[16px] border-l-transparent border-r-transparent border-t-danfo" />
 
-        <p className="min-h-28 text-center font-display text-3xl font-bold uppercase leading-tight md:text-4xl">{card}</p>
-        <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-concrete">{deck}</p>
+          <p className="min-h-28 text-center font-display text-3xl font-bold uppercase leading-tight md:text-4xl">{card}</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-concrete">{deck}</p>
 
-        <div className="flex flex-wrap justify-center gap-2">
-          <Button onClick={() => draw("truth")}>Truth</Button>
-          <Button variant="line" onClick={() => draw("dare")}>
-            Dare
-          </Button>
-          <Button variant="ghost" onClick={() => draw("cruise")}>
-            Cruise
-          </Button>
+          <div className="flex flex-wrap justify-center gap-2">
+            <Button onClick={() => draw("truth")}>Truth</Button>
+            <Button variant="line" onClick={() => draw("dare")}>
+              Dare
+            </Button>
+            <Button variant="ghost" onClick={() => draw("cruise")}>
+              Cruise
+            </Button>
+          </div>
         </div>
-      </div>
+      </TableStage>
     </GameShell>
   );
 }
