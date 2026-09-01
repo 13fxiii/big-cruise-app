@@ -21,12 +21,12 @@ export type CruiseRoom = {
  * so matchmaking can land without a lobby redesign.
  */
 export const SAMPLE_ROOMS: CruiseRoom[] = [
-  { code: "TND2", game: "uno", host: "Tunde", filled: 3, seats: 4, kind: "public", spectators: 1, status: "live", sample: true },
+  { code: "TND2", game: "uno", host: "Tunde", filled: 7, seats: 12, kind: "public", spectators: 1, status: "live", sample: true },
   { code: "CHI7", game: "ludo", host: "Chioma", filled: 2, seats: 4, kind: "public", spectators: 0, status: "open", sample: true },
-  { code: "EMK4", game: "werewolf", host: "Emeka", filled: 6, seats: 8, kind: "private", spectators: 2, status: "live", sample: true },
-  { code: "AMK1", game: "karaoke", host: "Amaka", filled: 4, seats: 8, kind: "public", spectators: 3, status: "open", sample: true },
-  { code: "SEY9", game: "codenames", host: "Seyi", filled: 4, seats: 6, kind: "public", spectators: 0, status: "open", sample: true },
-  { code: "KEM3", game: "kahoot", host: "Kemi", filled: 5, seats: 8, kind: "public", spectators: 1, status: "live", sample: true },
+  { code: "EMK4", game: "werewolf", host: "Emeka", filled: 11, seats: 16, kind: "private", spectators: 2, status: "live", sample: true },
+  { code: "AMK1", game: "karaoke", host: "Amaka", filled: 6, seats: 12, kind: "public", spectators: 3, status: "open", sample: true },
+  { code: "SEY9", game: "codenames", host: "Seyi", filled: 8, seats: 12, kind: "public", spectators: 0, status: "open", sample: true },
+  { code: "KEM3", game: "kahoot", host: "Kemi", filled: 9, seats: 16, kind: "public", spectators: 1, status: "live", sample: true },
 ];
 
 export function roomHref(room: CruiseRoom) {
