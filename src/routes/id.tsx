@@ -3,18 +3,33 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CruisePage } from "@/components/cruise/CruiseShell";
 import { CruiseButton, CruiseCard } from "@/components/cruise/CruiseUI";
+import { addCrewLink } from "@/lib/cruise/members";
 import { loadCrew, parseMember, prettyId, saveCrewMember, type SharedMember } from "@/lib/cruise/share-card";
 import { usePlayer } from "@/lib/games/player";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export const Route = createFileRoute("/id")({ component: MemberScanPage });
 
 function MemberScanPage() {
   const search = typeof window !== "undefined" ? window.location.search : "";
-  const scanned = useMemo(() => parseMember(search), [search]);
+  const fallback = useMemo(() => parseMember(search), [search]);
+  const code = fallback?.code || "";
   const self = usePlayer((s) => s.cruiseId);
+  const [live, setLive] = useState<SharedMember | null>(null);
   const [crew, setCrew] = useState<SharedMember[]>(() => loadCrew());
   const [added, setAdded] = useState(false);
+
+  useEffect(() => {
+    if (!code) return;
+    void fetch(`/api/id?c=${encodeURIComponent(code)}`)
+      .then((r) => r.json())
+      .then((body: { member?: SharedMember | null }) => {
+        if (body.member) setLive(body.member);
+      })
+      .catch(() => undefined);
+  }, [code]);
+
+  const scanned = live || fallback;
 
   if (!scanned) {
     return (
@@ -52,6 +67,7 @@ function MemberScanPage() {
             onClick={() => {
               setCrew(saveCrewMember(scanned));
               setAdded(true);
+              if (self) void addCrewLink({ data: { owner: self, member: scanned.code } }).catch(() => undefined);
             }}
           >
             {added ? "Added" : "Add"}
