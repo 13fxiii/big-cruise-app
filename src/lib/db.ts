@@ -1,22 +1,24 @@
 import { pendingMigrations } from "../../scripts/migration-plan.mjs";
+import { resolvePostgresUrl } from "../../scripts/postgres-url.mjs";
 
 /** Which database backend is active. */
-export type DbSource = "neon" | "pglite";
+export type DbSource = "postgres" | "pglite";
 
-// An empty/whitespace DATABASE_URL (an easy misconfig in deploy UIs) must mean
-// "unset" — otherwise production would silently run on the PGLite fallback.
-const rawDatabaseUrl =
-  typeof process !== "undefined" ? process.env.DATABASE_URL : undefined;
-const databaseUrl =
-  rawDatabaseUrl && rawDatabaseUrl.trim() ? rawDatabaseUrl : undefined;
+// Marketplace-connected Supabase injects POSTGRES_URL. Manual setups use
+// DATABASE_URL. Empty/whitespace must mean unset so we do not treat a blank
+// Vercel field as a real connection.
+const resolved =
+  typeof process !== "undefined"
+    ? resolvePostgresUrl(process.env)
+    : { key: null, url: undefined };
+const databaseUrl = resolved.url;
+export const databaseUrlKey = resolved.key;
 
 /**
- * Active backend: real **Neon** when `DATABASE_URL` is set (deployed / configured
- * sandbox), otherwise a local embedded **PGLite** (Postgres compiled to WASM) so
- * the app has a working database even with nothing configured — the live preview
- * included. Swap in Neon later by just setting `DATABASE_URL`; no code changes.
+ * Active backend: real Postgres (Supabase pooler / Neon) when a URI is set,
+ * otherwise embedded PGLite for local/preview with no store connected.
  */
-export const dbSource: DbSource = databaseUrl ? "neon" : "pglite";
+export const dbSource: DbSource = databaseUrl ? "postgres" : "pglite";
 
 /**
  * Minimal shared SQL surface, satisfied by both Neon and PGLite. Both the
@@ -176,12 +178,13 @@ async function createSql(): Promise<Sql> {
         "or a server route loader, never from client code.",
     );
   }
-  return dbSource === "neon" ? createNeonSql() : createPgliteSql();
+  return dbSource === "postgres" ? createNeonSql() : createPgliteSql();
 }
 
 /**
- * Get the shared, **server-only** SQL client. Neon when `DATABASE_URL` is set,
- * otherwise the local PGLite fallback. Memoized — safe to call per request.
+ * Get the shared, **server-only** SQL client. Postgres when DATABASE_URL or
+ * POSTGRES_URL is set, otherwise the local PGLite fallback. Memoized — safe to
+ * call per request.
  *
  * Schema comes from `migrations/*.sql`, auto-applied before the first query on
  * both backends — define tables there, never inline in server functions.
@@ -197,11 +200,11 @@ export function getSql(): Promise<Sql> {
 /**
  * The shared PGLite instance (preview only), with `migrations/*.sql` applied.
  * Lets Better Auth persist to the SAME embedded DB as app data in preview (via a
- * Kysely dialect). Throws when `DATABASE_URL` is set (that path uses Neon).
+ * Kysely dialect). Throws when a real Postgres URI is set.
  */
 export async function getPglite(): Promise<import("@electric-sql/pglite").PGlite> {
   if (dbSource !== "pglite") {
-    throw new Error("getPglite() is only available on the PGLite fallback (no DATABASE_URL)");
+    throw new Error("getPglite() is only available on the PGLite fallback (no DATABASE_URL / POSTGRES_URL)");
   }
   await getSql();
   const pg = await globalRef.__pgliteInstance__;
@@ -212,9 +215,9 @@ export async function getPglite(): Promise<import("@electric-sql/pglite").PGlite
 /**
  * Finish DB bootstrap before the server handles traffic.
  *
- * - **PGLite** (preview / no `DATABASE_URL`): open the in-memory DB and apply
+ * - **PGLite** (preview / no Postgres URI): open the in-memory DB and apply
  *   `migrations/*.sql`. Idempotent — concurrent callers share one promise.
- * - **Neon**: no-op (pool is created lazily on first query).
+ * - **Postgres**: no-op (pool is created lazily on first query).
  *
  * Vite `configureServer` awaits this at dev startup; production imports of this
  * module kick it off immediately (see bottom of file).
