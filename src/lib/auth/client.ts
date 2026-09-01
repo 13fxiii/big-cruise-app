@@ -42,9 +42,7 @@ async function initializeSession(): Promise<void> {
       headers: { Authorization: `Bearer ${oauth.access_token}` },
     }).catch(() => null);
     const user = response?.ok ? await response.json().catch(() => null) : null;
-    currentSession = user?.id
-      ? { ...oauth, user }
-      : null;
+    currentSession = user?.id ? { ...oauth, user } : null;
     if (currentSession) {
       localStorage.setItem("big-cruise.supabase.session", JSON.stringify(currentSession));
       history.replaceState({}, document.title, location.pathname + location.search);
@@ -61,15 +59,23 @@ async function ensureSession(): Promise<SupabaseSession | null> {
 }
 
 export const authClient = {
-  async signUpEmail(input: { name: string; email: string; password: string }) {
-    const session = await supabaseSignUp(input.email, input.password, input.name);
-    currentSession = session;
-    return { data: session, error: null };
+  signUp: {
+    async email(input: { name: string; email: string; password: string }) {
+      const session = await supabaseSignUp(input.email, input.password, input.name);
+      currentSession = session;
+      return { data: session, error: null };
+    },
   },
-  async signInEmail(input: { email: string; password: string }) {
-    const session = await signInWithPassword(input.email, input.password);
-    currentSession = session;
-    return { data: session, error: null };
+  signIn: {
+    async email(input: { email: string; password: string }) {
+      const session = await signInWithPassword(input.email, input.password);
+      currentSession = session;
+      return { data: session, error: null };
+    },
+    async oauth2(input: { providerId: string }) {
+      await signIn(input.providerId);
+      return { data: null, error: null };
+    },
   },
   async signOut() {
     await supabaseSignOut();
@@ -109,7 +115,6 @@ export async function signOut(redirectTo = "/"): Promise<void> {
   if (typeof window !== "undefined") window.location.assign(redirectTo);
 }
 
-/** Compatibility facade used by the existing LoginPage. */
 export const supabaseAuth = {
   signUp: supabaseSignUp,
   signInWithPassword,
