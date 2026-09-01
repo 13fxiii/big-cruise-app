@@ -2,6 +2,7 @@
 
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CruiseShell } from "@/components/cruise/CruiseShell";
+import { InstallBar } from "@/components/pwa/InstallBar";
 import { Gamepad2, MoreHorizontal, ShoppingBag, UserRound } from "lucide-react";
 
 export const Route = createFileRoute("/")({ component: Home });
@@ -16,6 +17,7 @@ const TILES = [
 function Home() {
   return (
     <CruiseShell compact>
+      <InstallBar />
       <div className="grid min-h-[calc(100dvh-7rem)] grid-cols-2 gap-px bg-lane">
         {TILES.map((t) => {
           const Icon = t.icon;
