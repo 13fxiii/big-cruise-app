@@ -11,9 +11,9 @@ import { Bell, Disc3, Gamepad2, IdCard, MoreHorizontal, Radio, Users } from "luc
 import { type ReactNode, useEffect, useState } from "react";
 
 const PRIMARY = [
-  { to: "/", label: "Game Room", icon: Gamepad2 },
-  { to: "/community", label: "Community", icon: Users },
-  { to: "/spaces", label: "Spaces", icon: Radio },
+  { to: "/", label: "Play", icon: Gamepad2 },
+  { to: "/community", label: "Fam", icon: Users },
+  { to: "/spaces", label: "Live", icon: Radio },
   { to: "/id", label: "ID", icon: IdCard },
 ] as const;
 
@@ -40,8 +40,8 @@ export function CruiseHeader() {
 
   return (
     <>
-      <header className="relative z-20 flex items-center gap-4 border-b border-lane/80 bg-midnight/70 px-4 py-3 backdrop-blur-md md:px-8">
-        <Link to="/" className="flex min-h-11 items-center gap-3" aria-label="Game Room">
+      <header className="relative z-20 flex items-center gap-3 border-b border-lane/80 bg-midnight/80 px-3 py-2 backdrop-blur-md md:px-8 md:py-3">
+        <Link to="/" className="flex min-h-11 items-center gap-3" aria-label="Play">
           <LiveMark className="size-10 text-danfo" />
           <Wordmark className="hidden text-xl text-bone sm:inline" compact spark={false} />
         </Link>
@@ -88,7 +88,7 @@ export function CruiseHeader() {
               key={item.to}
               to={item.to}
               className={cn(
-                "flex min-h-14 flex-1 flex-col items-center justify-center gap-1 font-mono text-[9px] uppercase tracking-[0.16em]",
+                "flex min-h-12 flex-1 flex-col items-center justify-center gap-0.5 font-mono text-[9px] uppercase tracking-[0.16em]",
                 active ? "text-danfo" : "text-concrete",
               )}
             >
@@ -100,7 +100,7 @@ export function CruiseHeader() {
         <button
           type="button"
           onClick={() => setMore(true)}
-          className="flex min-h-14 flex-1 flex-col items-center justify-center gap-1 font-mono text-[9px] uppercase tracking-[0.16em] text-concrete"
+          className="flex min-h-12 flex-1 flex-col items-center justify-center gap-0.5 font-mono text-[9px] uppercase tracking-[0.16em] text-concrete"
         >
           <MoreHorizontal className="size-5" strokeWidth={1.6} />
           More
@@ -145,21 +145,27 @@ export function CruiseShell({
   density = "default",
   accent,
   boot = false,
+  compact = false,
 }: {
   children: ReactNode;
   density?: CruiseDensity;
   accent?: string;
   boot?: boolean;
+  compact?: boolean;
 }) {
   useHydratePlayer();
   return (
     <div className="relative min-h-dvh bg-midnight text-bone">
       <CruiseBackground density={density} accent={accent} position="fixed" />
       {boot ? <CruiseLoader /> : null}
-      <div className="relative z-10 flex min-h-dvh flex-col pb-16 md:pb-0">
+      <div className="relative z-10 flex min-h-dvh flex-col pb-[calc(3.5rem+env(safe-area-inset-bottom))] md:pb-0">
         <CruiseHeader />
         <div className="flex-1">{children}</div>
-        <HouseFloor />
+        {compact ? null : (
+          <div className="hidden md:block">
+            <HouseFloor />
+          </div>
+        )}
       </div>
       <CruiseToastRack />
     </div>
