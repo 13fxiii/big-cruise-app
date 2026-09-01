@@ -62,7 +62,7 @@ export function Codenames() {
   if (!sit) {
     return (
       <GameShell game={game}>
-        <SitDown game={game} defaultSeats={4} minSeats={2} maxSeats={8} onStart={setSit} />
+        <SitDown game={game} defaultSeats={4} minSeats={2} maxSeats={12} onStart={setSit} />
       </GameShell>
     );
   }
