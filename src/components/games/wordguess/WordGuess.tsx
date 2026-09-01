@@ -58,7 +58,7 @@ export function WordGuess() {
   if (!sit) {
     return (
       <GameShell game={game}>
-        <SitDown game={game} defaultSeats={1} minSeats={1} maxSeats={8} onStart={setSit} />
+        <SitDown game={game} defaultSeats={1} minSeats={1} maxSeats={12} onStart={setSit} />
       </GameShell>
     );
   }
