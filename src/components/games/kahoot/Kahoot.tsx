@@ -20,7 +20,7 @@ const PACKS: { name: string; qs: Q[] }[] = [
     name: "BCH culture",
     qs: [
       { q: "What is the official BIG CRUISE tagline?", a: ["Where the cruise lives.", "We move different.", "Stay lit.", "No days off."], w: 0 },
-      { q: "The ⚡️ mark is treated as…", a: ["A sparkle clipart", "The logo the room already types", "A yacht wheel", "A bus icon"], w: 1 },
+      { q: "The ⚡ mark is treated as…", a: ["A sparkle clipart", "The logo the room already types", "A yacht wheel", "A bus icon"], w: 1 },
       { q: "Which colour is Lagos Danfo Yellow?", a: ["#FFD700", "#F5C400", "#FFFF00", "#C9A000"], w: 1 },
       { q: "Former name that must never return?", a: ["Cruise Connect Hub", "The Room", "Night Bus", "FX Club"], w: 0 },
       { q: "Sunday in the 7 Days system is…", a: ["Dominion", "Playlist", "Chaos", "Divine"], w: 2 },
