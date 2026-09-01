@@ -40,9 +40,7 @@ export function SitDown({
   const muted = usePlayer((s) => s.muted);
   const recordPlay = usePlayer((s) => s.recordPlay);
   const cruiseId = usePlayer((s) => s.cruiseId);
-  const [mode, setMode] = useState<GameMode>(() =>
-    game.modes.includes("online") ? "online" : game.modes[0],
-  );
+  const [mode, setMode] = useState<GameMode>(game.modes[0]);
   const [seats, setSeats] = useState(() => Math.min(max, Math.max(min, defaultSeats)));
   const [join, setJoin] = useState("");
   const [hostCode] = useState(() => roomCode());
