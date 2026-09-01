@@ -10,10 +10,10 @@ export function CruiseQr({
   value: string;
   className?: string;
 }) {
-  const qr = encode(value, { ecc: "H", border: 1 });
+  const qr = encode(value, { ecc: "H", border: 2 });
   const n = qr.size;
   const cells: string[] = [];
-  const quiet = 0.32;
+  const quiet = 0.16;
   const lo = (1 - quiet) / 2;
   const hi = lo + quiet;
   for (let y = 0; y < n; y++) {
@@ -31,9 +31,9 @@ export function CruiseQr({
         <svg viewBox={`0 0 ${n} ${n}`} className="size-full text-midnight" shapeRendering="crispEdges" aria-label="QR code">
           <path d={cells.join("")} fill="currentColor" />
         </svg>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="flex size-[22%] items-center justify-center rounded-[6px] bg-bone text-danfo">
-            <Spark className="size-[85%]" />
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <span className="flex size-[14%] items-center justify-center rounded-[4px] bg-bone text-danfo">
+            <Spark className="size-[80%]" />
           </span>
         </div>
       </div>
