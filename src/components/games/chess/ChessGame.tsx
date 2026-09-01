@@ -146,6 +146,7 @@ export function ChessGame() {
   }
 
   const board = chess.board();
+  const view = humanWhite ? board : [...board].reverse().map((row) => [...row].reverse());
 
   return (
     <GameShell
@@ -158,9 +159,9 @@ export function ChessGame() {
             {vsBot ? "Bot · black" : online ? (humanWhite ? net.peers[0]?.name ?? "Black" : "You · black") : "Black"}
           </p>
           <div className="board-3d grid w-full max-w-[min(100%,560px)] grid-cols-8 overflow-hidden border border-lane">
-            {board.map((row, r) =>
+            {view.map((row, r) =>
               row.map((piece, f) => {
-                const square = `${FILES[f]}${8 - r}` as Square;
+                const square = `${FILES[humanWhite ? f : 7 - f]}${humanWhite ? 8 - r : r + 1}` as Square;
                 const dark = (r + f) % 2 === 1;
                 const selected = sel === square;
                 const target = legal.has(square);
