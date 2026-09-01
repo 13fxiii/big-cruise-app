@@ -3,11 +3,10 @@ import type { BadgeId, GameStat } from "@/lib/cruise/persist";
 import { BADGE_CATALOG, playerLevel } from "@/lib/cruise/persist";
 import type { GameSlug } from "@/lib/games/catalog";
 
-/** Official founder card copy — from FX's membership design, in house voice. */
 export const FOUNDER_CARD = {
   name: brand.founder,
   handle: brand.founderHandle,
-  rank: "OG",
+  rank: "Big Cruiser",
   line: "Just here for the vibes.",
   since: "2024",
   kicker: "More banter. More vibes. One cruise.",
@@ -21,9 +20,9 @@ export const FOUNDER_CARD = {
 };
 
 export function isFounder(name: string, handle?: string) {
-  const n = name.trim().replace(/〽️/g, "").toLowerCase();
+  const n = name.trim().replace(/⚡️/g, "").replace(/⚡/g, "").toLowerCase();
   const h = (handle || "").replace(/^@/, "").toLowerCase();
-  return n === "fx" || h === "13fxiii";
+  return n === "fx" || n === "fx m" || h === "13fxiii";
 }
 
 export function formatHandle(handle?: string) {
@@ -31,9 +30,11 @@ export function formatHandle(handle?: string) {
   return h ? `@${h}` : "";
 }
 
-export function memberRank(opts: { founder: boolean; badges: BadgeId[] }) {
-  if (opts.founder) return "OG";
+export function memberRank(opts: { founder: boolean; badges: BadgeId[]; points?: number; sits?: number }) {
+  if (opts.founder) return "Big Cruiser";
   if (opts.badges.includes("host")) return "Host";
+  if ((opts.points || 0) >= 400) return "Ace";
+  if ((opts.sits || 0) >= 8) return "Rider";
   return "Big Cruiser";
 }
 
@@ -64,8 +65,8 @@ export function cardAchievements(opts: { founder: boolean; badges: BadgeId[] }) 
 }
 
 export const CARD_PILLARS = [
+  { label: "Real vibes" },
   { label: "Real people" },
-  { label: "Real rooms" },
-  { label: "Real music" },
+  { label: "Real fun" },
   { label: "Real culture" },
 ] as const;
