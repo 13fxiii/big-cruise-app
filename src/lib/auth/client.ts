@@ -3,6 +3,7 @@ import {
   consumeOAuthHash,
   getBearerToken,
   getSession,
+  getUser,
   signInWithPassword,
   signOut as supabaseSignOut,
   signUp as supabaseSignUp,
@@ -20,14 +21,7 @@ export type AppSession = { user: { id: string; name: string | null; email: strin
 function toAppSession(session: SupabaseSession | null): AppSession | null {
   if (!session?.user?.id) return null;
   const meta = session.user.user_metadata ?? {};
-  return {
-    user: {
-      id: session.user.id,
-      name: typeof meta.display_name === "string" ? meta.display_name : typeof meta.name === "string" ? meta.name : null,
-      email: session.user.email ?? null,
-      image: typeof meta.avatar_url === "string" ? meta.avatar_url : null,
-    },
-  };
+  return { user: { id: session.user.id, name: typeof meta.display_name === "string" ? meta.display_name : typeof meta.name === "string" ? meta.name : null, email: session.user.email ?? null, image: typeof meta.avatar_url === "string" ? meta.avatar_url : null } };
 }
 
 let currentSession: SupabaseSession | null = null;
@@ -38,11 +32,8 @@ async function initializeSession(): Promise<void> {
   initialized = true;
   const oauth = consumeOAuthHash();
   if (oauth) {
-    const response = await fetch(`${location.origin}/api/auth/supabase-user`, {
-      headers: { Authorization: `Bearer ${oauth.access_token}` },
-    }).catch(() => null);
-    const user = response?.ok ? await response.json().catch(() => null) : null;
-    currentSession = user?.id ? { ...oauth, user } : null;
+    const user = await getUser(oauth.access_token);
+    currentSession = user ? { ...oauth, user } : null;
     if (currentSession) {
       localStorage.setItem("big-cruise.supabase.session", JSON.stringify(currentSession));
       history.replaceState({}, document.title, location.pathname + location.search);
@@ -81,21 +72,13 @@ export const authClient = {
     await supabaseSignOut();
     currentSession = null;
   },
-  async getSession() {
-    return ensureSession();
-  },
+  async getSession() { return ensureSession(); },
   useSession() {
     const [state, setState] = useState<{ data: AppSession | null; isPending: boolean }>({ data: null, isPending: true });
     useEffect(() => {
       let alive = true;
-      void ensureSession().then((session) => {
-        if (alive) setState({ data: toAppSession(session), isPending: false });
-      });
-      return subscribeToSession(() => {
-        void ensureSession().then((session) => {
-          if (alive) setState({ data: toAppSession(session), isPending: false });
-        });
-      });
+      void ensureSession().then((session) => { if (alive) setState({ data: toAppSession(session), isPending: false }); });
+      return subscribeToSession(() => { void ensureSession().then((session) => { if (alive) setState({ data: toAppSession(session), isPending: false }); }); });
     }, []);
     return state;
   },
@@ -115,8 +98,4 @@ export async function signOut(redirectTo = "/"): Promise<void> {
   if (typeof window !== "undefined") window.location.assign(redirectTo);
 }
 
-export const supabaseAuth = {
-  signUp: supabaseSignUp,
-  signInWithPassword,
-  signOut: supabaseSignOut,
-};
+export const supabaseAuth = { signUp: supabaseSignUp, signInWithPassword, signOut: supabaseSignOut };
