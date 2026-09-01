@@ -51,7 +51,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#F2E6D0",
     token: "echo",
     feel: "Letters",
-    modes: ["bots", "pass"],
+    modes: ["bots", "pass", "online"],
   },
   {
     slug: "draw",
@@ -129,7 +129,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#3DFFF2",
     token: "play",
     feel: "Stage",
-    modes: ["pass"],
+    modes: ["pass", "online"],
   },
   {
     slug: "truth",
@@ -142,7 +142,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#FFF200",
     token: "lit",
     feel: "Party",
-    modes: ["pass"],
+    modes: ["pass", "online"],
   },
   {
     slug: "kahoot",
