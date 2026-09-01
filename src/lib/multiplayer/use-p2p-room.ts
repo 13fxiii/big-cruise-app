@@ -3,12 +3,12 @@
  * so re-renders never tear down the mesh. Changing room/name requires a remount.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
+import { cruiseIceServers } from "./ice";
 import { P2PRoom, type PeerInfo } from "./p2p";
 
 export interface UseP2PRoomOptions {
   room?: string;
   name?: string;
-  /** When false the mesh never joins. Used by offline / bot tables. */
   enabled?: boolean;
 }
 
@@ -47,6 +47,7 @@ export function useP2PRoom(options: UseP2PRoomOptions = {}): P2PRoomHandle {
       room,
       selfId,
       name,
+      iceServers: cruiseIceServers(),
       onPeersChanged: setPeers,
       onMessage: (from, data, channel) => {
         for (const fn of listeners.current) fn(from, data, channel);
