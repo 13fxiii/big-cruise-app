@@ -77,7 +77,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#FFF200",
     token: "lit",
     feel: "Cards",
-    modes: ["bots", "pass"],
+    modes: ["bots", "pass", "online"],
   },
   {
     slug: "ludo",
@@ -90,7 +90,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#FF4D1A",
     token: "chaos",
     feel: "Board",
-    modes: ["bots", "pass"],
+    modes: ["bots", "pass", "online"],
   },
   {
     slug: "werewolf",
@@ -155,7 +155,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#3DFFF2",
     token: "play",
     feel: "Quiz",
-    modes: ["bots", "pass"],
+    modes: ["bots", "pass", "online"],
   },
 ];
 
