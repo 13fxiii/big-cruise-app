@@ -1,7 +1,7 @@
 "use client";
 
 import { GameShell } from "@/components/games/Shell";
-import { SitDown, type SitDownStart } from "@/components/games/SitDown";
+import { SitDown, WaitRoom, type SitDownStart } from "@/components/games/SitDown";
 import { useTableSync } from "@/lib/multiplayer";
 import { Button } from "@/components/ui/button";
 import { fisherYates, getGame } from "@/lib/games/catalog";
@@ -53,7 +53,7 @@ export function Codenames() {
   const [left, setLeft] = useState(1);
   const [over, setOver] = useState<string | null>(null);
 
-  useTableSync({
+  const live = useTableSync({
     game: "codenames",
     sit,
     name: human,
@@ -80,6 +80,14 @@ export function Codenames() {
     return (
       <GameShell game={game}>
         <SitDown game={game} defaultSeats={4} minSeats={2} maxSeats={12} onStart={setSit} />
+      </GameShell>
+    );
+  }
+
+  if (live.online && !live.ready) {
+    return (
+      <GameShell game={game}>
+        <WaitRoom code={sit.room} />
       </GameShell>
     );
   }
