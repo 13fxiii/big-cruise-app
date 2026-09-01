@@ -16,7 +16,7 @@ export type SitDownStart = {
 };
 
 function seatRange(label: string, fallbackMin: number, fallbackMax: number) {
-  const match = label.match(/(\d+)\s*[–-]\s*(\d+)/);
+  const match = label.match(/(\d+)\s*[\u2013-]\s*(\d+)/);
   if (!match) return { min: fallbackMin, max: fallbackMax };
   return { min: Number(match[1]), max: Number(match[2]) };
 }
@@ -40,52 +40,52 @@ export function SitDown({
   const muted = usePlayer((s) => s.muted);
   const recordPlay = usePlayer((s) => s.recordPlay);
   const cruiseId = usePlayer((s) => s.cruiseId);
-  const [mode, setMode] = useState<GameMode>(game.modes[0]);
+  const [mode, setMode] = useState<GameMode>(() =>
+    game.modes.includes("online") ? "online" : game.modes[0],
+  );
   const [seats, setSeats] = useState(() => Math.min(max, Math.max(min, defaultSeats)));
   const [join, setJoin] = useState("");
   const [hostCode] = useState(() => roomCode());
 
   return (
-    <div className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center gap-8 px-5 py-10">
+    <div className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center gap-5 px-4 py-5 sm:gap-8 sm:px-5 sm:py-10">
       <div>
         <AccentBar color={game.accent} />
         <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-concrete">
-          Sit down · {game.players}
+          {game.players}
         </p>
-        <h1 className="mt-2 font-display text-5xl font-bold uppercase leading-[0.9] tracking-tight md:text-6xl">
+        <h1 className="mt-2 font-display text-4xl font-bold uppercase leading-[0.9] tracking-tight">
           {game.name}
         </h1>
-        <p className="mt-4 max-w-md text-base leading-relaxed text-bone/80">{game.blurb}</p>
-        <p className="mt-2 font-display text-lg uppercase tracking-[0.12em] text-danfo">{game.line}</p>
       </div>
 
       <label className="block">
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Your name in the room</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Name</span>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="mt-2 h-12 w-full border border-lane bg-asphalt px-4 font-display text-2xl font-bold uppercase tracking-[0.08em] text-bone outline-none focus:border-danfo"
+          className="mt-2 min-h-12 w-full border border-lane bg-asphalt px-4 font-display text-2xl font-bold uppercase tracking-[0.08em] text-bone outline-none focus:border-danfo"
           maxLength={18}
         />
         <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.18em] text-concrete">{cruiseId}</span>
       </label>
 
       <div>
-        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">How we play</p>
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Mode</p>
         <div className="flex flex-wrap gap-2">
+          {game.modes.includes("online") ? (
+            <ModeChip active={mode === "online"} onClick={() => setMode("online")}>
+              Online
+            </ModeChip>
+          ) : null}
           {game.modes.includes("bots") ? (
             <ModeChip active={mode === "bots"} onClick={() => setMode("bots")}>
-              Vs bots
+              Bots
             </ModeChip>
           ) : null}
           {game.modes.includes("pass") ? (
             <ModeChip active={mode === "pass"} onClick={() => setMode("pass")}>
-              Pass the phone
-            </ModeChip>
-          ) : null}
-          {game.modes.includes("online") ? (
-            <ModeChip active={mode === "online"} onClick={() => setMode("online")}>
-              Cruise room
+              Pass phone
             </ModeChip>
           ) : null}
         </div>
@@ -122,18 +122,17 @@ export function SitDown({
           <div className="flex items-center gap-3">
             <Spark className="size-8 text-danfo" />
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Host code</p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Code</p>
               <p className="font-display text-4xl font-bold tracking-[0.2em] text-danfo">{hostCode}</p>
             </div>
           </div>
-          <p className="text-sm text-concrete">Share that code. Fam join from the same game page.</p>
           <label className="block">
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Or join a room</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Join</span>
             <input
               value={join}
               onChange={(e) => setJoin(e.target.value.toUpperCase().slice(0, 4))}
               placeholder="CODE"
-              className="mt-2 h-12 w-full border border-lane bg-midnight px-4 font-display text-2xl font-bold tracking-[0.28em] text-danfo outline-none focus:border-danfo"
+              className="mt-2 min-h-12 w-full border border-lane bg-midnight px-4 font-display text-2xl font-bold tracking-[0.28em] text-danfo outline-none focus:border-danfo"
             />
           </label>
         </div>
@@ -155,5 +154,11 @@ export function SitDown({
         Sit down
       </CruiseButton>
     </div>
+  );
+}
+
+export function WaitRoom({ code }: { code: string }) {
+  return (
+    <p className="px-6 py-20 text-center font-display text-4xl font-bold tracking-[0.24em] text-danfo">{code}</p>
   );
 }
