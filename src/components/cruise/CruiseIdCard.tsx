@@ -7,6 +7,7 @@ import {
   CARD_PILLARS,
   FOUNDER_CARD,
   cardAchievements,
+  cardId,
   cardStats,
   formatHandle,
   isFounder,
@@ -29,6 +30,7 @@ export function CruiseIdCard() {
   const joinedAt = usePlayer((s) => s.joinedAt);
 
   const founder = isFounder(name, handle);
+  const officialId = cardId(cruiseId, name, handle);
   const displayName = founder ? FOUNDER_CARD.name : name;
   const displayHandle = founder ? FOUNDER_CARD.handle : formatHandle(handle);
   const displayLine = (line && line.trim()) || (founder ? FOUNDER_CARD.line : "You are in the room.");
@@ -40,7 +42,7 @@ export function CruiseIdCard() {
   const href = useMemo(
     () =>
       memberHref({
-        code: cruiseId,
+        code: officialId,
         name: displayName,
         handle: displayHandle,
         rank,
@@ -49,7 +51,7 @@ export function CruiseIdCard() {
         sits,
         wins,
       }),
-    [cruiseId, displayName, displayHandle, rank, points, sits, wins],
+    [officialId, displayName, displayHandle, rank, points, sits, wins],
   );
   const [back, setBack] = useState(false);
 
@@ -99,7 +101,7 @@ export function CruiseIdCard() {
                 </div>
                 <div className="text-left sm:text-right">
                   <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Member ID</p>
-                  <p className="mt-1 font-mono text-sm tracking-[0.22em] text-danfo md:text-base">{prettyId(cruiseId)}</p>
+                  <p className="mt-1 font-mono text-sm tracking-[0.22em] text-danfo md:text-base">{prettyId(officialId)}</p>
                 </div>
               </div>
             </IdShell>
@@ -131,7 +133,7 @@ export function CruiseIdCard() {
                 <div className="w-full max-w-[168px] shrink-0 sm:w-[168px]">
                   <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-concrete">Scan to view profile</p>
                   <CruiseQr value={href} />
-                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-danfo">{prettyId(cruiseId)}</p>
+                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-danfo">{prettyId(officialId)}</p>
                 </div>
               </div>
             </IdShell>
