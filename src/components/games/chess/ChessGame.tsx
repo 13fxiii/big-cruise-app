@@ -3,6 +3,7 @@
 import { GameShell } from "@/components/games/Shell";
 import { SitDown, type SitDownStart } from "@/components/games/SitDown";
 import { TableStage } from "@/components/games/TableStage";
+import { ChessPiece } from "@/components/games/kit/ChessPiece";
 import { Button } from "@/components/ui/button";
 import { getGame } from "@/lib/games/catalog";
 import { sfx } from "@/lib/games/audio";
@@ -13,21 +14,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 const game = getGame("chess")!;
 const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"] as const;
-
-const GLYPH: Record<string, string> = {
-  wp: "♙",
-  wn: "♘",
-  wb: "♗",
-  wr: "♖",
-  wq: "♕",
-  wk: "♔",
-  bp: "♟",
-  bn: "♞",
-  bb: "♝",
-  br: "♜",
-  bq: "♛",
-  bk: "♚",
-};
 
 function material(fen: string) {
   const board = fen.split(" ")[0];
@@ -181,8 +167,8 @@ export function ChessGame() {
                     )}
                   >
                     {piece ? (
-                      <span className={piece.color === "w" ? "piece-stack text-bone" : "piece-stack text-[#1a0a0c]"}>
-                        {GLYPH[`${piece.color}${piece.type}`]}
+                      <span className="flex h-full w-full items-center justify-center">
+                        <ChessPiece color={piece.color} type={piece.type} />
                       </span>
                     ) : null}
                     {target ? (
