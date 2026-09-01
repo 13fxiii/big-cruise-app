@@ -2,6 +2,7 @@
 
 import { GameShell } from "@/components/games/Shell";
 import { SitDown, type SitDownStart } from "@/components/games/SitDown";
+import { useTableSync } from "@/lib/multiplayer";
 import { Button } from "@/components/ui/button";
 import { fisherYates, getGame } from "@/lib/games/catalog";
 import { sfx } from "@/lib/games/audio";
@@ -43,6 +44,7 @@ function deal(): { tiles: Tile[]; start: "a" | "b" } {
 
 export function Codenames() {
   const muted = usePlayer((s) => s.muted);
+  const human = usePlayer((s) => s.name);
   const [sit, setSit] = useState<SitDownStart | null>(null);
   const [{ tiles, start }, setBoard] = useState(deal);
   const [turn, setTurn] = useState<"a" | "b">(start);
@@ -50,6 +52,21 @@ export function Codenames() {
   const [clue, setClue] = useState("");
   const [left, setLeft] = useState(1);
   const [over, setOver] = useState<string | null>(null);
+
+  useTableSync({
+    game: "codenames",
+    sit,
+    name: human,
+    value: { tiles, start, turn, key, clue, left, over },
+    apply: (s) => {
+      setBoard({ tiles: s.tiles, start: s.start });
+      setTurn(s.turn);
+      setKey(s.key);
+      setClue(s.clue);
+      setLeft(s.left);
+      setOver(s.over);
+    },
+  });
 
   const remain = useMemo(
     () => ({
@@ -118,7 +135,7 @@ export function Codenames() {
           <span className="font-display text-2xl font-bold uppercase text-[#7aa2d6]">Blue {remain.b}</span>
           <label className="ml-auto flex min-h-11 items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-concrete">
             <input type="checkbox" checked={key} onChange={(e) => setKey(e.target.checked)} />
-            Spymaster key
+            Key
           </label>
         </div>
 
