@@ -2,6 +2,8 @@
 
 import { GameShell } from "@/components/games/Shell";
 import { SitDown, type SitDownStart } from "@/components/games/SitDown";
+import { CRUISE_PADS, PadGlyph } from "@/components/games/kit/KahootPads";
+import { TableStage } from "@/components/games/TableStage";
 import { Button } from "@/components/ui/button";
 import { BOT_NAMES, fisherYates, getGame } from "@/lib/games/catalog";
 import { sfx } from "@/lib/games/audio";
@@ -18,7 +20,7 @@ const PACKS: { name: string; qs: Q[] }[] = [
     name: "BCH culture",
     qs: [
       { q: "What is the official BIG CRUISE tagline?", a: ["Where the cruise lives.", "We move different.", "Stay lit.", "No days off."], w: 0 },
-      { q: "The 〽️ mark is treated as…", a: ["A sparkle clipart", "The logo the room already types", "A yacht wheel", "A bus icon"], w: 1 },
+      { q: "The ⚡️ mark is treated as…", a: ["A sparkle clipart", "The logo the room already types", "A yacht wheel", "A bus icon"], w: 1 },
       { q: "Which colour is Lagos Danfo Yellow?", a: ["#FFD700", "#F5C400", "#FFFF00", "#C9A000"], w: 1 },
       { q: "Former name that must never return?", a: ["Cruise Connect Hub", "The Room", "Night Bus", "FX Club"], w: 0 },
       { q: "Sunday in the 7 Days system is…", a: ["Dominion", "Playlist", "Chaos", "Divine"], w: 2 },
@@ -55,12 +57,7 @@ const PACKS: { name: string; qs: Q[] }[] = [
   },
 ];
 
-const PADS = [
-  { bg: "#9B1228", shape: "▲" },
-  { bg: "#1B4F8A", shape: "◆" },
-  { bg: "#C8A000", shape: "●" },
-  { bg: "#2F6B3A", shape: "■" },
-];
+const PADS = CRUISE_PADS;
 
 export function Kahoot() {
   const human = usePlayer((s) => s.name);
@@ -132,7 +129,7 @@ export function Kahoot() {
   if (!sit) {
     return (
       <GameShell game={game}>
-        <SitDown game={game} defaultSeats={4} minSeats={1} maxSeats={8} onStart={start} />
+        <SitDown game={game} defaultSeats={4} minSeats={1} maxSeats={16} onStart={start} />
       </GameShell>
     );
   }
@@ -148,8 +145,8 @@ export function Kahoot() {
         </p>
       }
     >
-      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-5 px-4 py-5">
-        {!sit ? null : (
+      <TableStage felt="#120816">
+        <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-5 px-4 py-5">
           <div className="flex flex-wrap gap-2">
             {PACKS.map((p, idx) => (
               <button
@@ -168,57 +165,57 @@ export function Kahoot() {
               </button>
             ))}
           </div>
-        )}
 
-        {done ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-4">
-            <p className="font-display text-5xl font-bold uppercase">Podium</p>
-            {ranked.map((r, idx) => (
-              <div key={r.name} className="flex w-full max-w-md items-center justify-between border border-lane px-4 py-3">
-                <span className="font-display text-2xl font-bold uppercase">
-                  {idx + 1} · {r.name}
-                </span>
-                <span className="font-mono text-sm text-danfo">{r.n}</span>
+          {done ? (
+            <div className="flex flex-1 flex-col items-center justify-center gap-4">
+              <p className="font-display text-5xl font-bold uppercase">Podium</p>
+              {ranked.map((r, idx) => (
+                <div key={r.name} className="flex w-full max-w-md items-center justify-between border border-lane px-4 py-3">
+                  <span className="font-display text-2xl font-bold uppercase">
+                    {idx + 1} · {r.name}
+                  </span>
+                  <span className="font-mono text-sm text-danfo">{r.n}</span>
+                </div>
+              ))}
+              <Button onClick={() => start(sit)}>Again</Button>
+            </div>
+          ) : (
+            <>
+              <div className="flex items-center justify-between">
+                <span className="font-display text-5xl font-bold text-danfo">{clock}</span>
+                <span className="font-mono text-sm text-concrete">{scores[0]?.n ?? 0} pts</span>
               </div>
-            ))}
-            <Button onClick={() => start(sit)}>Again</Button>
-          </div>
-        ) : (
-          <>
-            <div className="flex items-center justify-between">
-              <span className="font-display text-5xl font-bold text-danfo">{clock}</span>
-              <span className="font-mono text-sm text-concrete">{scores[0]?.n ?? 0} pts</span>
-            </div>
-            <h2 className="font-display text-3xl font-bold uppercase leading-tight md:text-4xl">{q.q}</h2>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {q.a.map((ans, idx) => {
-                const show = picked != null;
-                const ok = idx === q.w;
-                return (
-                  <button
-                    key={ans}
-                    type="button"
-                    disabled={picked != null}
-                    onClick={() => lock(idx)}
-                    className={cn(
-                      "flex min-h-20 items-center gap-3 px-4 text-left font-display text-xl font-bold uppercase tracking-wide text-bone",
-                      show && ok && "ring-2 ring-danfo",
-                      show && picked === idx && !ok && "opacity-40",
-                    )}
-                    style={{ background: PADS[idx].bg }}
-                  >
-                    <span className="text-2xl">{PADS[idx].shape}</span>
-                    {ans}
-                  </button>
-                );
-              })}
-            </div>
-            {picked != null ? (
-              <Button onClick={next}>{i + 1 >= qs.length ? "Podium" : "Next"}</Button>
-            ) : null}
-          </>
-        )}
-      </div>
+              <h2 className="font-display text-3xl font-bold uppercase leading-tight md:text-4xl">{q.q}</h2>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {q.a.map((ans, idx) => {
+                  const show = picked != null;
+                  const ok = idx === q.w;
+                  return (
+                    <button
+                      key={ans}
+                      type="button"
+                      disabled={picked != null}
+                      onClick={() => lock(idx)}
+                      className={cn(
+                        "flex min-h-20 items-center gap-3 px-4 text-left font-display text-xl font-bold uppercase tracking-wide text-bone",
+                        show && ok && "ring-2 ring-danfo",
+                        show && picked === idx && !ok && "opacity-40",
+                      )}
+                      style={{ background: PADS[idx].bg }}
+                    >
+                      <PadGlyph shape={PADS[idx].shape} />
+                      {ans}
+                    </button>
+                  );
+                })}
+              </div>
+              {picked != null ? (
+                <Button onClick={next}>{i + 1 >= qs.length ? "Podium" : "Next"}</Button>
+              ) : null}
+            </>
+          )}
+        </div>
+      </TableStage>
     </GameShell>
   );
 }
