@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { getGame } from "@/lib/games/catalog";
 import { sfx } from "@/lib/games/audio";
 import { playIf, usePlayer } from "@/lib/games/player";
+import { useGameRoom } from "@/lib/multiplayer";
 import { cn } from "@/lib/utils";
 import { Chess, type Square } from "chess.js";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -65,9 +66,30 @@ export function ChessGame() {
   const chess = useMemo(() => new Chess(fen), [fen]);
   const thinking = useRef(false);
 
+  const online = sit?.mode === "online";
+  const joining = Boolean(sit?.joining);
+  const net = useGameRoom({
+    game: "chess",
+    room: sit?.room,
+    name: human,
+    joining,
+    enabled: online,
+    onSnap: (payload) => {
+      const p = payload as { fen?: string; last?: string | null };
+      if (typeof p.fen !== "string") return;
+      setFen(p.fen);
+      setLast(p.last ?? null);
+      setSel(null);
+    },
+  });
+
   const vsBot = sit?.mode === "bots";
-  const humanWhite = true;
-  const myTurn = vsBot ? chess.turn() === "w" : true;
+  const humanWhite = online ? !joining : true;
+  const myTurn = vsBot
+    ? chess.turn() === "w"
+    : online
+      ? (humanWhite && chess.turn() === "w") || (!humanWhite && chess.turn() === "b")
+      : true;
 
   const legal = useMemo(() => {
     if (!sel) return new Set<string>();
@@ -98,6 +120,7 @@ export function ChessGame() {
           playIf(muted, sfx.tap);
           setLast(mv.to);
           setFen(c.fen());
+          net.pushSnap({ fen: c.fen(), last: mv.to });
         }
       }
       thinking.current = false;
@@ -108,6 +131,11 @@ export function ChessGame() {
   useEffect(() => {
     if (chess.isCheckmate()) playIf(muted, chess.turn() === "b" ? sfx.win : sfx.lose);
   }, [chess, muted]);
+
+  useEffect(() => {
+    if (!online || joining) return;
+    net.pushSnap({ fen, last });
+  }, [online, joining, net.peers.length]);
 
   if (!sit) {
     return (
@@ -127,7 +155,7 @@ export function ChessGame() {
       <TableStage felt="#1a1210">
         <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center gap-6 px-4 py-6">
           <p className="font-display text-xl uppercase tracking-[0.12em] text-concrete">
-            {vsBot ? "Bot · black" : "Black"}
+            {vsBot ? "Bot · black" : online ? (humanWhite ? net.peers[0]?.name ?? "Black" : "You · black") : "Black"}
           </p>
           <div className="board-3d grid w-full max-w-[min(100%,560px)] grid-cols-8 overflow-hidden border border-lane">
             {board.map((row, r) =>
@@ -151,11 +179,19 @@ export function ChessGame() {
                           setFen(c.fen());
                           setLast(square);
                           setSel(null);
+                          net.pushSnap({ fen: c.fen(), last: square });
                         }
                         return;
                       }
                       const p = chess.get(square);
-                      if (p && ((humanWhite && p.color === "w") || (!vsBot && p.color === chess.turn()))) {
+                      if (
+                        p &&
+                        (online
+                          ? p.color === (humanWhite ? "w" : "b")
+                          : vsBot
+                            ? p.color === "w"
+                            : p.color === chess.turn())
+                      ) {
                         setSel(square);
                       } else setSel(null);
                     }}
@@ -179,9 +215,21 @@ export function ChessGame() {
               }),
             )}
           </div>
-          <p className="font-display text-xl uppercase tracking-[0.12em] text-danfo">{human} · white</p>
+          <p className="font-display text-xl uppercase tracking-[0.12em] text-danfo">
+            {human} · {humanWhite ? "white" : "black"}
+          </p>
           {chess.isGameOver() ? (
-            <Button onClick={() => { setFen(new Chess().fen()); setSel(null); setLast(null); }}>New game</Button>
+            <Button
+              onClick={() => {
+                const next = new Chess().fen();
+                setFen(next);
+                setSel(null);
+                setLast(null);
+                net.pushSnap({ fen: next, last: null });
+              }}
+            >
+              New game
+            </Button>
           ) : null}
         </div>
       </TableStage>
