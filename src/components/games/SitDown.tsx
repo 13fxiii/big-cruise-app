@@ -86,14 +86,27 @@ export function SitDown({
 
       {mode !== "online" && maxSeats > minSeats ? (
         <div>
-          <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">Seats</p>
-          <div className="flex flex-wrap gap-2">
-            {Array.from({ length: maxSeats - minSeats + 1 }, (_, i) => minSeats + i).map((n) => (
-              <ModeChip key={n} active={seats === n} onClick={() => setSeats(n)}>
-                {n}
-              </ModeChip>
-            ))}
-          </div>
+          <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-concrete">
+            Seats · {seats}
+          </p>
+          {maxSeats - minSeats > 8 ? (
+            <input
+              type="range"
+              min={minSeats}
+              max={maxSeats}
+              value={seats}
+              onChange={(e) => setSeats(Number(e.target.value))}
+              className="w-full accent-danfo"
+            />
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {Array.from({ length: maxSeats - minSeats + 1 }, (_, i) => minSeats + i).map((n) => (
+                <ModeChip key={n} active={seats === n} onClick={() => setSeats(n)}>
+                  {n}
+                </ModeChip>
+              ))}
+            </div>
+          )}
         </div>
       ) : null}
 
