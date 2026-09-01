@@ -84,14 +84,19 @@ async function request(path: string, init: RequestInit = {}): Promise<Response> 
   });
 }
 
+export async function getUser(accessToken: string): Promise<SupabaseUser | null> {
+  const response = await request("/auth/v1/user", {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (!response.ok) return null;
+  const user = (await response.json()) as SupabaseUser;
+  return user.id ? user : null;
+}
+
 export async function signUp(email: string, password: string, name: string): Promise<SupabaseSession | null> {
   const response = await request("/auth/v1/signup", {
     method: "POST",
-    body: JSON.stringify({
-      email,
-      password,
-      data: { display_name: name, name },
-    }),
+    body: JSON.stringify({ email, password, data: { display_name: name, name } }),
   });
   const body = (await response.json()) as AuthResponse;
   if (!response.ok) throw new Error(body.error_description ?? body.msg ?? body.error ?? "Sign up failed");
@@ -144,10 +149,7 @@ export async function getSession(): Promise<SupabaseSession | null> {
 export async function signOut(): Promise<void> {
   const token = getBearerToken();
   if (token) {
-    await request("/auth/v1/logout", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-    }).catch(() => undefined);
+    await request("/auth/v1/logout", { method: "POST", headers: { Authorization: `Bearer ${token}` } }).catch(() => undefined);
   }
   writeStoredSession(null);
 }
@@ -163,25 +165,19 @@ export function subscribeToSession(callback: () => void): () => void {
   };
 }
 
-/** Complete a Supabase implicit OAuth redirect when the provider returns tokens in the URL hash. */
 export function consumeOAuthHash(): SupabaseSession | null {
   if (typeof window === "undefined" || !window.location.hash) return null;
   const params = new URLSearchParams(window.location.hash.slice(1));
-  const body: AuthResponse = {
-    access_token: params.get("access_token") ?? undefined,
-    refresh_token: params.get("refresh_token") ?? undefined,
+  const accessToken = params.get("access_token");
+  const refreshToken = params.get("refresh_token");
+  if (!accessToken || !refreshToken) return null;
+  return {
+    access_token: accessToken,
+    refresh_token: refreshToken,
     expires_in: Number(params.get("expires_in") ?? 3600),
-    expires_at: params.get("expires_at") ? Number(params.get("expires_at")) : undefined,
-  };
-  if (!body.access_token || !body.refresh_token) return null;
-  const session: SupabaseSession = {
-    access_token: body.access_token,
-    refresh_token: body.refresh_token,
-    expires_in: body.expires_in ?? 3600,
-    expires_at: body.expires_at ?? Math.floor(Date.now() / 1000) + (body.expires_in ?? 3600),
+    expires_at: Number(params.get("expires_at") ?? Math.floor(Date.now() / 1000) + Number(params.get("expires_in") ?? 3600)),
     user: { id: "", email: null },
   };
-  return session;
 }
 
 export function beginOAuth(provider: "google"): void {
