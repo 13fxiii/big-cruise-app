@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { SitDownStart } from "@/components/games/SitDown";
 import type { GameSlugWire } from "./protocol";
 import { useGameRoom } from "./use-game-room";
@@ -14,6 +14,7 @@ export function useOnlineSnap<T>(opts: {
 }) {
   const online = opts.sit?.mode === "online";
   const joining = Boolean(opts.sit?.joining);
+  const [ready, setReady] = useState(!joining);
   const apply = useRef(opts.apply);
   const snapshot = useRef(opts.snapshot);
   apply.current = opts.apply;
@@ -25,7 +26,10 @@ export function useOnlineSnap<T>(opts: {
     name: opts.name,
     joining,
     enabled: online,
-    onSnap: (payload) => apply.current(payload as T),
+    onSnap: (payload) => {
+      apply.current(payload as T);
+      setReady(true);
+    },
   });
 
   useEffect(() => {
@@ -35,13 +39,14 @@ export function useOnlineSnap<T>(opts: {
   }, [online, joining, net.peers.length]);
 
   const publish = (payload: T) => {
-    if (online) net.pushSnap(payload);
+    if (!online) return;
+    if (joining && !ready) return;
+    net.pushSnap(payload);
   };
 
-  return { online, joining, net, publish, host: !joining };
+  return { online, joining, net, publish, host: !joining, ready: !online || ready };
 }
 
-/** Publish local table state whenever it changes. Echo-safe for party rooms. */
 export function useTableSync<T>(opts: {
   game: GameSlugWire;
   sit: SitDownStart | null;
@@ -58,11 +63,11 @@ export function useTableSync<T>(opts: {
   });
   const prev = useRef<string>("");
   useEffect(() => {
-    if (!live.online) return;
+    if (!live.online || !live.ready) return;
     const key = JSON.stringify(opts.value);
     if (key === prev.current) return;
     prev.current = key;
     live.publish(opts.value);
-  }, [live.online, opts.value]);
+  }, [live.online, live.ready, opts.value]);
   return live;
 }
