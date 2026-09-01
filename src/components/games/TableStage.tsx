@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { type CSSProperties, type ReactNode, useCallback, useRef, useState } from "react";
+import "./table-stage.css";
 
 /** Pointer-tilt 3D table. Week theme only tints house chrome, not the game. */
 export function TableStage({
