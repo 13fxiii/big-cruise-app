@@ -59,6 +59,7 @@ type PlayerState = {
   dailyAt?: string;
   ready: boolean;
   toasts: Toast[];
+  notices: Toast[];
   hydrate: () => void;
   setName: (name: string) => void;
   setProfile: (patch: { name?: string; handle?: string; line?: string; photo?: string | null }) => void;
@@ -67,6 +68,7 @@ type PlayerState = {
   recordWin: (slug: GameSlug) => void;
   award: (action: PointAction, note?: string) => void;
   dismissToast: (id: string) => void;
+  notify: (title: string, body?: string) => void;
 };
 
 function toast(title: string, body?: string): Toast {
@@ -148,6 +150,7 @@ export const usePlayer = create<PlayerState>((set, get) => ({
   muted: false,
   ready: false,
   toasts: [],
+  notices: [],
   hydrate: () => {
     if (get().ready) return;
     set({ ...fromDoc(loadDocument()), ready: true });
@@ -184,6 +187,14 @@ export const usePlayer = create<PlayerState>((set, get) => ({
     set({ ...fromDoc(doc), ready: true, toasts: [...eventsToToasts(events), ...s.toasts].slice(0, 3) });
   },
   dismissToast: (id) => set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
+  notify: (title, body) =>
+    set((s) => {
+      const note = toast(title, body);
+      return {
+        toasts: [note, ...s.toasts].slice(0, 3),
+        notices: [note, ...s.notices].slice(0, 40),
+      };
+    }),
 }));
 
 export function playIf(muted: boolean, fn: () => void) {
