@@ -43,7 +43,7 @@ export function Arcade() {
     <CruiseShell compact>
       <section className="flex items-center justify-between gap-3 px-4 pb-3 pt-3">
         <div className="min-w-0">
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-danfo">Play</p>
+          <p className="week-ink font-mono text-[10px] uppercase tracking-[0.22em]">Play</p>
           <h1 className="font-display text-2xl font-bold uppercase leading-none tracking-tight">Sit down</h1>
         </div>
         <div className="w-[11.5rem] shrink-0">
@@ -53,7 +53,7 @@ export function Arcade() {
 
       {recentGames.length ? (
         <section className="px-4 pb-3">
-          <div className="-mx-4 flex gap-2 overflow-x-auto px-4">
+          <div className="swipe-hint -mx-4 flex gap-2 overflow-x-auto px-4">
             {recentGames.map((g) =>
               g ? (
                 <Link
@@ -61,7 +61,7 @@ export function Arcade() {
                   to="/play/$slug"
                   params={{ slug: g.slug }}
                   onClick={() => playIf(muted, sfx.tap)}
-                  className="inline-flex min-h-11 shrink-0 items-center border border-lane px-3 font-display text-sm font-bold uppercase tracking-[0.12em]"
+                  className="pressable inline-flex min-h-11 shrink-0 items-center border border-lane px-3 font-display text-sm font-bold uppercase tracking-[0.12em]"
                   style={{ color: g.accent }}
                 >
                   {g.name}
@@ -75,7 +75,7 @@ export function Arcade() {
         </section>
       ) : null}
 
-      <section className="grid grid-cols-2 gap-px bg-lane pb-[calc(4.5rem+env(safe-area-inset-bottom))] sm:grid-cols-3 lg:grid-cols-5">
+      <section className="stagger-in grid grid-cols-2 gap-px bg-lane pb-[calc(4.5rem+env(safe-area-inset-bottom))] sm:grid-cols-3 lg:grid-cols-5">
         {GAMES.map((g) => {
           const Icon = ICONS[g.slug];
           return (
@@ -84,7 +84,7 @@ export function Arcade() {
               to="/play/$slug"
               params={{ slug: g.slug }}
               onClick={() => playIf(muted, sfx.tap)}
-              className="group relative flex min-h-[148px] flex-col justify-between bg-midnight p-3 active:bg-asphalt sm:min-h-[180px] sm:p-4"
+              className="pressable group relative flex min-h-[148px] flex-col justify-between bg-midnight p-3 active:bg-asphalt sm:min-h-[180px] sm:p-4"
             >
               <div className="pointer-events-none absolute -right-4 -top-4 size-16 opacity-20" style={{ color: g.accent }}>
                 {Icon ? <Icon className="size-full" strokeWidth={1.2} /> : null}
@@ -96,7 +96,7 @@ export function Arcade() {
                 </h2>
                 <p className="mt-1 line-clamp-2 text-[12px] leading-snug text-bone/70">{g.line}</p>
               </div>
-              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-danfo">Play</span>
+              <span className="week-ink font-mono text-[10px] uppercase tracking-[0.16em]">Play</span>
             </Link>
           );
         })}
