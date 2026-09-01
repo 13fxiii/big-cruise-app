@@ -2,6 +2,7 @@
 
 import { GameShell } from "@/components/games/Shell";
 import { SitDown, type SitDownStart } from "@/components/games/SitDown";
+import { TableStage } from "@/components/games/TableStage";
 import { Button } from "@/components/ui/button";
 import { getGame } from "@/lib/games/catalog";
 import { sfx } from "@/lib/games/audio";
@@ -133,66 +134,71 @@ export function ChessGame() {
   const board = chess.board();
 
   return (
-    <GameShell game={game} status={<p className="font-mono text-[10px] uppercase tracking-[0.18em] text-concrete">{status}</p>}>
-      <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center gap-6 px-4 py-6">
-        <p className="font-display text-xl uppercase tracking-[0.12em] text-concrete">
-          {vsBot ? "Bot · black" : "Black"}
-        </p>
-        <div className="grid w-full max-w-[min(100%,560px)] grid-cols-8 overflow-hidden border border-lane shadow-[0_20px_60px_rgb(0_0_0/0.5)]">
-          {board.map((row, r) =>
-            row.map((piece, f) => {
-              const square = `${FILES[f]}${8 - r}` as Square;
-              const dark = (r + f) % 2 === 1;
-              const selected = sel === square;
-              const target = legal.has(square);
-              const was = last === square;
-              return (
-                <button
-                  key={square}
-                  type="button"
-                  onClick={() => {
-                    if (!myTurn || chess.isGameOver()) return;
-                    if (sel && legal.has(square)) {
-                      const c = new Chess(fen);
-                      const mv = c.move({ from: sel, to: square, promotion: "q" });
-                      if (mv) {
-                        playIf(muted, mv.captured ? sfx.capture : sfx.tap);
-                        setFen(c.fen());
-                        setLast(square);
-                        setSel(null);
+    <GameShell
+      game={game}
+      status={<p className="font-mono text-[10px] uppercase tracking-[0.18em] text-concrete">{status}</p>}
+    >
+      <TableStage felt="#1a1210">
+        <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center gap-6 px-4 py-6">
+          <p className="font-display text-xl uppercase tracking-[0.12em] text-concrete">
+            {vsBot ? "Bot · black" : "Black"}
+          </p>
+          <div className="board-3d grid w-full max-w-[min(100%,560px)] grid-cols-8 overflow-hidden border border-lane">
+            {board.map((row, r) =>
+              row.map((piece, f) => {
+                const square = `${FILES[f]}${8 - r}` as Square;
+                const dark = (r + f) % 2 === 1;
+                const selected = sel === square;
+                const target = legal.has(square);
+                const was = last === square;
+                return (
+                  <button
+                    key={square}
+                    type="button"
+                    onClick={() => {
+                      if (!myTurn || chess.isGameOver()) return;
+                      if (sel && legal.has(square)) {
+                        const c = new Chess(fen);
+                        const mv = c.move({ from: sel, to: square, promotion: "q" });
+                        if (mv) {
+                          playIf(muted, mv.captured ? sfx.capture : sfx.tap);
+                          setFen(c.fen());
+                          setLast(square);
+                          setSel(null);
+                        }
+                        return;
                       }
-                      return;
-                    }
-                    const p = chess.get(square);
-                    if (p && ((humanWhite && p.color === "w") || (!vsBot && p.color === chess.turn()))) {
-                      setSel(square);
-                    } else setSel(null);
-                  }}
-                  className={cn(
-                    "relative aspect-square text-[clamp(1.4rem,6vw,2.4rem)] leading-none",
-                    dark ? "bg-dom" : "bg-bone",
-                    selected && "ring-2 ring-inset ring-danfo",
-                    was && "bg-danfo/40",
-                  )}
-                >
-                  {piece ? (
-                    <span className={piece.color === "w" ? "text-midnight" : "text-[#1a0a0c]"}>
-                      {GLYPH[`${piece.color}${piece.type}`]}
-                    </span>
-                  ) : null}
-                  {target ? (
-                    <span className="absolute inset-0 m-auto size-3 rounded-full bg-danfo/80" />
-                  ) : null}
-                </button>
-              );
-            }),
-          )}
+                      const p = chess.get(square);
+                      if (p && ((humanWhite && p.color === "w") || (!vsBot && p.color === chess.turn()))) {
+                        setSel(square);
+                      } else setSel(null);
+                    }}
+                    className={cn(
+                      "relative aspect-square text-[clamp(1.4rem,6vw,2.4rem)] leading-none",
+                      dark ? "bg-dom" : "bg-bone",
+                      selected && "ring-2 ring-inset ring-danfo",
+                      was && "bg-danfo/40",
+                    )}
+                  >
+                    {piece ? (
+                      <span className={piece.color === "w" ? "piece-stack text-bone" : "piece-stack text-[#1a0a0c]"}>
+                        {GLYPH[`${piece.color}${piece.type}`]}
+                      </span>
+                    ) : null}
+                    {target ? (
+                      <span className="absolute inset-0 m-auto size-3 rounded-full bg-danfo/80" />
+                    ) : null}
+                  </button>
+                );
+              }),
+            )}
+          </div>
+          <p className="font-display text-xl uppercase tracking-[0.12em] text-danfo">{human} · white</p>
+          {chess.isGameOver() ? (
+            <Button onClick={() => { setFen(new Chess().fen()); setSel(null); setLast(null); }}>New game</Button>
+          ) : null}
         </div>
-        <p className="font-display text-xl uppercase tracking-[0.12em] text-danfo">{human} · white</p>
-        {chess.isGameOver() ? (
-          <Button onClick={() => { setFen(new Chess().fen()); setSel(null); setLast(null); }}>New game</Button>
-        ) : null}
-      </div>
+      </TableStage>
     </GameShell>
   );
 }
