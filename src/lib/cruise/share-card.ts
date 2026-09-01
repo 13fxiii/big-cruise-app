@@ -22,17 +22,7 @@ export function memberHref(member: SharedMember, origin?: string) {
   const base =
     origin ||
     (typeof window !== "undefined" ? window.location.origin : "https://big-cruise-app.vercel.app");
-  const q = new URLSearchParams({
-    c: member.code,
-    n: member.name.slice(0, 18),
-    h: member.handle.replace(/^@/, "").slice(0, 24),
-    r: member.rank.slice(0, 18),
-    p: String(member.points),
-    l: String(member.level || playerLevel(member.points)),
-    s: String(member.sits),
-    w: String(member.wins),
-  });
-  return `${base}/id?${q.toString()}`;
+  return `${base}/id?c=${encodeURIComponent(member.code)}`;
 }
 
 export function parseMember(search: string): SharedMember | null {
