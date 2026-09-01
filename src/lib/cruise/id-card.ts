@@ -19,10 +19,28 @@ export const FOUNDER_CARD = {
   achievements: ["OG Cruiser", "Top Engager", "Spaces Regular", "Community MVP"],
 };
 
+export const X_COMMUNITY = "https://x.com/i/communities/1897164314764579242";
+
+export const HOUSE_ID = "BCH-13FXIII";
+
+export const HOUSE_HANDLES = ["13fxiii", "bchub_"];
+
 export function isFounder(name: string, handle?: string) {
   const n = name.trim().replace(/⚡️/g, "").replace(/⚡/g, "").toLowerCase();
   const h = (handle || "").replace(/^@/, "").toLowerCase();
   return n === "fx" || n === "fx m" || h === "13fxiii";
+}
+
+export function isHouseCrew(name: string, handle?: string) {
+  if (isFounder(name, handle)) return true;
+  const h = (handle || "").replace(/^@/, "").toLowerCase();
+  if (HOUSE_HANDLES.includes(h)) return true;
+  if (typeof window !== "undefined" && localStorage.getItem("bch-house") === "1") return true;
+  return false;
+}
+
+export function cardId(personal: string, name: string, handle?: string) {
+  return isHouseCrew(name, handle) ? HOUSE_ID : personal;
 }
 
 export function formatHandle(handle?: string) {
