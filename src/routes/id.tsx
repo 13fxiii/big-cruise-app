@@ -1,4 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { IdPage } from "@/components/cruise/WorldPages";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/id")({ component: IdPage });
+export const Route = createFileRoute("/id")({
+  beforeLoad: () => {
+    throw redirect({ to: "/profile" });
+  },
+  component: () => null,
+});
