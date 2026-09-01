@@ -1,0 +1,41 @@
+html {
+  --week-accent: var(--color-danfo);
+  --week-accent-2: var(--color-dom);
+}
+html[data-week="mon"] { --week-accent: #7a1f33; --week-accent-2: #c48a5a; }
+html[data-week="tue"] { --week-accent: #ff2b6b; --week-accent-2: #fff200; }
+html[data-week="wed"] { --week-accent: #c45a72; --week-accent-2: #e6c8b4; }
+html[data-week="thu"] { --week-accent: #c4a574; --week-accent-2: #f2e6d0; }
+html[data-week="fri"] { --week-accent: #6a2c91; --week-accent-2: #3dfff2; }
+html[data-week="sat"] { --week-accent: #9b1228; --week-accent-2: #9a7b12; }
+html[data-week="sun"] { --week-accent: #c8f542; --week-accent-2: #ff4d1a; }
+
+.week-ink { color: var(--week-accent); }
+
+.pressable {
+  transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1), background-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pressable:active { transform: scale(0.97); }
+
+@keyframes cruise-swipe {
+  from { opacity: 0; transform: translateX(28px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.swipe-in { animation: cruise-swipe 400ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes cruise-flick {
+  0% { transform: translateX(0); }
+  40% { transform: translateX(-10px); }
+  100% { transform: translateX(0); }
+}
+.swipe-hint { animation: cruise-flick 1.8s cubic-bezier(0.22, 1, 0.36, 1) 1; }
+
+button,
+a,
+[role="button"] {
+  transition:
+    transform 150ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
