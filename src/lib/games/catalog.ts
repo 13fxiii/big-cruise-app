@@ -51,7 +51,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#F2E6D0",
     token: "echo",
     feel: "Letters",
-    modes: ["bots", "pass", "online"],
+    modes: ["bots", "pass"],
   },
   {
     slug: "draw",
@@ -77,7 +77,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#FFF200",
     token: "lit",
     feel: "Cards",
-    modes: ["bots", "pass", "online"],
+    modes: ["bots", "pass"],
   },
   {
     slug: "ludo",
@@ -90,7 +90,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#FF4D1A",
     token: "chaos",
     feel: "Board",
-    modes: ["bots", "pass", "online"],
+    modes: ["bots", "pass"],
   },
   {
     slug: "werewolf",
@@ -103,7 +103,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#9A7B12",
     token: "line",
     feel: "Night",
-    modes: ["bots", "pass", "online"],
+    modes: ["bots", "pass"],
   },
   {
     slug: "chess",
@@ -129,7 +129,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#3DFFF2",
     token: "play",
     feel: "Stage",
-    modes: ["pass", "online"],
+    modes: ["pass"],
   },
   {
     slug: "truth",
@@ -142,7 +142,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#FFF200",
     token: "lit",
     feel: "Party",
-    modes: ["pass", "online"],
+    modes: ["pass"],
   },
   {
     slug: "kahoot",
@@ -155,7 +155,7 @@ export const GAMES: GameMeta[] = [
     accent2: "#3DFFF2",
     token: "play",
     feel: "Quiz",
-    modes: ["bots", "pass", "online"],
+    modes: ["bots", "pass"],
   },
 ];
 
