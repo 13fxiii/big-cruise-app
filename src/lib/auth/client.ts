@@ -76,7 +76,7 @@ export const authClient = {
   useSession() {
     const [state, setState] = useState<{ data: AppSession | null; isPending: boolean }>({ data: null, isPending: true });
     useEffect(() => {
-      let alive = true;
+      const alive = true;
       void ensureSession().then((session) => { if (alive) setState({ data: toAppSession(session), isPending: false }); });
       return subscribeToSession(() => { void ensureSession().then((session) => { if (alive) setState({ data: toAppSession(session), isPending: false }); }); });
     }, []);

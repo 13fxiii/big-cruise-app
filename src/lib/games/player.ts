@@ -6,6 +6,7 @@ import {
   applyProfile,
   applySitDown,
   applyWin,
+  POINT_TABLE,
   emptyDocument,
   loadDocument,
   saveDocument,
