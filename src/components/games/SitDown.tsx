@@ -89,6 +89,10 @@ export function SitDown({
             </ModeChip>
           ) : null}
         </div>
+        <p className="mt-3 border-l-2 border-danfo pl-3 text-sm text-bone/75" aria-live="polite">
+          Selected: <span className="font-bold text-danfo">{mode === "bots" ? "Vs bots" : mode === "pass" ? "Pass the phone" : "Cruise room"}</span>.
+          {mode === "online" ? " Host a room or enter a code below." : " Tap Sit down to start."}
+        </p>
       </div>
 
       {mode !== "online" && max > min ? (
